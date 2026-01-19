@@ -107,4 +107,7 @@ Route::get('categories-sort', [CategoryController::class,'sort'])->name('categor
 Route::patch('categories-sort', [CategoryController::class,'updateSort'])->name('categories.sort.update');
 Route::post('products/bulk', [ProductController::class, 'bulk'])->name('products.bulk');
 
+Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+Route::post('products/{product}/duplicate', [ProductController::class, 'duplicate'])->name('products.duplicate');
     });

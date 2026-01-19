@@ -87,19 +87,32 @@
   <hr class="my-4">
 
   
-  <?php
-    $canBulk = auth()->user()?->can('products.publish')
-           || auth()->user()?->can('products.unpublish')
-           || auth()->user()?->can('products.delete');
-  ?>
+ <?php
+  $canBulk = auth()->user()?->can('products.publish')
+         || auth()->user()?->can('products.unpublish')
+         || auth()->user()?->can('products.delete');
+?>
 
-  <?php if($canBulk): ?>
-  <form method="POST" action="<?php echo e(route('admin.products.bulk')); ?>" id="bulkForm" class="row g-3 align-items-end">
-    <?php echo csrf_field(); ?>
+<?php if($canBulk): ?>
+<div class="px-3 mt-2">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between border rounded p-3 bg-light">
 
-    <div class="col-12 col-md-6 col-lg-4">
-      <label class="form-label mb-1"><?php echo e(__('messages.bulk_action')); ?></label>
-      <select name="action" class="form-control">
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <span class="text-muted">
+        <?php echo e(__('messages.selected')); ?>:
+        <strong id="selectedCount">0</strong>
+      </span>
+
+      <button type="button" class="btn btn-outline-secondary btn-sm" id="toggleSelectAll">
+        <?php echo e(__('messages.select_all')); ?>
+
+      </button>
+    </div>
+
+    <form method="POST" action="<?php echo e(route('admin.products.bulk')); ?>" id="bulkForm" class="d-flex gap-2 align-items-center">
+      <?php echo csrf_field(); ?>
+
+      <select name="action" class="form-control form-control-sm" style="min-width: 210px;">
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('products.publish')): ?>
           <option value="publish"><?php echo e(__('messages.publish_selected')); ?></option>
         <?php endif; ?>
@@ -110,23 +123,22 @@
           <option value="delete"><?php echo e(__('messages.delete_selected')); ?></option>
         <?php endif; ?>
       </select>
-    </div>
 
-    <div class="col-12 col-md-4 col-lg-2">
-      <button type="submit" class="btn bg-gradient-dark w-100">
+      <button type="submit" class="btn bg-gradient-dark btn-sm" id="bulkApplyBtn" disabled>
         <?php echo e(__('messages.apply')); ?>
 
       </button>
-    </div>
+    </form>
 
-    <div class="col-12 col-lg-6">
-      <small class="text-muted">
-        <?php echo e(__('messages.bulk_hint')); ?>
+  </div>
 
-      </small>
-    </div>
-  </form>
-  <?php endif; ?>
+  <small class="text-muted d-block mt-2">
+    <?php echo e(__('messages.bulk_hint')); ?>
+
+  </small>
+</div>
+<?php endif; ?>
+
 </div>
 
 
@@ -238,6 +250,14 @@
                         </form>
                       <?php endif; ?>
                     <?php endif; ?>
+<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('products.view')): ?>
+  <a class="btn btn-outline-secondary btn-sm" href="<?php echo e(route('admin.products.show', $p->id)); ?>">
+    <?php echo e(__('messages.view')); ?>
+
+  </a>
+<?php endif; ?>
+
+
 
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('products.delete')): ?>
                       <form method="POST" action="<?php echo e(route('admin.products.destroy', $p->id)); ?>"
@@ -273,28 +293,79 @@
   </div>
 </div>
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startPush('scripts'); ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
   const selectAll = document.getElementById('selectAll');
-  const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-  const bulkForm = document.getElementById('bulkForm');
+  const toggleSelectAllBtn = document.getElementById('toggleSelectAll');
 
+  const bulkForm = document.getElementById('bulkForm');
+  const applyBtn = document.getElementById('bulkApplyBtn');
+  const selectedCountEl = document.getElementById('selectedCount');
+
+  function getRowCheckboxes(){
+    return Array.from(document.querySelectorAll('.row-checkbox'));
+  }
+
+  function getChecked(){
+    return getRowCheckboxes().filter(cb => cb.checked);
+  }
+
+  function updateUI(){
+    const count = getChecked().length;
+    if(selectedCountEl) selectedCountEl.textContent = count;
+
+    if(applyBtn) applyBtn.disabled = (count === 0);
+
+    // تحديث selectAll الحالة
+    if(selectAll){
+      const all = getRowCheckboxes().length;
+      selectAll.checked = (count > 0 && count === all);
+      selectAll.indeterminate = (count > 0 && count < all);
+    }
+
+    // زر toggle (تحديد الكل / إلغاء التحديد)
+    if(toggleSelectAllBtn){
+      toggleSelectAllBtn.textContent = (getChecked().length === getRowCheckboxes().length && getRowCheckboxes().length > 0)
+        ? "<?php echo e(__('messages.unselect_all')); ?>"
+        : "<?php echo e(__('messages.select_all')); ?>";
+    }
+  }
+
+  // change individual checkboxes
+  document.addEventListener('change', function(e){
+    if(e.target.classList && e.target.classList.contains('row-checkbox')){
+      updateUI();
+    }
+  });
+
+  // select all checkbox
   if(selectAll){
     selectAll.addEventListener('change', function(){
-      rowCheckboxes.forEach(cb => cb.checked = selectAll.checked);
+      getRowCheckboxes().forEach(cb => cb.checked = selectAll.checked);
+      updateUI();
     });
   }
 
+  // toggle select all button
+  if(toggleSelectAllBtn){
+    toggleSelectAllBtn.addEventListener('click', function(){
+      const rows = getRowCheckboxes();
+      const allSelected = rows.length > 0 && getChecked().length === rows.length;
+      rows.forEach(cb => cb.checked = !allSelected);
+      updateUI();
+    });
+  }
+
+  // bulk submit: append ids[]
   if(bulkForm){
     bulkForm.addEventListener('submit', function(e){
 
-      // امسح أي ids قديمة
+      // remove old hidden inputs
       bulkForm.querySelectorAll('input[name="ids[]"]').forEach(el => el.remove());
 
-      const ids = Array.from(document.querySelectorAll('.row-checkbox:checked')).map(cb => cb.value);
+      const ids = getChecked().map(cb => cb.value);
 
       if(ids.length === 0){
         e.preventDefault();
@@ -317,8 +388,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // initial
+  updateUI();
 });
 </script>
 <?php $__env->stopPush(); ?>
+
 
 <?php echo $__env->make('layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\china\resources\views/products/index.blade.php ENDPATH**/ ?>

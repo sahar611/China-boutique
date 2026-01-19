@@ -355,6 +355,22 @@ return [
 'unpublish_selected' => 'إلغاء نشر المحدد',
 'delete_selected' => 'حذف المحدد',
 'bulk_hint' => 'اختر منتجات من الجدول ثم طبّق الإجراء الجماعي.',
+'product_details' => 'تفاصيل المنتج',
+'back' => 'رجوع',
+'view' => 'عرض',
+'duplicate' => 'نسخ المنتج',
+'confirm_duplicate' => 'هل تريد إنشاء نسخة من هذا المنتج؟',
+'product_duplicated' => 'تم نسخ المنتج بنجاح.',
+'basic_info' => 'البيانات الأساسية',
+'pricing_stock' => 'السعر والمخزون',
+'sku' => 'SKU',
+'main_image' => 'الصورة الرئيسية',
+'main' => 'رئيسية',
+'no_images' => 'لا توجد صور.',
+'selected' => 'المحدد',
+'select_all' => 'تحديد الكل',
+'unselect_all' => 'إلغاء التحديد',
+'bulk_hint' => 'حدد المنتجات من الجدول ثم طبق إجراء جماعي.',
 
 
 ];

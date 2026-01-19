@@ -83,19 +83,31 @@
   <hr class="my-4">
 
   {{-- Bulk Actions --}}
-  @php
-    $canBulk = auth()->user()?->can('products.publish')
-           || auth()->user()?->can('products.unpublish')
-           || auth()->user()?->can('products.delete');
-  @endphp
+ @php
+  $canBulk = auth()->user()?->can('products.publish')
+         || auth()->user()?->can('products.unpublish')
+         || auth()->user()?->can('products.delete');
+@endphp
 
-  @if($canBulk)
-  <form method="POST" action="{{ route('admin.products.bulk') }}" id="bulkForm" class="row g-3 align-items-end">
-    @csrf
+@if($canBulk)
+<div class="px-3 mt-2">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between border rounded p-3 bg-light">
 
-    <div class="col-12 col-md-6 col-lg-4">
-      <label class="form-label mb-1">{{ __('messages.bulk_action') }}</label>
-      <select name="action" class="form-control">
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <span class="text-muted">
+        {{ __('messages.selected') }}:
+        <strong id="selectedCount">0</strong>
+      </span>
+
+      <button type="button" class="btn btn-outline-secondary btn-sm" id="toggleSelectAll">
+        {{ __('messages.select_all') }}
+      </button>
+    </div>
+
+    <form method="POST" action="{{ route('admin.products.bulk') }}" id="bulkForm" class="d-flex gap-2 align-items-center">
+      @csrf
+
+      <select name="action" class="form-control form-control-sm" style="min-width: 210px;">
         @can('products.publish')
           <option value="publish">{{ __('messages.publish_selected') }}</option>
         @endcan
@@ -106,21 +118,20 @@
           <option value="delete">{{ __('messages.delete_selected') }}</option>
         @endcan
       </select>
-    </div>
 
-    <div class="col-12 col-md-4 col-lg-2">
-      <button type="submit" class="btn bg-gradient-dark w-100">
+      <button type="submit" class="btn bg-gradient-dark btn-sm" id="bulkApplyBtn" disabled>
         {{ __('messages.apply') }}
       </button>
-    </div>
+    </form>
 
-    <div class="col-12 col-lg-6">
-      <small class="text-muted">
-        {{ __('messages.bulk_hint') }}
-      </small>
-    </div>
-  </form>
-  @endif
+  </div>
+
+  <small class="text-muted d-block mt-2">
+    {{ __('messages.bulk_hint') }}
+  </small>
+</div>
+@endif
+
 </div>
 
 
@@ -226,6 +237,13 @@
                         </form>
                       @endif
                     @endcan
+@can('products.view')
+  <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.products.show', $p->id) }}">
+    {{ __('messages.view') }}
+  </a>
+@endcan
+
+
 
                     @can('products.delete')
                       <form method="POST" action="{{ route('admin.products.destroy', $p->id) }}"
@@ -259,28 +277,79 @@
   </div>
 </div>
 @endsection
-
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
   const selectAll = document.getElementById('selectAll');
-  const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-  const bulkForm = document.getElementById('bulkForm');
+  const toggleSelectAllBtn = document.getElementById('toggleSelectAll');
 
+  const bulkForm = document.getElementById('bulkForm');
+  const applyBtn = document.getElementById('bulkApplyBtn');
+  const selectedCountEl = document.getElementById('selectedCount');
+
+  function getRowCheckboxes(){
+    return Array.from(document.querySelectorAll('.row-checkbox'));
+  }
+
+  function getChecked(){
+    return getRowCheckboxes().filter(cb => cb.checked);
+  }
+
+  function updateUI(){
+    const count = getChecked().length;
+    if(selectedCountEl) selectedCountEl.textContent = count;
+
+    if(applyBtn) applyBtn.disabled = (count === 0);
+
+    // تحديث selectAll الحالة
+    if(selectAll){
+      const all = getRowCheckboxes().length;
+      selectAll.checked = (count > 0 && count === all);
+      selectAll.indeterminate = (count > 0 && count < all);
+    }
+
+    // زر toggle (تحديد الكل / إلغاء التحديد)
+    if(toggleSelectAllBtn){
+      toggleSelectAllBtn.textContent = (getChecked().length === getRowCheckboxes().length && getRowCheckboxes().length > 0)
+        ? "{{ __('messages.unselect_all') }}"
+        : "{{ __('messages.select_all') }}";
+    }
+  }
+
+  // change individual checkboxes
+  document.addEventListener('change', function(e){
+    if(e.target.classList && e.target.classList.contains('row-checkbox')){
+      updateUI();
+    }
+  });
+
+  // select all checkbox
   if(selectAll){
     selectAll.addEventListener('change', function(){
-      rowCheckboxes.forEach(cb => cb.checked = selectAll.checked);
+      getRowCheckboxes().forEach(cb => cb.checked = selectAll.checked);
+      updateUI();
     });
   }
 
+  // toggle select all button
+  if(toggleSelectAllBtn){
+    toggleSelectAllBtn.addEventListener('click', function(){
+      const rows = getRowCheckboxes();
+      const allSelected = rows.length > 0 && getChecked().length === rows.length;
+      rows.forEach(cb => cb.checked = !allSelected);
+      updateUI();
+    });
+  }
+
+  // bulk submit: append ids[]
   if(bulkForm){
     bulkForm.addEventListener('submit', function(e){
 
-      // امسح أي ids قديمة
+      // remove old hidden inputs
       bulkForm.querySelectorAll('input[name="ids[]"]').forEach(el => el.remove());
 
-      const ids = Array.from(document.querySelectorAll('.row-checkbox:checked')).map(cb => cb.value);
+      const ids = getChecked().map(cb => cb.value);
 
       if(ids.length === 0){
         e.preventDefault();
@@ -303,6 +372,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // initial
+  updateUI();
 });
 </script>
 @endpush
+

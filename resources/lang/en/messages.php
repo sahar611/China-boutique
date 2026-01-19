@@ -360,6 +360,22 @@ return [
 'unpublish_selected' => 'Unpublish selected',
 'delete_selected' => 'Delete selected',
 'bulk_hint' => 'Select products from the table, then apply a bulk action.',
+'product_details' => 'Product Details',
+'back' => 'Back',
+'view' => 'View',
+'duplicate' => 'Duplicate',
+'confirm_duplicate' => 'Create a copy of this product?',
+'product_duplicated' => 'Product duplicated successfully.',
+'basic_info' => 'Basic Info',
+'pricing_stock' => 'Pricing & Stock',
+'sku' => 'SKU',
+'main_image' => 'Main Image',
+'main' => 'Main',
+'no_images' => 'No images found.',
+'selected' => 'Selected',
+'select_all' => 'Select all',
+'unselect_all' => 'Unselect all',
+'bulk_hint' => 'Select products from the table, then apply a bulk action.',
 
 
 ];
