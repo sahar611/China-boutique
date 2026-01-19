@@ -1,0 +1,173 @@
+/* =========================
+   Hobby Theme Overrides
+   Works with Soft UI Dashboard
+   ========================= */
+
+:root{
+  --hb-50:  #F1F3FC;
+  --hb-100: #E5E9FA;
+  --hb-200: #CFD5F6;
+  --hb-300: #B2BAEF;
+  --hb-400: #9397E6;
+  --hb-500: #817FDD;
+  --hb-600: #6A5ECD;
+  --hb-700: #5A4EB4;
+  --hb-800: #494291;
+  --hb-900: #3F3B74;
+  --hb-950: #252244;
+
+  --hb-lime: #D6EA64;
+  --hb-alab: #F5F0E6;
+
+  --hb-primary: var(--hb-700);
+  --hb-primary-2: var(--hb-600);
+
+  --hb-shadow: 0 18px 45px rgba(37,34,68,.10);
+  --hb-radius: 16px;
+}
+
+/* Page background */
+body.bg-gray-100{
+  background: var(--hb-alab) !important;
+}
+
+/* Cards */
+.card{
+  border-radius: var(--hb-radius) !important;
+  box-shadow: var(--hb-shadow) !important;
+  border: 1px solid rgba(229,233,250,.9) !important;
+}
+
+/* Titles */
+h1,h2,h3,h4,h5{
+  color: var(--hb-950) !important;
+}
+
+/* Text-muted */
+.text-muted{
+  color: rgba(37,34,68,.55) !important;
+}
+
+/* Navbar */
+.navbar{
+  background: transparent !important;
+}
+
+/* Sidebar (sidenav) */
+.sidenav{
+  background: rgba(255,255,255,.92) !important;
+  border: 1px solid rgba(229,233,250,.8) !important;
+  box-shadow: var(--hb-shadow) !important;
+  border-radius: 18px !important;
+}
+
+/* Brand */
+.navbar-brand span{
+  color: var(--hb-950) !important;
+}
+
+/* Sidebar links */
+.sidenav .nav-link{
+  border-radius: 14px !important;
+  color: rgba(37,34,68,.72) !important;
+  transition: all .2s ease;
+}
+
+/* Active link */
+.sidenav .nav-link.active{
+  background: linear-gradient(90deg, var(--hb-700), var(--hb-600)) !important;
+  color: #fff !important;
+  box-shadow: 0 12px 28px rgba(90,78,180,.22) !important;
+}
+
+/* Active text */
+.sidenav .nav-link.active .nav-link-text{
+  color: #fff !important;
+}
+
+/* Icons boxes beside nav items */
+.sidenav .nav-link .icon{
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+/* When active: icon box becomes soft */
+.sidenav .nav-link.active .icon{
+  background: rgba(255,255,255,.18) !important;
+}
+
+/* Primary gradient used in dashboard cards icons */
+.bg-gradient-primary{
+  background: linear-gradient(135deg, var(--hb-700), var(--hb-500)) !important;
+}
+
+/* Buttons */
+.btn.bg-gradient-primary,
+.btn.btn-primary{
+  background: linear-gradient(90deg, var(--hb-700), var(--hb-600), var(--hb-500)) !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 35px rgba(37,34,68,.12) !important;
+}
+
+.btn.bg-gradient-primary:hover,
+.btn.btn-primary:hover{
+  transform: translateY(-1px);
+  opacity: .96;
+}
+
+/* Form controls */
+.form-control{
+  border-radius: 14px !important;
+  border: 1px solid rgba(207,213,246,.9) !important;
+}
+
+.form-control:focus{
+  border-color: var(--hb-400) !important;
+  box-shadow: 0 0 0 4px rgba(129,127,221,.18) !important;
+}
+
+/* Tables */
+.table thead th{
+  color: rgba(37,34,68,.72) !important;
+  background: rgba(241,243,252,.95) !important;
+  border-bottom: 1px solid rgba(207,213,246,.9) !important;
+}
+
+.table td, .table th{
+  border-color: rgba(229,233,250,.9) !important;
+}
+
+/* Badges / Pills */
+.badge.bg-gradient-primary{
+  background: linear-gradient(90deg, var(--hb-700), var(--hb-600)) !important;
+}
+
+/* Links */
+a{
+  color: var(--hb-700);
+}
+a:hover{
+  color: var(--hb-900);
+}
+
+/* Optional: small accent (lime) for highlights */
+.hb-accent{
+  color: var(--hb-lime) !important;
+}
+
+#sidenav-main .nav-link{
+  padding-top: .45rem !important;
+  padding-bottom: .45rem !important;
+}
+
+
+#sidenav-main .nav-link-text,
+#sidenav-main .sidenav-normal{
+  font-size: .85rem !important;
+}
+
+
+#sidenav-main .icon{
+  transform: scale(.92);
+}
