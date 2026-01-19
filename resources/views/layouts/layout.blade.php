@@ -162,6 +162,66 @@
   </a>
 </li>
 @endcan
+@php
+  $canCatalog = auth()->user()?->can('products.view')
+        || auth()->user()?->can('categories.view')
+        || auth()->user()?->can('brands.view');
+
+  $catalogActive = request()->routeIs('admin.products.*')
+        || request()->routeIs('admin.categories.*')
+        || request()->routeIs('admin.brands.*');
+@endphp
+@if($canCatalog)
+<li class="nav-item">
+  <a class="nav-link {{ $catalogActive ? '' : 'collapsed' }}" data-bs-toggle="collapse" href="#catalogMenu"
+     role="button" aria-expanded="{{ $catalogActive ? 'true' : 'false' }}" aria-controls="catalogMenu">
+
+    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+      {{-- أي أيقونة --}}
+      <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#FFFFFF" fill-rule="nonzero">
+          <path class="color-background opacity-6" d="M5 8h35v24H5z"></path>
+          <path class="color-background" d="M15 14h15v12H15z"></path>
+        </g>
+      </svg>
+    </div>
+
+    <span class="nav-link-text {{ app()->getLocale()==='ar' ? 'me-1' : 'ms-1' }}">
+      {{ __('messages.catalog') }}
+    </span>
+  </a>
+
+  <div class="collapse {{ $catalogActive ? 'show' : '' }}" id="catalogMenu">
+    <ul class="nav flex-column ms-4">
+
+      @can('products.view')
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
+          • {{ __('messages.products') }}
+        </a>
+      </li>
+      @endcan
+
+      @can('categories.view')
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
+          • {{ __('messages.categories') }}
+        </a>
+      </li>
+      @endcan
+
+      @can('brands.view')
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.brands.*') ? 'active' : '' }}" href="{{ route('admin.brands.index') }}">
+          • {{ __('messages.brands') }}
+        </a>
+      </li>
+      @endcan
+
+    </ul>
+  </div>
+</li>
+@endif
 
   {{-- Settings Menu (Pages + Site Settings) --}}
   @php

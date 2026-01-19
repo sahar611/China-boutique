@@ -11,12 +11,9 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\NewsController;
-
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\ProductController;
 Route::get('/sing-in', [AuthController::class, 'login'])->name('login');
 Route::get('/sing-up', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'checklogin'])->name('checklogin');
@@ -86,5 +83,28 @@ Route::middleware(['auth', 'permission:admin.access'])
             ->name('orders.refund');
        Route::resource('currencies', CurrencyController::class);
       Route::resource('news', NewsController::class);
+Route::resource('categories', CategoryController::class);
+    Route::resource('brands', BrandController::class);
+    Route::resource('products', ProductController::class);
+    
+Route::delete('products/{product}/images/{image}', [ProductController::class, 'destroyImage'])
+    ->name('products.images.destroy');
+
+Route::patch('products/{product}/images/{image}/main', [ProductController::class, 'setMainImage'])
+    ->name('products.images.main');
+    // Products extra actions
+Route::patch('products/{product}/publish', [ProductController::class,'publish'])->name('products.publish');
+Route::patch('products/{product}/unpublish', [ProductController::class,'unpublish'])->name('products.unpublish');
+
+Route::get('products/{product}/price', [ProductController::class,'editPrice'])->name('products.price.edit');
+Route::patch('products/{product}/price', [ProductController::class,'updatePrice'])->name('products.price.update');
+
+Route::get('products/{product}/stock', [ProductController::class,'editStock'])->name('products.stock.edit');
+Route::patch('products/{product}/stock', [ProductController::class,'updateStock'])->name('products.stock.update');
+
+// Categories sort
+Route::get('categories-sort', [CategoryController::class,'sort'])->name('categories.sort');
+Route::patch('categories-sort', [CategoryController::class,'updateSort'])->name('categories.sort.update');
+Route::post('products/bulk', [ProductController::class, 'bulk'])->name('products.bulk');
 
     });

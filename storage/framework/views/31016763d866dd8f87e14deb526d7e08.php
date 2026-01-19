@@ -162,6 +162,70 @@
   </a>
 </li>
 <?php endif; ?>
+<?php
+  $canCatalog = auth()->user()?->can('products.view')
+        || auth()->user()?->can('categories.view')
+        || auth()->user()?->can('brands.view');
+
+  $catalogActive = request()->routeIs('admin.products.*')
+        || request()->routeIs('admin.categories.*')
+        || request()->routeIs('admin.brands.*');
+?>
+<?php if($canCatalog): ?>
+<li class="nav-item">
+  <a class="nav-link <?php echo e($catalogActive ? '' : 'collapsed'); ?>" data-bs-toggle="collapse" href="#catalogMenu"
+     role="button" aria-expanded="<?php echo e($catalogActive ? 'true' : 'false'); ?>" aria-controls="catalogMenu">
+
+    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+      
+      <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#FFFFFF" fill-rule="nonzero">
+          <path class="color-background opacity-6" d="M5 8h35v24H5z"></path>
+          <path class="color-background" d="M15 14h15v12H15z"></path>
+        </g>
+      </svg>
+    </div>
+
+    <span class="nav-link-text <?php echo e(app()->getLocale()==='ar' ? 'me-1' : 'ms-1'); ?>">
+      <?php echo e(__('messages.catalog')); ?>
+
+    </span>
+  </a>
+
+  <div class="collapse <?php echo e($catalogActive ? 'show' : ''); ?>" id="catalogMenu">
+    <ul class="nav flex-column ms-4">
+
+      <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('products.view')): ?>
+      <li class="nav-item">
+        <a class="nav-link <?php echo e(request()->routeIs('admin.products.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.products.index')); ?>">
+          • <?php echo e(__('messages.products')); ?>
+
+        </a>
+      </li>
+      <?php endif; ?>
+
+      <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('categories.view')): ?>
+      <li class="nav-item">
+        <a class="nav-link <?php echo e(request()->routeIs('admin.categories.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.categories.index')); ?>">
+          • <?php echo e(__('messages.categories')); ?>
+
+        </a>
+      </li>
+      <?php endif; ?>
+
+      <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('brands.view')): ?>
+      <li class="nav-item">
+        <a class="nav-link <?php echo e(request()->routeIs('admin.brands.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.brands.index')); ?>">
+          • <?php echo e(__('messages.brands')); ?>
+
+        </a>
+      </li>
+      <?php endif; ?>
+
+    </ul>
+  </div>
+</li>
+<?php endif; ?>
 
   
   <?php
