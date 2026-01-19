@@ -10,7 +10,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CurrencyController;
-
+use App\Http\Controllers\NewsController;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -85,5 +85,6 @@ Route::middleware(['auth', 'permission:admin.access'])
         Route::post('orders/{order}/refund', [OrderController::class, 'refund'])
             ->name('orders.refund');
        Route::resource('currencies', CurrencyController::class);
+      Route::resource('news', NewsController::class);
 
     });

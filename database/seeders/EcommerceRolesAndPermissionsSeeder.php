@@ -84,7 +84,8 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
             'audit.view',
             // Currencies
 'currencies.view','currencies.create','currencies.edit','currencies.delete','currencies.set_default',
-
+// News
+'news.view','news.create','news.edit','news.delete','news.publish',
         ];
 
         foreach ($permissions as $permission) {
@@ -129,7 +130,8 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
 
             'settings.view',
             'currencies.view','currencies.create','currencies.edit','currencies.delete','currencies.set_default',
-
+// News
+'news.view','news.create','news.edit','news.delete','news.publish',
         ]);
 
         // Order Manager
@@ -158,6 +160,8 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
             'brands.view','brands.create','brands.edit',
             'pages.view','pages.create','pages.edit','pages.publish',
             'banners.view','banners.create','banners.edit',
+            // News
+'news.view','news.create','news.edit','news.delete','news.publish',
         ]);
 
         // Warehouse

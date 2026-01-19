@@ -1,38 +1,38 @@
 
 
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() === 'ar' ? 'ar' : 'en' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="<?php echo e(app()->getLocale() === 'ar' ? 'ar' : 'en'); ?>" dir="<?php echo e(app()->getLocale() === 'ar' ? 'rtl' : 'ltr'); ?>">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/apple-icon.png')}}">
-  <link rel="icon" type="image/png" href="{{asset('assets/img/logo.jpeg')}}">
+  <link rel="apple-touch-icon" sizes="76x76" href="<?php echo e(asset('assets/img/apple-icon.png')); ?>">
+  <link rel="icon" type="image/png" href="<?php echo e(asset('assets/img/logo.jpeg')); ?>">
   <title>
     China boutique
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
-  <link href="{{asset('assets/css/nucleo-icons.css')}}" rel="stylesheet" />
-  <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
+  <link href="<?php echo e(asset('assets/css/nucleo-icons.css')); ?>" rel="stylesheet" />
+  <link href="<?php echo e(asset('assets/css/nucleo-svg.css')); ?>" rel="stylesheet" />
   <!-- Font Awesome Icons 
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
+  <link href="<?php echo e(asset('assets/css/nucleo-svg.css')); ?>" rel="stylesheet" />
   <!-- CSS Files -->
-  <link id="pagestyle" href="{{asset('assets/css/soft-ui-dashboard.css?v=1.0.3')}}" rel="stylesheet" />
-     <link rel="stylesheet" href="{{ asset('assets/css/hobby-theme.css') }}">
+  <link id="pagestyle" href="<?php echo e(asset('assets/css/soft-ui-dashboard.css?v=1.0.3')); ?>" rel="stylesheet" />
+     <link rel="stylesheet" href="<?php echo e(asset('assets/css/hobby-theme.css')); ?>">
 
    
 </head>
-<body class="g-sidenav-show {{ app()->getLocale() === 'ar' ? 'rtl' : '' }} bg-gray-100">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 {{ app()->getLocale() === 'ar' ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' }}" id="sidenav-main">
+<body class="g-sidenav-show <?php echo e(app()->getLocale() === 'ar' ? 'rtl' : ''); ?> bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 <?php echo e(app()->getLocale() === 'ar' ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3'); ?>" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute start-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href="{{ route('admin.home') }}" target="_blank">
-        <img src="{{asset('assets/img/logo.jpeg')}}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="{{ app()->getLocale() === 'ar' ? 'me-1' : 'ms-1' }} font-weight-bold">China boutique</span>
+      <a class="navbar-brand m-0" href="<?php echo e(route('admin.home')); ?>" target="_blank">
+        <img src="<?php echo e(asset('assets/img/logo.jpeg')); ?>" class="navbar-brand-img h-100" alt="main_logo">
+        <span class="<?php echo e(app()->getLocale() === 'ar' ? 'me-1' : 'ms-1'); ?> font-weight-bold">China boutique</span>
       </a>
        
     </div>
@@ -42,14 +42,14 @@
    
   <ul class="navbar-nav">
 
-  {{-- Dashboard --}}
-  @can('dashboard.view')
+  
+  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('dashboard.view')): ?>
   <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}" href="{{ route('admin.home') }}">
+    <a class="nav-link <?php echo e(request()->routeIs('admin.home') ? 'active' : ''); ?>" href="<?php echo e(route('admin.home')); ?>">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
        
         <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <title>{{ __('messages.Dashboard') }}</title>
+          <title><?php echo e(__('messages.Dashboard')); ?></title>
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
               <g transform="translate(1716.000000, 291.000000)">
@@ -62,20 +62,20 @@
           </g>
         </svg>
       </div>
-      <span class="nav-link-text {{ app()->getLocale() === 'ar' ? 'me-1' : 'ms-1' }}">{{ __('messages.Dashboard') }}</span>
+      <span class="nav-link-text <?php echo e(app()->getLocale() === 'ar' ? 'me-1' : 'ms-1'); ?>"><?php echo e(__('messages.Dashboard')); ?></span>
     </a>
   </li>
-  @endcan
+  <?php endif; ?>
 
 
-  {{-- Users (Super Admin فقط) --}}
-  @role('super-admin')
+  
+  <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin')): ?>
   <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+    <a class="nav-link <?php echo e(request()->routeIs('admin.users.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.users.index')); ?>">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
       
         <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <title>{{ __('messages.all_users') }}</title>
+          <title><?php echo e(__('messages.all_users')); ?></title>
           <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g id="Rounded-Icons" transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
               <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
@@ -89,20 +89,20 @@
           </g>
         </svg>
       </div>
-      <span class="nav-link-text ms-1">{{ __('messages.all_users') }}</span>
+      <span class="nav-link-text ms-1"><?php echo e(__('messages.all_users')); ?></span>
     </a>
   </li>
-  @endrole
+  <?php endif; ?>
 
 
-  {{-- Roles (Super Admin فقط) --}}
-  @role('super-admin')
+  
+  <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin')): ?>
   <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
+    <a class="nav-link <?php echo e(request()->routeIs('admin.roles.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.roles.index')); ?>">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
      
         <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <title>{{ __('messages.roles') }}</title>
+          <title><?php echo e(__('messages.roles')); ?></title>
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">
               <g transform="translate(1716.000000, 291.000000)">
@@ -117,20 +117,20 @@
           </g>
         </svg>
       </div>
-      <span class="nav-link-text {{ app()->getLocale() === 'ar' ? 'me-1' : 'ms-1' }}">{{ __('messages.roles') }}</span>
+      <span class="nav-link-text <?php echo e(app()->getLocale() === 'ar' ? 'me-1' : 'ms-1'); ?>"><?php echo e(__('messages.roles')); ?></span>
     </a>
   </li>
-  @endrole
+  <?php endif; ?>
 
 
-  {{-- Banners --}}
-  @can('banners.view')
+  
+  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('banners.view')): ?>
   <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}" href="{{ route('admin.banners.index') }}">
+    <a class="nav-link <?php echo e(request()->routeIs('admin.banners.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.banners.index')); ?>">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
        
         <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
-          <title>{{ __('messages.banners') }}</title>
+          <title><?php echo e(__('messages.banners')); ?></title>
           <g fill="none" fill-rule="evenodd">
             <g fill="#FFFFFF" fill-rule="nonzero">
               <path d="M5 5h35v25H5z" class="color-background opacity-6"></path>
@@ -139,15 +139,15 @@
           </g>
         </svg>
       </div>
-      <span class="nav-link-text {{ app()->getLocale() === 'ar' ? 'me-1' : 'ms-1' }}">{{ __('messages.banners') }}</span>
+      <span class="nav-link-text <?php echo e(app()->getLocale() === 'ar' ? 'me-1' : 'ms-1'); ?>"><?php echo e(__('messages.banners')); ?></span>
     </a>
   </li>
-  @endcan
+  <?php endif; ?>
 
-@can('currencies.view')
+<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('currencies.view')): ?>
 <li class="nav-item">
-  <a class="nav-link {{ request()->routeIs('admin.currencies.*') ? 'active' : '' }}"
-     href="{{ route('admin.currencies.index') }}">
+  <a class="nav-link <?php echo e(request()->routeIs('admin.currencies.*') ? 'active' : ''); ?>"
+     href="<?php echo e(route('admin.currencies.index')); ?>">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
       
       <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
@@ -161,75 +161,79 @@
     <span class="nav-link-text ms-1">Currencies</span>
   </a>
 </li>
-@endcan
+<?php endif; ?>
 
-  {{-- Settings Menu (Pages + Site Settings) --}}
-  @php
+  
+  <?php
       $showSettingsMenu = auth()->user()?->can('pages.view') || auth()->user()?->can('settings.view');
       $settingsActive = request()->routeIs('admin.pages.*') || request()->routeIs('admin.settings.*');
-  @endphp
+  ?>
 
-  @if($showSettingsMenu)
+  <?php if($showSettingsMenu): ?>
   <li class="nav-item">
-    <a class="nav-link {{ $settingsActive ? '' : 'collapsed' }}" data-bs-toggle="collapse" href="#settingsMenu" role="button"
-       aria-expanded="{{ $settingsActive ? 'true' : 'false' }}" aria-controls="settingsMenu">
+    <a class="nav-link <?php echo e($settingsActive ? '' : 'collapsed'); ?>" data-bs-toggle="collapse" href="#settingsMenu" role="button"
+       aria-expanded="<?php echo e($settingsActive ? 'true' : 'false'); ?>" aria-controls="settingsMenu">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
        
         <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
-          <title>{{ __('messages.general_settings') }}</title>
+          <title><?php echo e(__('messages.general_settings')); ?></title>
           <g fill="#FFFFFF" fill-rule="nonzero">
             <path class="color-background" d="M22 0C9.85 0 0 9.85 0 22s9.85 22 22 22 22-9.85 22-22S34.15 0 22 0z"></path>
           </g>
         </svg>
       </div>
 
-      <span class="nav-link-text {{ app()->getLocale() === 'ar' ? 'me-1' : 'ms-1' }}">
-        {{ __('messages.general_settings') }}
+      <span class="nav-link-text <?php echo e(app()->getLocale() === 'ar' ? 'me-1' : 'ms-1'); ?>">
+        <?php echo e(__('messages.general_settings')); ?>
+
       </span>
     </a>
 
-    <div class="collapse {{ $settingsActive ? 'show' : '' }}" id="settingsMenu">
+    <div class="collapse <?php echo e($settingsActive ? 'show' : ''); ?>" id="settingsMenu">
       <ul class="nav flex-column ms-4">
 
-        {{-- Pages --}}
-        @can('pages.view')
+        
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('pages.view')): ?>
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" href="{{ route('admin.pages.index') }}">
-            • {{ __('messages.pages') }}
-          </a>
-        </li>
-        @endcan
+          <a class="nav-link <?php echo e(request()->routeIs('admin.pages.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.pages.index')); ?>">
+            • <?php echo e(__('messages.pages')); ?>
 
-        {{-- Site Settings --}}
-        @can('settings.view')
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.edit') }}">
-            • {{ __('messages.site_settings') }}
           </a>
         </li>
-        @endcan
-         @can('news.view')
+        <?php endif; ?>
+
+        
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('settings.view')): ?>
+        <li class="nav-item">
+          <a class="nav-link <?php echo e(request()->routeIs('admin.settings.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.settings.edit')); ?>">
+            • <?php echo e(__('messages.site_settings')); ?>
+
+          </a>
+        </li>
+        <?php endif; ?>
+         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('news.view')): ?>
       <li class="nav-item">
-        <a class="nav-link {{ request()->is('admin/news*') ? 'active' : '' }}"
-           href="{{ route('admin.news.index') }}">
-          • {{ __('cms.news') }}
+        <a class="nav-link <?php echo e(request()->is('admin/news*') ? 'active' : ''); ?>"
+           href="<?php echo e(route('admin.news.index')); ?>">
+          • <?php echo e(__('cms.news')); ?>
+
         </a>
       </li>
-      @endcan
+      <?php endif; ?>
 
       </ul>
     </div>
   </li>
-  @endif
+  <?php endif; ?>
 
 
-  {{-- Logout --}}
+  
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('logout') }}">
+    <a class="nav-link" href="<?php echo e(route('logout')); ?>">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
       
         <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <title>{{ __('messages.SignUp') }}</title>
+          <title><?php echo e(__('messages.SignUp')); ?></title>
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">
               <g transform="translate(1716.000000, 291.000000)">
@@ -245,7 +249,7 @@
         </svg>
       </div>
 
-      <span class="nav-link-text {{ app()->getLocale() === 'ar' ? 'me-1' : 'ms-1' }}">{{ __('messages.SignUp') }}</span>
+      <span class="nav-link-text <?php echo e(app()->getLocale() === 'ar' ? 'me-1' : 'ms-1'); ?>"><?php echo e(__('messages.SignUp')); ?></span>
     </a>
   </li>
 
@@ -262,15 +266,15 @@
         <nav aria-label="breadcrumb">
            
         </nav>
-        <div class="collapse navbar-collapse {{ app()->getLocale() === 'ar' ? 'mt-sm-0 mt-2 px-0' : 'mt-sm-0 mt-2 me-md-0 me-sm-4' }} " id="navbar"> 
-          <ul class="navbar-nav {{ app()->getLocale() === 'ar' ? 'me-auto ms-0' : '' }} justify-content-end">
+        <div class="collapse navbar-collapse <?php echo e(app()->getLocale() === 'ar' ? 'mt-sm-0 mt-2 px-0' : 'mt-sm-0 mt-2 me-md-0 me-sm-4'); ?> " id="navbar"> 
+          <ul class="navbar-nav <?php echo e(app()->getLocale() === 'ar' ? 'me-auto ms-0' : ''); ?> justify-content-end">
             <li class="nav-item px-1 d-flex align-items-center">
-              <a href="{{ route('lang.switch', 'en') }}"> <img src="{{ asset('assets/lang/en.png') }}" alt="English" width="24" height="24"> </a>
+              <a href="<?php echo e(route('lang.switch', 'en')); ?>"> <img src="<?php echo e(asset('assets/lang/en.png')); ?>" alt="English" width="24" height="24"> </a>
             </li>
             <li class="nav-item px-1 pe-3 d-flex align-items-center">
-              <a href="{{ route('lang.switch', 'ar') }}"> <img src="{{ asset('assets/lang/ar.png') }}" alt="Arabic" width="21" height="21"> </a>
+              <a href="<?php echo e(route('lang.switch', 'ar')); ?>"> <img src="<?php echo e(asset('assets/lang/ar.png')); ?>" alt="Arabic" width="21" height="21"> </a>
             </li> 
-            <li class="nav-item d-xl-none {{ app()->getLocale() === 'ar' ? 'pe-3' : 'ps-3' }} d-flex align-items-center">
+            <li class="nav-item d-xl-none <?php echo e(app()->getLocale() === 'ar' ? 'pe-3' : 'ps-3'); ?> d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line"></i>
@@ -288,13 +292,13 @@
     <div class="container-fluid py-4">
        
          
- @yield('content')         
+ <?php echo $__env->yieldContent('content'); ?>         
 
       <footer class="footer pt-3">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
              
-              <div class="copyright text-center text-sm text-muted text-lg-{{ app()->getLocale() === 'ar' ? 'start' : 'end' }}">
+              <div class="copyright text-center text-sm text-muted text-lg-<?php echo e(app()->getLocale() === 'ar' ? 'start' : 'end'); ?>">
                 © <script>
                   document.write(new Date().getFullYear())
                 </script>,
@@ -317,11 +321,11 @@
     </a>
     <div class="card shadow-lg ">
       <div class="card-header pb-0 pt-3 ">
-        <div class="float-{{ app()->getLocale() === 'ar' ? 'end' : 'start' }}">
+        <div class="float-<?php echo e(app()->getLocale() === 'ar' ? 'end' : 'start'); ?>">
           <h5 class="mt-3 mb-0">China boutique</h5>
           <p>See our dashboard options.</p>
         </div>
-        <div class="float-{{ app()->getLocale() === 'ar' ? 'start' : 'end' }} mt-4">
+        <div class="float-<?php echo e(app()->getLocale() === 'ar' ? 'start' : 'end'); ?> mt-4">
           <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
             <i class="fa fa-close"></i>
           </button>
@@ -333,11 +337,11 @@
     </div>
   </div>
   <!--   Core JS Files   --> 
-  <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
-  <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/choices.min.js')}}"></script> 
+  <script src="<?php echo e(asset('assets/js/core/popper.min.js')); ?>"></script>
+  <script src="<?php echo e(asset('assets/js/core/bootstrap.min.js')); ?>"></script>
+  <script src="<?php echo e(asset('assets/js/plugins/perfect-scrollbar.min.js')); ?>"></script>
+  <script src="<?php echo e(asset('assets/js/plugins/smooth-scrollbar.min.js')); ?>"></script>
+  <script src="<?php echo e(asset('assets/js/plugins/choices.min.js')); ?>"></script> 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -350,10 +354,11 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{asset('assets/js/soft-ui-dashboard.min.js?v=1.0.3')}}"></script> 
-  @stack('scripts')
+  <script src="<?php echo e(asset('assets/js/soft-ui-dashboard.min.js?v=1.0.3')); ?>"></script> 
+  <?php echo $__env->yieldPushContent('scripts'); ?>
 
 </body>
 
 </html>
 
+<?php /**PATH C:\xampp\htdocs\china\resources\views/layouts/layout.blade.php ENDPATH**/ ?>
