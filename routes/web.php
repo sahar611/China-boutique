@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\CurrencyController;
 
 
 use App\Http\Controllers\ProductController;
@@ -83,4 +84,6 @@ Route::middleware(['auth', 'permission:admin.access'])
             ->name('orders.cancel');
         Route::post('orders/{order}/refund', [OrderController::class, 'refund'])
             ->name('orders.refund');
+       Route::resource('currencies', CurrencyController::class);
+
     });

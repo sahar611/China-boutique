@@ -47,7 +47,7 @@
   <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}" href="{{ route('admin.home') }}">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        {{-- نفس SVG بتاعك --}}
+       
         <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <title>{{ __('messages.Dashboard') }}</title>
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -73,7 +73,7 @@
   <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        {{-- نفس SVG بتاعك --}}
+      
         <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <title>{{ __('messages.all_users') }}</title>
           <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -100,7 +100,7 @@
   <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        {{-- نفس SVG بتاعك --}}
+     
         <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <title>{{ __('messages.roles') }}</title>
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -128,7 +128,7 @@
   <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}" href="{{ route('admin.banners.index') }}">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        {{-- نفس SVG بتاعك --}}
+       
         <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
           <title>{{ __('messages.banners') }}</title>
           <g fill="none" fill-rule="evenodd">
@@ -144,6 +144,24 @@
   </li>
   @endcan
 
+@can('currencies.view')
+<li class="nav-item">
+  <a class="nav-link {{ request()->routeIs('admin.currencies.*') ? 'active' : '' }}"
+     href="{{ route('admin.currencies.index') }}">
+    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+      
+      <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
+        <title>Currencies</title>
+        <g fill="#FFFFFF" fill-rule="nonzero">
+          <path class="color-background opacity-6" d="M5 8h35v24H5z"></path>
+          <path class="color-background" d="M15 14h15v12H15z"></path>
+        </g>
+      </svg>
+    </div>
+    <span class="nav-link-text ms-1">Currencies</span>
+  </a>
+</li>
+@endcan
 
   {{-- Settings Menu (Pages + Site Settings) --}}
   @php
@@ -156,7 +174,7 @@
     <a class="nav-link {{ $settingsActive ? '' : 'collapsed' }}" data-bs-toggle="collapse" href="#settingsMenu" role="button"
        aria-expanded="{{ $settingsActive ? 'true' : 'false' }}" aria-controls="settingsMenu">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        {{-- نفس SVG بتاعك --}}
+       
         <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
           <title>{{ __('messages.general_settings') }}</title>
           <g fill="#FFFFFF" fill-rule="nonzero">
@@ -201,7 +219,7 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ route('logout') }}">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        {{-- نفس SVG بتاعك --}}
+      
         <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <title>{{ __('messages.SignUp') }}</title>
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

@@ -82,6 +82,9 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
 
             // Audit / Logs
             'audit.view',
+            // Currencies
+'currencies.view','currencies.create','currencies.edit','currencies.delete','currencies.set_default',
+
         ];
 
         foreach ($permissions as $permission) {
@@ -125,6 +128,8 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
             'customers.view','customers.edit',
 
             'settings.view',
+            'currencies.view','currencies.create','currencies.edit','currencies.delete','currencies.set_default',
+
         ]);
 
         // Order Manager
@@ -137,7 +142,8 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
             'dashboard.view',
             'orders.view','orders.update_status','orders.cancel','orders.invoice','orders.notes',
             'shipping.view','shipping.update_tracking',
-            'customers.view',
+            'customers.view','currencies.view',
+
         ]);
 
         // Content Manager
