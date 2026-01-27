@@ -134,7 +134,9 @@
 
 </div>
 
-
+@if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
         <div class="table-responsive p-3 mt-3">
         <table class="table align-items-center mb-0 table-hover">
 

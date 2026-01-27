@@ -14,6 +14,10 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\HomeBannerController;
+use App\Http\Controllers\WorkStepController;
+use App\Http\Controllers\NewsletterSubscriberController;
 Route::get('/sing-in', [AuthController::class, 'login'])->name('login');
 Route::get('/sing-up', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'checklogin'])->name('checklogin');
@@ -110,4 +114,35 @@ Route::post('products/bulk', [ProductController::class, 'bulk'])->name('products
 Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::post('products/{product}/duplicate', [ProductController::class, 'duplicate'])->name('products.duplicate');
-    });
+  Route::resource('home-banners', HomeBannerController::class);
+ Route::get('work-steps', [WorkStepController::class,'index'])
+      ->name('work_steps.index');
+
+  Route::get('work-steps/edit', [WorkStepController::class,'edit'])
+      ->name('work_steps.edit');
+
+  Route::put('work-steps', [WorkStepController::class,'update'])
+      ->name('work_steps.update');
+        Route::get('newsletter/subscribers', [NewsletterSubscriberController::class,'index'])
+    ->name('newsletter_subscribers.index');
+
+  Route::patch('newsletter/subscribers/{id}/toggle', [NewsletterSubscriberController::class,'toggle'])
+    ->name('newsletter_subscribers.toggle');
+
+
+});
+ 
+//frontend routes
+
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+
+Route::post('/change-currency/{code}', [HomeController::class, 'changeCurrency'])
+    ->name('currency.change');
+Route::post('/change-language/{locale}', [HomeController::class, 'changeLang'])
+    ->name('language.change');
+    Route::post('/newsletter/subscribe', [HomeController::class,'subscribe'])
+  ->name('newsletter.subscribe');
+
+

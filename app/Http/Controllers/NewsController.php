@@ -52,7 +52,7 @@ class NewsController extends Controller
             $data['cover'] = 'uploads/news/'.$filename;
         }
 
-        // لو اتعمل publish بدون تاريخ، خليها الآن
+       
         if (!empty($data['is_published']) && empty($data['published_at'])) {
             $data['published_at'] = now();
         }

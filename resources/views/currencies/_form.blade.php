@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <!-- <div class="col-md-4">
     <div class="form-group">
       <label>Default</label>
       <select name="is_default" class="form-control">
@@ -57,5 +57,5 @@
       </select>
       <small class="text-muted">Only one default currency is allowed.</small>
     </div>
-  </div>
+  </div> -->
 </div>

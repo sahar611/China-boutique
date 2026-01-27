@@ -10,7 +10,9 @@
           {{ __('messages.add_category') }}
         </a>
       </div>
-
+@if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
       <div class="card-body px-0 pt-0 pb-2">
         <div class="table-responsive p-3">
           <table class="table align-items-center mb-0">

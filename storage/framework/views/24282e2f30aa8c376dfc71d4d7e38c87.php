@@ -141,7 +141,9 @@
 
 </div>
 
-
+<?php if(session('success')): ?>
+                        <div class="alert alert-success"><?php echo e(session('success')); ?></div>
+                    <?php endif; ?>
         <div class="table-responsive p-3 mt-3">
         <table class="table align-items-center mb-0 table-hover">
 

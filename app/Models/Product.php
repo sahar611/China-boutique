@@ -13,15 +13,10 @@ class Product extends Model
         'description_en','description_ar',
         'price','sale_price',
         'stock','track_stock',
-        'sku','is_active'
+        'sku','is_active','positions','is_featured','home_sort'
     ];
 
-    protected $casts = [
-        'price' => 'decimal:2',
-        'sale_price' => 'decimal:2',
-        'is_active' => 'boolean',
-        'track_stock' => 'boolean',
-    ];
+    
 
     public function category(): BelongsTo
     {
@@ -42,6 +37,11 @@ class Product extends Model
     {
         return $this->images()->where('is_main', 1)->first();
     }
+public function mainImageProduct()
+{
+    return $this->hasOne(ProductImage::class)
+                ->where('is_main', 1);
+}
 
     public function getNameAttribute(): string
     {
@@ -58,4 +58,15 @@ class Product extends Model
         $price = $this->sale_price ?? $this->price;
         return (string) $price;
     }
+    protected $casts = [
+    'positions'   => 'array',
+    'is_featured' => 'boolean',
+    'is_active'   => 'boolean',
+    'track_stock' => 'boolean',
+    'price' => 'decimal:2',
+    'sale_price' => 'decimal:2',
+    'is_active' => 'boolean',
+       
+];
+
 }

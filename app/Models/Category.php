@@ -7,8 +7,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
+    public const HOME_POSITIONS = [
+    'home_sidebar'       => 'Home Sidebar',
+    'header_dropdown'    => 'Header Dropdown',
+    'home_top_categories'=> 'Home Top Categories',
+    'home_tabs'          => 'Home Tabs',
+];
+
     protected $fillable = [
-        'parent_id','name_en','name_ar','slug','image','is_active','sort_order'
+        'parent_id','name_en','name_ar','slug','image','is_active','sort_order','positions','is_featured','home_sort','home_position'
     ];
 
     public function parent(): BelongsTo
@@ -32,4 +39,9 @@ class Category extends Model
     {
         return app()->getLocale() === 'ar' ? $this->name_ar : $this->name_en;
     }
+    protected $casts = [
+    'is_active' => 'boolean',
+    'positions' => 'array',
+];
+
 }

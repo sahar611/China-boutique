@@ -87,6 +87,81 @@
         <p class="text-muted mt-3 mb-0">
           {{ __('messages.slug_auto_note') }}
         </p>
+{{-- Home Controls --}}
+<div class="row mt-4">
+ 
+  <div class="row mt-4">
+  <div class="col-md-4">
+    <label>{{ __('messages.show_in_home') }}</label>
+    <select name="is_featured" class="form-control">
+      <option value="0" @selected(old('is_featured', $category->is_featured ?? 0) == 0)>{{ __('messages.no') }}</option>
+      <option value="1" @selected(old('is_featured', $category->is_featured ?? 0) == 1)>{{ __('messages.yes') }}</option>
+    </select>
+    <small class="text-muted d-block mt-1">
+      {{ __('messages.featured_note') }}
+    </small>
+  </div>
+
+  <div class="col-md-4">
+    <label>{{ __('messages.home_sort') }}</label>
+    <input type="number" name="home_sort" class="form-control"
+           value="{{ old('home_sort', $category->home_sort ?? 0) }}">
+    <small class="text-muted d-block mt-1">
+      {{ __('messages.home_sort_note') }}
+    </small>
+  </div>
+<div class="col-md-4">
+  @php
+    $posOptions = [
+      'none' => __('messages.position_none'),
+      'home_sidebar' => __('messages.position_home_sidebar'),
+      'header_dropdown' => __('messages.position_header_dropdown'),
+      'home_top_categories' => __('messages.position_home_top_categories'),
+      'home_tabs' => __('messages.position_home_tabs'),
+    ];
+
+    $selectedPositions = old('positions', $category->positions ?? ['none']);
+    if (!is_array($selectedPositions)) $selectedPositions = ['none'];
+  @endphp
+
+  <label class="form-label">{{ __('messages.display_positions') }}</label>
+
+  <div class="border rounded-3 p-3" style="background:#fff">
+    <div class="row">
+      @foreach($posOptions as $key => $label)
+        <div class="col-12 mb-2">
+          <div class="form-check">
+            <input
+              class="form-check-input position-check"
+              type="checkbox"
+              name="positions[]"
+              value="{{ $key }}"
+              id="pos_{{ $key }}"
+              @checked(in_array($key, $selectedPositions))
+            >
+            <label class="form-check-label" for="pos_{{ $key }}">
+              {{ $label }}
+            </label>
+          </div>
+        </div>
+      @endforeach
+    </div>
+    <small class="text-muted d-block mt-2">{{ __('messages.home_position_note') }}</small>
+  </div>
+
+  @error('positions') <small class="text-danger">{{ $message }}</small> @enderror
+  @error('positions.*') <small class="text-danger">{{ $message }}</small> @enderror
+</div>
+
+
+
+  <div class="col-md-4">
+    <label>{{ __('messages.home_sort') }}</label>
+    <input type="number" name="home_sort" class="form-control"
+           value="{{ old('home_sort', $category->home_sort ?? 0) }}">
+    @error('home_sort') <small class="text-danger">{{ $message }}</small> @enderror
+  </div>
+</div>
 
         <div class="text-end mt-4">
           <button class="btn bg-gradient-dark">{{ __('messages.save') }}</button>
@@ -100,10 +175,58 @@
           {{ __('messages.slug') }}: <strong>{{ $category->slug }}</strong>
         </small>
       </div>
-
+<div class="alert alert-info mt-3">
+  <strong>{{ __('messages.note') }}:</strong>
+  <ul class="mb-0">
+    <li>{{ __('messages.sort_order_explain') }}</li>
+    <li>{{ __('messages.home_sort_explain') }}</li>
+  </ul>
+</div>
     </div>
 
   </div>
 
 </div>
 @endsection
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const isFeatured = document.getElementById('is_featured');
+  const homeSort = document.getElementById('home_sort');
+
+  const none = document.getElementById('pos_none');
+  const checks = document.querySelectorAll('.position-check');
+
+  function syncNone(){
+    if(!none) return;
+    if(none.checked){
+      checks.forEach(c => { if(c !== none) c.checked = false; });
+    }
+  }
+
+  checks.forEach(c => {
+    c.addEventListener('change', function(){
+      if(this === none) syncNone();
+      else if(none && none.checked) none.checked = false;
+    });
+  });
+
+  function toggleHomeSort(){
+    if(!isFeatured || !homeSort) return;
+    const enabled = (String(isFeatured.value) === '1');
+    homeSort.disabled = !enabled;
+    if(!enabled){
+      homeSort.value = 0;
+    }
+  }
+
+  if(isFeatured){
+    isFeatured.addEventListener('change', toggleHomeSort);
+  }
+
+  syncNone();
+  toggleHomeSort();
+});
+</script>
+@endpush

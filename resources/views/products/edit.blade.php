@@ -100,6 +100,94 @@
               <option value="0" @selected(old('is_active', $product->is_active) == 0)>{{ __('messages.status_inactive') }}</option>
             </select>
           </div>
+<div class="row mt-4">
+  <div class="col-md-4">
+    <label>{{ __('messages.show_in_home') }}</label>
+    <select name="is_featured" class="form-control">
+      <option value="0" @selected(old('is_featured', $product->is_featured ?? 0) == 0)>{{ __('messages.no') }}</option>
+      <option value="1"  @selected(old('is_featured', $product->is_featured ?? 0) == 1)>{{ __('messages.yes') }}</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label>{{ __('messages.home_sort') }}</label>
+    <input type="number" name="home_sort" class="form-control" value="{{ old('home_sort',0) }}">
+  </div>
+
+  <div class="col-md-4">
+    <label>{{ __('messages.display_positions') }}</label>
+
+   @php
+  $selectedPositions = old('positions', $product->positions ?? ['none']);
+  if (!is_array($selectedPositions)) $selectedPositions = ['none'];
+@endphp
+
+    <div class="border rounded p-3" style="max-height:220px; overflow:auto;">
+
+  {{-- none --}}
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" name="positions[]" value="none" id="p_none"
+           @checked(in_array('none', $selectedPositions))>
+    <label class="form-check-label" for="p_none">{{ __('messages.pos_none') }}</label>
+  </div>
+
+  {{-- home_top --}}
+  <!-- <div class="form-check mb-2">
+    <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="home_top" id="p_home_top"
+           @checked(in_array('home_top', $selectedPositions))>
+    <label class="form-check-label" for="p_home_top">{{ __('messages.pos_home_top_products') }}</label>
+  </div> -->
+
+  {{-- features_collection --}}
+  <!-- <div class="form-check mb-2">
+    <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="features_collection" id="p_feat"
+           @checked(in_array('features_collection', $selectedPositions))>
+    <label class="form-check-label" for="p_feat">{{ __('messages.pos_features_collection') }}</label>
+  </div> -->
+
+  {{-- trending --}}
+  <div class="form-check mb-2">
+    <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="trending" id="p_trending"
+           @checked(in_array('trending', $selectedPositions))>
+    <label class="form-check-label" for="p_trending">{{ __('messages.pos_trending') }}</label>
+  </div>
+
+  {{-- home_products --}}
+  <div class="form-check mb-2">
+    <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="home_products" id="p_home_products"
+           @checked(in_array('home_products', $selectedPositions))>
+    <label class="form-check-label" for="p_home_products">{{ __('messages.pos_home_products') }}</label>
+  </div>
+
+  <hr class="my-2">
+
+  {{-- Tabs positions --}}
+  <div class="form-check mb-2">
+    <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="best_sellers" id="p_best_sellers"
+           @checked(in_array('best_sellers', $selectedPositions))>
+    <label class="form-check-label" for="p_best_sellers">{{ __('messages.pos_best_sellers') }}</label>
+  </div>
+
+  <div class="form-check mb-2">
+    <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="new_products" id="p_new_products"
+           @checked(in_array('new_products', $selectedPositions))>
+    <label class="form-check-label" for="p_new_products">{{ __('messages.pos_new_products') }}</label>
+  </div>
+
+  <div class="form-check mb-2">
+    <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="sale_products" id="p_sale_products"
+           @checked(in_array('sale_products', $selectedPositions))>
+    <label class="form-check-label" for="p_sale_products">{{ __('messages.pos_sale_products') }}</label>
+  </div>
+
+</div>
+
+
+   
+  </div>
+</div>
+
+
 
           <div class="col-md-4">
             <label>{{ __('messages.add_images') }}</label>
@@ -160,3 +248,24 @@
   </div>
 </div>
 @endsection
+@push('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const none = document.getElementById('p_none');
+    const items = document.querySelectorAll('.pos-item');
+
+    function sync(){
+      if(none.checked){
+        items.forEach(i => i.checked = false);
+      }
+    }
+
+    none?.addEventListener('change', sync);
+    items.forEach(i => i.addEventListener('change', function(){
+      if(this.checked) none.checked = false;
+    }));
+
+    sync();
+  });
+</script>
+@endpush

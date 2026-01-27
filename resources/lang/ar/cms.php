@@ -34,4 +34,52 @@ return [
   'created_success' => 'تمت الإضافة بنجاح',
   'updated_success' => 'تم التعديل بنجاح',
   'deleted_success' => 'تم الحذف بنجاح',
+  'home_banners' => 'بنرات الصفحة الرئيسية',
+  'create_home_banner' => 'إضافة بنر جديد',
+  'edit_home_banner' => 'تعديل البنر',
+
+  'create' => 'إضافة',
+  'back' => 'رجوع',
+  'save' => 'حفظ',
+
+  'title_ar' => 'العنوان (عربي)',
+  'title_en' => 'العنوان (إنجليزي)',
+  'subtitle_ar' => 'العنوان الفرعي (عربي)',
+  'subtitle_en' => 'العنوان الفرعي (إنجليزي)',
+
+  'button_text_ar' => 'نص الزر (عربي)',
+  'button_text_en' => 'نص الزر (إنجليزي)',
+  'link' => 'الرابط',
+
+  'image' => 'الصورة',
+  'image_hint' => 'المسموح: jpg, png, webp (حد أقصى 2MB)',
+
+  'status' => 'الحالة',
+  'active' => 'مفعل',
+  'inactive' => 'غير مفعل',
+
+  'sort_order' => 'الترتيب',
+  'discount_percent' => 'نسبة الخصم %',
+
+  'style' => 'الستايل',
+  'style_hint' => 'للتحكم في كلاس التصميم بالواجهة (bg-one/bg-two).',
+
+  'actions' => 'الإجراءات',
+  'edit' => 'تعديل',
+  'delete' => 'حذف',
+  'confirm_delete' => 'هل أنت متأكد من الحذف؟',
+  'no_data' => 'لا توجد بيانات.',
+  'work_steps' => 'خطوات العمل',
+'edit_work_steps' => 'تعديل خطوات العمل',
+'step_no' => 'رقم الخطوة',
+'icon' => 'الأيقونة',
+'icon_type' => 'نوع الأيقونة',
+'icon_class' => 'أيقونة (Class)',
+'icon_image' => 'أيقونة (صورة)',
+'icon_hint' => 'إذا اخترت Class اكتبي اسم الكلاس، وإذا اخترت صورة ارفعي أيقونة.',
+'desc_en' => 'الوصف (إنجليزي)',
+'desc_ar' => 'الوصف (عربي)',
+'preview' => 'معاينة',
+'saved' => 'تم الحفظ بنجاح',
+
 ];

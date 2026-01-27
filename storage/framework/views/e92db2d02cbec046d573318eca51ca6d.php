@@ -21,23 +21,27 @@
           <div class="col-md-6">
             <label><?php echo e(__('messages.name_en')); ?></label>
             <input type="text" name="name_en" class="form-control" value="<?php echo e(old('name_en', $brand->name_en)); ?>">
+            <?php $__errorArgs = ['name_en'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <small class="text-danger"><?php echo e($message); ?></small> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
           </div>
 
           <div class="col-md-6">
             <label><?php echo e(__('messages.name_ar')); ?></label>
             <input type="text" name="name_ar" class="form-control" value="<?php echo e(old('name_ar', $brand->name_ar)); ?>">
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-md-6">
-            <label><?php echo e(__('messages.description_en')); ?></label>
-            <textarea name="description_en" class="form-control"><?php echo e(old('description_en', $brand->description_en)); ?></textarea>
-          </div>
-
-          <div class="col-md-6">
-            <label><?php echo e(__('messages.description_ar')); ?></label>
-            <textarea name="description_ar" class="form-control"><?php echo e(old('description_ar', $brand->description_ar)); ?></textarea>
+            <?php $__errorArgs = ['name_ar'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <small class="text-danger"><?php echo e($message); ?></small> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
           </div>
         </div>
 
@@ -45,16 +49,33 @@
           <div class="col-md-6">
             <label><?php echo e(__('messages.logo')); ?></label>
             <input type="file" name="logo" class="form-control">
+            <?php $__errorArgs = ['logo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <small class="text-danger"><?php echo e($message); ?></small> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+
             <?php if($brand->logo): ?>
               <div class="mt-2">
-                <img src="<?php echo e(asset($brand->logo)); ?>" width="90">
+                <img src="<?php echo e(asset($brand->logo)); ?>" width="90" alt="brand">
               </div>
             <?php endif; ?>
           </div>
 
           <div class="col-md-3">
             <label><?php echo e(__('messages.sort_order')); ?></label>
-            <input type="number" name="sort_order" class="form-control" value="<?php echo e(old('sort_order', $brand->sort_order)); ?>">
+            <input type="number" name="sort_order" class="form-control" value="<?php echo e(old('sort_order', $brand->sort_order ?? 0)); ?>">
+            <?php $__errorArgs = ['sort_order'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <small class="text-danger"><?php echo e($message); ?></small> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
           </div>
 
           <div class="col-md-3">
@@ -63,24 +84,67 @@
               <option value="1" <?php if(old('is_active', $brand->is_active) == 1): echo 'selected'; endif; ?>><?php echo e(__('messages.status_active')); ?></option>
               <option value="0" <?php if(old('is_active', $brand->is_active) == 0): echo 'selected'; endif; ?>><?php echo e(__('messages.status_inactive')); ?></option>
             </select>
+            <?php $__errorArgs = ['is_active'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <small class="text-danger"><?php echo e($message); ?></small> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+        </div>
+
+        
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <label><?php echo e(__('messages.show_in_home')); ?></label>
+            <select name="is_featured" class="form-control">
+              <option value="0" <?php if(old('is_featured', $brand->is_featured ?? 0) == 0): echo 'selected'; endif; ?>><?php echo e(__('messages.no')); ?></option>
+              <option value="1" <?php if(old('is_featured', $brand->is_featured ?? 0) == 1): echo 'selected'; endif; ?>><?php echo e(__('messages.yes')); ?></option>
+            </select>
+            <?php $__errorArgs = ['is_featured'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <small class="text-danger"><?php echo e($message); ?></small> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+
+          <div class="col-md-6">
+            <label><?php echo e(__('messages.home_sort')); ?></label>
+            <input type="number" name="home_sort" class="form-control" value="<?php echo e(old('home_sort', $brand->home_sort ?? 0)); ?>">
+            <?php $__errorArgs = ['home_sort'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <small class="text-danger"><?php echo e($message); ?></small> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
           </div>
         </div>
 
         <p class="text-muted mt-3 mb-0"><?php echo e(__('messages.slug_auto_note')); ?></p>
-          <div class="mt-3">
-        <small class="text-muted">
-          <?php echo e(__('messages.slug')); ?>: <strong><?php echo e($brand->slug); ?></strong>
-        </small>
-      </div>
 
         <div class="text-end mt-4">
           <button class="btn bg-gradient-dark"><?php echo e(__('messages.save')); ?></button>
         </div>
-
       </form>
-    
-    </div>
 
+      <div class="mt-3">
+        <small class="text-muted"><?php echo e(__('messages.slug')); ?>: <strong><?php echo e($brand->slug); ?></strong></small>
+      </div>
+<div class="alert alert-info mt-3">
+  <strong><?php echo e(__('messages.note')); ?>:</strong>
+  <ul class="mb-0">
+    <li><?php echo e(__('messages.sort_order_explain')); ?></li>
+    <li><?php echo e(__('messages.home_sort_explain')); ?></li>
+  </ul>
+</div>
+    </div>
   </div>
 </div>
 <?php $__env->stopSection(); ?>

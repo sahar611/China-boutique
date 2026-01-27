@@ -36,9 +36,9 @@
 
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <label>Facebook</label>
-                            <input type="text" name="facebook" class="form-control"
-                                   value="{{ old('facebook', $settings['facebook']) }}">
+                            <label>Tiktok</label>
+                            <input type="text" name="tiktok" class="form-control"
+                                   value="{{ old('tiktok', $settings['tiktok']) }}">
                         </div>
 
                         <div class="col-md-4">
@@ -48,9 +48,9 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label>Twitter</label>
-                            <input type="text" name="twitter" class="form-control"
-                                   value="{{ old('twitter', $settings['twitter']) }}">
+                            <label>Snabchat</label>
+                            <input type="text" name="snapchat" class="form-control"
+                                   value="{{ old('snapchat', $settings['snapchat']) }}">
                         </div>
                     </div>
 

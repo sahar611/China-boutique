@@ -12,7 +12,9 @@
 
         </a>
       </div>
-
+<?php if(session('success')): ?>
+                        <div class="alert alert-success"><?php echo e(session('success')); ?></div>
+                    <?php endif; ?>
       <div class="card-body px-0 pt-0 pb-2">
         <div class="table-responsive p-3">
           <table class="table align-items-center mb-0">

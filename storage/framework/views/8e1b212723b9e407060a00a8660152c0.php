@@ -96,6 +96,86 @@
               <option value="0"><?php echo e(__('messages.status_inactive')); ?></option>
             </select>
           </div>
+<div class="row mt-4">
+  <div class="col-md-4">
+    <label><?php echo e(__('messages.show_in_home')); ?></label>
+    <select name="is_featured" class="form-control">
+      <option value="0" <?php if(old('is_featured','0')=='0'): echo 'selected'; endif; ?>><?php echo e(__('messages.no')); ?></option>
+      <option value="1" <?php if(old('is_featured')=='1'): echo 'selected'; endif; ?>><?php echo e(__('messages.yes')); ?></option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label><?php echo e(__('messages.home_sort')); ?></label>
+    <input type="number" name="home_sort" class="form-control" value="<?php echo e(old('home_sort',0)); ?>">
+  </div>
+
+  <div class="col-md-4">
+    <label><?php echo e(__('messages.display_positions')); ?></label>
+
+    <?php
+      $selectedPositions = old('positions', ['none']);
+      if (!is_array($selectedPositions)) $selectedPositions = ['none'];
+    ?>
+
+    <div class="border rounded p-3" style="max-height:220px; overflow:auto;">
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" name="positions[]" value="none" id="p_none"
+               <?php if(in_array('none',$selectedPositions)): echo 'checked'; endif; ?>>
+        <label class="form-check-label" for="p_none"><?php echo e(__('messages.pos_none')); ?></label>
+      </div>
+
+      <!-- <div class="form-check mb-2">
+        <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="home_top" id="p_home_top"
+               <?php if(in_array('home_top',$selectedPositions)): echo 'checked'; endif; ?>>
+        <label class="form-check-label" for="p_home_top"><?php echo e(__('messages.pos_home_top_products')); ?></label>
+      </div> -->
+
+      <!-- <div class="form-check mb-2">
+        <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="features_collection" id="p_feat"
+               <?php if(in_array('features_collection',$selectedPositions)): echo 'checked'; endif; ?>>
+        <label class="form-check-label" for="p_feat"><?php echo e(__('messages.pos_features_collection')); ?></label>
+      </div> -->
+
+      <div class="form-check mb-2">
+        <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="trending" id="p_trending"
+               <?php if(in_array('trending',$selectedPositions)): echo 'checked'; endif; ?>>
+        <label class="form-check-label" for="p_trending"><?php echo e(__('messages.pos_trending')); ?></label>
+      </div>
+
+      <div class="form-check mb-2">
+        <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="home_products" id="p_home_products"
+               <?php if(in_array('home_products',$selectedPositions)): echo 'checked'; endif; ?>>
+        <label class="form-check-label" for="p_home_products"><?php echo e(__('messages.pos_home_products')); ?></label>
+      </div>
+<div class="form-check mb-2">
+  <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="best_sellers" id="p_best_sellers"
+         <?php if(in_array('best_sellers',$selectedPositions)): echo 'checked'; endif; ?>>
+  <label class="form-check-label" for="p_best_sellers"><?php echo e(__('messages.pos_best_sellers')); ?></label>
+</div>
+
+<div class="form-check mb-2">
+  <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="new_products" id="p_new_products"
+         <?php if(in_array('new_products',$selectedPositions)): echo 'checked'; endif; ?>>
+  <label class="form-check-label" for="p_new_products"><?php echo e(__('messages.pos_new_products')); ?></label>
+</div>
+
+<div class="form-check mb-2">
+  <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="sale_products" id="p_sale_products"
+         <?php if(in_array('sale_products',$selectedPositions)): echo 'checked'; endif; ?>>
+  <label class="form-check-label" for="p_sale_products"><?php echo e(__('messages.pos_sale_products')); ?></label>
+</div>
+
+    </div>
+
+    <small class="text-muted d-block mt-2">
+      <?php echo e(__('messages.positions_note')); ?>
+
+    </small>
+  </div>
+</div>
+
+
 
           <div class="col-md-4">
             <label><?php echo e(__('messages.images')); ?></label>
@@ -115,5 +195,25 @@
   </div>
 </div>
 <?php $__env->stopSection(); ?>
+<?php $__env->startPush('scripts'); ?>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const none = document.getElementById('p_none');
+    const items = document.querySelectorAll('.pos-item');
 
+    function sync(){
+      if(none.checked){
+        items.forEach(i => i.checked = false);
+      }
+    }
+
+    none?.addEventListener('change', sync);
+    items.forEach(i => i.addEventListener('change', function(){
+      if(this.checked) none.checked = false;
+    }));
+
+    sync();
+  });
+</script>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\china\resources\views/products/create.blade.php ENDPATH**/ ?>

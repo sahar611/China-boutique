@@ -12,9 +12,9 @@ class SettingController extends Controller
         $settings = [
             'phone'    => Setting::get('phone'),
             'email'    => Setting::get('email'),
-            'facebook' => Setting::get('facebook'),
+            'tiktok' => Setting::get('tiktok'),
             'instagram'=> Setting::get('instagram'),
-            'twitter'  => Setting::get('twitter'),
+            'snapchat'  => Setting::get('snapchat'),
             'whatsapp' => Setting::get('whatsapp'),
         ];
 
@@ -26,9 +26,9 @@ class SettingController extends Controller
         $data = $request->validate([
             'phone'     => 'nullable|string|max:50',
             'email'     => 'nullable|email',
-            'facebook'  => 'nullable|string|max:255',
+            'tiktok'  => 'nullable|string|max:255',
             'instagram' => 'nullable|string|max:255',
-            'twitter'   => 'nullable|string|max:255',
+            'snapchat'   => 'nullable|string|max:255',
             'whatsapp'  => 'nullable|string|max:255',
         ]);
 

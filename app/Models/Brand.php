@@ -8,7 +8,8 @@ class Brand extends Model
 {
     protected $fillable = [
         'name_en','name_ar','slug','logo','description_en','description_ar','is_active','sort_order'
-    ];
+       ,'is_featured','home_sort',
+        ];
 
     public function products(): HasMany
     {

@@ -57,7 +57,7 @@ h1,h2,h3,h4,h5{
 .sidenav{
   background: rgba(255,255,255,.92) !important;
   border: 1px solid rgba(229,233,250,.8) !important;
-  box-shadow: var(--hb-shadow) !important;
+    box-shadow: none !important;
   border-radius: 18px !important;
 }
 
@@ -170,4 +170,124 @@ a:hover{
 
 #sidenav-main .icon{
   transform: scale(.92);
+}
+html[dir="rtl"], body[dir="rtl"],
+html[lang="ar"], body[lang="ar"] {
+  font-family: "Almarai", sans-serif !important;
+}
+
+html[dir="rtl"] *, body[dir="rtl"] * {
+  font-family: "Almarai", sans-serif !important;
+}
+html[dir="rtl"] i.ni,
+html[dir="rtl"] i.ni::before,
+html[lang="ar"] i.ni,
+html[lang="ar"] i.ni::before {
+  font-family: "NucleoIcons" !important;
+}
+/* Arabic font on RTL pages (text only) */
+html[dir="rtl"] body,
+html[lang="ar"] body {
+  font-family: "Almarai", sans-serif !important;
+}
+
+/* Don't force Almarai on icon fonts */
+html[dir="rtl"] i,
+html[dir="rtl"] i::before,
+html[dir="rtl"] i::after {
+  font-family: inherit !important;
+}
+
+/* Nucleo Icons */
+html[dir="rtl"] i.ni,
+html[dir="rtl"] i.ni::before {
+  font-family: "NucleoIcons" !important;
+}
+
+/* Font Awesome 5/6 Solid/Regular */
+html[dir="rtl"] .fa,
+html[dir="rtl"] .fas,
+html[dir="rtl"] .far,
+html[dir="rtl"] .fal,
+html[dir="rtl"] .fa-solid,
+html[dir="rtl"] .fa-regular {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+/* Font Awesome Brands (WhatsApp etc.) */
+html[dir="rtl"] .fab,
+html[dir="rtl"] .fa-brands {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+}
+
+
+/* stop the moving-tab slider and rely on .active styling */
+.nav-pills .moving-tab,
+.nav-pills .nav-item .moving-tab {
+    display: none !important;
+}
+
+/* Ensure active link shows clearly in RTL */
+.nav-pills .nav-link {
+    width: 100%;
+    text-align: center;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: var(--hb-primary) !important;
+    color: #fff !important;
+    border-radius: 0.75rem;
+}
+.pagination .page-link{
+    border: 0 !important;
+    border-radius: 10px !important;
+    padding: .5rem .8rem;
+    margin: 0 .15rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,.06);
+}
+
+.pagination .page-item.active .page-link{
+    background: var(--hb-primary) !important;
+    color: #fff !important;
+}
+
+.pagination .page-item.disabled .page-link{
+    opacity: .5;
+    box-shadow: none;
+}
+
+
+
+
+
+/* HARD RESET: remove any shadow/filter from sidebar */
+#sidenav-main,
+#sidenav-main * ,
+.navbar-vertical,
+.navbar-vertical *,
+.sidenav,
+.sidenav * {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Remove pseudo-element shadows if theme adds them */
+#sidenav-main::before,
+#sidenav-main::after,
+.navbar-vertical::before,
+.navbar-vertical::after,
+.sidenav::before,
+.sidenav::after {
+  box-shadow: none !important;
+  filter: none !important;
+  background: none !important;
+}
+
+/* Sometimes active pill adds shadow */
+#sidenav-main .nav-link.active,
+#sidenav-main .nav-link.active .icon {
+  box-shadow: none !important;
 }
