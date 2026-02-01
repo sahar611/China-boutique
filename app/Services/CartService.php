@@ -15,7 +15,7 @@ class CartService
         $sessionId = $request->session()->getId();
 
         if ($userId) {
-            // دمج سلة الضيف عند اللوجين (لو موجودة)
+            // add cart session to login user session
             $userCart = Cart::firstOrCreate(['user_id' => $userId], [
                 'session_id' => null,
                 'currency_code' => session('currency.code') ?? null,
@@ -42,11 +42,11 @@ class CartService
 
         $qty = max(1, min(999, $qty));
 
-        // stock check (اختياري حسب نظامك)
+        
         if ((int)$product->track_stock === 1) {
             $stock = (int)($product->stock ?? 0);
             if ($stock <= 0) {
-                return $this->currentCart($request); // أو throw Validation
+                return $this->currentCart($request); 
             }
         }
 
@@ -83,7 +83,6 @@ class CartService
 
             $item->update([
                 'qty' => $newQty,
-                // تحديث snapshot (اختياري)
                 'unit_price' => $unitPrice,
                 'unit_sale_price' => $saleToStore,
             ]);
