@@ -152,6 +152,7 @@
                 <th>{{ __('messages.price') }}</th>
                 <th>{{ __('messages.stock') }}</th>
                 <th>{{ __('messages.status') }}</th>
+                   <th>{{ __('messages.reviews') }}</th>
                 <th class="text-center">{{ __('messages.actions') }}</th>
               </tr>
             </thead>
@@ -198,7 +199,24 @@
     <span class="badge bg-secondary">{{ __('messages.status_inactive') }}</span>
   @endif
 </td>
+              <td class="text-center">
+  <a href="{{ route('admin.products.reviews', $p->id) }}" class="btn btn-sm btn-outline-primary">
+    <i class="fa fa-comments"></i>
+    <span class="badge bg-dark ms-1">{{ $p->reviews_total_count }}</span>
+  </a>
 
+  @if($p->reviews_pending_count > 0)
+    <span class="badge bg-warning text-dark ms-1">
+      {{ $p->reviews_pending_count }} pending
+    </span>
+  @endif
+
+  @if($p->reviews_hidden_count > 0)
+    <span class="badge bg-secondary ms-1">
+      {{ $p->reviews_hidden_count }} hidden
+    </span>
+  @endif
+</td>
 
                   <td class="text-center">
 
@@ -258,6 +276,8 @@
                     @endcan
 
                   </td>
+    
+
                 </tr>
               @empty
                 <tr>

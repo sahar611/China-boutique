@@ -7,6 +7,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="eCommerce,shop,fashion">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
     <!--====== Title ======-->
     <title> Chine Boutique </title>
     <!--====== Favicon Icon ======-->
@@ -46,60 +48,30 @@
     </div>
     <!--======  Start Overlay  ======-->
     <div class="offcanvas__overlay"></div>
-     <!--====== Start Sidemenu-wrapper-cart Area ======-->
-    <div class="sidemenu-wrapper-cart">
-        <div class="sidemenu-content">
-            <div class="widget widget-shopping-cart">
-                <h4><?php echo e(__('home.my_cart')); ?></h4>
-                <div class="sidemenu-cart-close"><i class="far fa-times"></i></div>
-                <div class="widget-shopping-cart-content">
-                    <ul class="pesco-mini-cart-list">
-                        <li class="sidebar-cart-item">
-                            <a href="#" class="remove-cart"><i class="far fa-trash-alt"></i></a>
-                            <a href="#">
-                                <img src="assets/images/products/cart-1.jpg" alt="cart image">
-                                leggings with mesh panels
-                            </a>
-                            <span class="quantity">1 × <span><span class="currency">$</span>940.00</span></span>
-                        </li>
-                        <li class="sidebar-cart-item">
-                            <a href="#" class="remove-cart"><i class="far fa-trash-alt"></i></a>
-                            <a href="#">
-                                <img src="assets/images/products/cart-2.jpg" alt="cart image">
-                                Summer dress with belt
-                            </a>
-                            <span class="quantity">1 × <span><span class="currency">$</span>940.00</span></span>
-                        </li>
-                        <li class="sidebar-cart-item">
-                            <a href="#" class="remove-cart"><i class="far fa-trash-alt"></i></a>
-                            <a href="#">
-                                <img src="assets/images/products/cart-3.jpg" alt="cart image">
-                                Floral print sundress
-                            </a>
-                            <span class="quantity">1 × <span><span class="currency">$</span>940.00</span></span>
-                        </li>
-                        <li class="sidebar-cart-item">
-                            <a href="#" class="remove-cart"><i class="far fa-trash-alt"></i></a>
-                            <a href="#">
-                                <img src="assets/images/products/cart-4.jpg" alt="cart image">
-                                Sheath Gown Red Colors
-                            </a>
-                            <span class="quantity">1 × <span><span class="currency">$</span>940.00</span></span>
-                        </li>
-                    </ul>
-                    <div class="cart-mini-total">
-                        <div class="cart-total">
-                            <span><strong>Subtotal:</strong></span> <span class="amount">1 × <span><span
-                                        class="currency">$</span>940.00</span></span>
-                        </div>
-                    </div>
-                    <div class="cart-button-box">
-                        <a href="#" class="theme-btn style-one">Proceed to checkout</a>
-                    </div>
-                </div>
-            </div>
+   <!--====== Start Sidemenu-wrapper-cart Area ======-->
+<div class="sidemenu-wrapper-cart">
+  <div class="sidemenu-content">
+    <div class="widget widget-shopping-cart">
+      <h4><?php echo e(__('home.my_cart')); ?></h4>
+      <div class="sidemenu-cart-close"><i class="far fa-times"></i></div>
+
+      
+      <div id="miniCartContainer">
+        
+        <div class="widget-shopping-cart-content">
+          <ul class="pesco-mini-cart-list">
+            <li class="sidebar-cart-item">
+              <span class="text-muted"><?php echo e(__('messages.loading')); ?>...</span>
+            </li>
+          </ul>
         </div>
-    </div><!--====== End Sidemenu-wrapper-cart Area ======-->
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--====== End Sidemenu-wrapper-cart Area ======-->
+
     <!--====== Start Header Section ======-->
     <header class="header-area">
         <!-- TOP HEADER AREA -->
@@ -281,7 +253,7 @@
                                     <ul>
                                          <?php $__currentLoopData = $homeSidebarCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $homeSidebarCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                              <li>
-                                            <a href="#"> <img src="<?php echo e(asset($homeSidebarCategory->image)); ?>" alt="  <?php if(App::isLocale('en')): ?> <?php echo e($homeSidebarCategory->name_en); ?><?php else: ?> <?php echo e($homeSidebarCategory->name_ar); ?><?php endif; ?>">
+                                            <a href="<?php echo e(route('category.products', $homeSidebarCategory->slug)); ?>"> <img src="<?php echo e(asset($homeSidebarCategory->image)); ?>" alt="  <?php if(App::isLocale('en')): ?> <?php echo e($homeSidebarCategory->name_en); ?><?php else: ?> <?php echo e($homeSidebarCategory->name_ar); ?><?php endif; ?>">
                                                <?php if(App::isLocale('en')): ?> <?php echo e($homeSidebarCategory->name_en); ?><?php else: ?> <?php echo e($homeSidebarCategory->name_ar); ?><?php endif; ?></a>
                                         </li>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -336,7 +308,7 @@
                                                     <li class="menu-item has-children"><a href="#"><?php echo e(__('home.brands')); ?></a>
                                                         <ul class="sub-menu">
                                                             <?php $__currentLoopData = $topBrands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $topBrand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <li><a href="#">  <?php if(App::isLocale('en')): ?> <?php echo e($topBrand->name_en); ?><?php else: ?> <?php echo e($topBrand->name_ar); ?><?php endif; ?></a></a></li>
+                                                            <li><a href="<?php echo e(route('brand.products', $topBrand->slug)); ?>">  <?php if(App::isLocale('en')): ?> <?php echo e($topBrand->name_en); ?><?php else: ?> <?php echo e($topBrand->name_ar); ?><?php endif; ?></a></a></li>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             
                                                         </ul>
@@ -395,7 +367,7 @@
                                                     <li class="menu-item has-children"><a href="#"><?php echo e(__('home.brands')); ?></a>
                                                         <ul class="sub-menu">
                                                             <?php $__currentLoopData = $topBrands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $topBrand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <li><a href="#">  <?php if(App::isLocale('en')): ?> <?php echo e($topBrand->name_en); ?><?php else: ?> <?php echo e($topBrand->name_ar); ?><?php endif; ?></a></a></li>
+                                                            <li><a href="<?php echo e(route('brand.products', $topBrand->slug)); ?>">  <?php if(App::isLocale('en')): ?> <?php echo e($topBrand->name_en); ?><?php else: ?> <?php echo e($topBrand->name_ar); ?><?php endif; ?></a></a></li>
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             
                                                         </ul>
@@ -423,13 +395,15 @@
                                     <a href="#"><i class="far fa-heart"></i><span class="pro-count">12</span></a>
                                 </div>
                             </li>
-                            <li>
-                                <div class="cart-button d-flex align-items-center">
-                                    <div class="icon">
-                                        <i class="fas fa-shopping-bag"></i><span class="pro-count">01</span>
-                                    </div>
-                                </div>
-                            </li>
+                           <li>
+  <div class="cart-button d-flex align-items-center">
+    <div class="icon">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="pro-count" data-cart-count><?php echo e($cartCount ?? 0); ?></span>
+    </div>
+  </div>
+</li>
+
                         </ul>
                         <div class="navbar-toggler d-block d-lg-none">
                             <span></span>
@@ -447,9 +421,9 @@
     <footer class="footer-main">
         <!--=== Footer Bg Wrapper  ===-->
         <div class="footer-bg-wrapper gray-bg">
-            <div class="footer-shape shape-one"><span><img src="assets/images/footer/shape-1.png" alt="shape"></span>
+            <div class="footer-shape shape-one"><span><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/footer/shape-1.png')); ?>" alt="shape"></span>
             </div>
-            <div class="footer-shape shape-one2"><span><img src="assets/images/footer/shape-1.png" alt="shape"></span>
+            <div class="footer-shape shape-one2"><span><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/footer/shape-1.png')); ?>" alt="shape"></span>
             </div>
             <svg id="footer-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 75" fill="none">
                 <path
@@ -466,8 +440,8 @@
                                 data-aos-duration="1000">
                                 <div class="widget-content">
 
-                                    <a href="index.html" class="footer-logo text-center "><img
-                                            src="assets/images/logo.png" width="100px" alt="Logo">
+                                    <a href="<?php echo e(route('home')); ?>" class="footer-logo text-center "><img
+                                            src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/logo.png')); ?>" width="100px" alt="Logo">
                                         <span class="text-logoo mt-2">
                                             Chine Boutique
                                         </span>
@@ -476,29 +450,29 @@
                                     <ul class="ct-info-list mb-30">
                                         <li>
                                             <i class="fas fa-envelope"></i>
-                                            <a href="mailto:info@chine-boutique.com">info@chine-boutique.com</a>
+                                            <a href="mailto:<?php echo e($email); ?>"><?php echo e($email); ?></a>
                                         </li>
                                         <li>
                                             <i class="fas fa-phone-alt"></i>
-                                            <a href="tel:+1234567890">+1 234 567 890</a>
+                                            <a href="tel:<?php echo e($phone); ?>"><?php echo e($phone); ?></a>
                                         </li>
 
                                     </ul>
                                     <ul class="social-link">
                                         <li>
-                                            <span>Find Us:</span>
+                                            <span><?php echo e(__('home.follow_us')); ?>:</span>
+                                        </li>
+                                        <!-- <li>
+                                            <a href="<?php echo e($tiktok); ?>"><i class="fab fa-facebook-f"></i></a>
+                                        </li> -->
+                                        <li>
+                                            <a href="<?php echo e($instagram); ?>"><i class="fab fa-instagram"></i></a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="<?php echo e($tiktok); ?>"><i class="fab fa-tiktok"></i></a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fab fa-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="fab fa-tiktok"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                                            <a href="<?php echo e($snapchat); ?>"><i class="fab fa-snapchat-ghost"></i></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -509,15 +483,16 @@
                             <div class="footer-widget footer-nav-widget mb-40" data-aos="fade-up" data-aos-delay="15"
                                 data-aos-duration="1200">
                                 <div class="widget-content">
-                                    <h4 class="widget-title">Customer Services</h4>
+                                    <h4 class="widget-title"><?php echo e(__('home.Customer_Services')); ?></h4>
                                     <ul class="widget-menu">
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a href="#">All
-                                                Categories</a></li>
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a href="#">All
-                                                Brands</a></li>
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a href="#">Work
-                                                Processing</a></li>
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a href="#">FAQ</a>
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a href="<?php echo e(route('categories')); ?>">
+                                                <?php echo e(__('home.all_Categories')); ?></a></li>
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a href="<?php echo e(route('brands')); ?>">
+                                                <?php echo e(__('home.all_brands')); ?></a></li>
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a href="<?php echo e(route('home')); ?>#workProcess">
+                                             <?php echo e(__('home.Work_Processing')); ?></a></li>
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a href="#">
+                                             <?php echo e(__('home.faq')); ?></a>
                                         </li>
 
 
@@ -533,13 +508,13 @@
                                 <div class="widget-content">
                                     <h4 class="widget-title">Quick Link</h4>
                                     <ul class="widget-menu">
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a
                                                 href="#">Contact</a></li>
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a href="#">Login /
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a href="#">Login /
                                                 Register</a></li>
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a href="#">Privacy
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a href="#">Privacy
                                                 Policy</a></li>
-                                        <li><img src="assets/images/icon/star-3.svg" alt="star icon"><a href="#">Terms &
+                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>" alt="star icon"><a href="#">Terms &
                                                 Conditions</a></li>
 
                                     </ul>
@@ -591,7 +566,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-12">
                             <div class="copyright-text">
-                                <p>&copy; 2026. All rights reserved by <span>chine boutique</span></p>
+                                <p>&copy; <?php echo date('Y');?>. All rights reserved by <span>chine boutique</span></p>
                             </div>
                         </div>
 
@@ -622,6 +597,106 @@
     <script src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/vendor/aos/aos.js')); ?>"></script>
     <!--====== Main js ======-->
     <script src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/js/theme.js')); ?>"></script>
+ 
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+<script>
+  async function loadMiniCart() {
+    const res = await fetch("<?php echo e(route('cart.mini')); ?>", {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    const html = await res.text();
+    document.getElementById('miniCartContainer').innerHTML = html;
+
+    // لو عندك badge عداد في الهيدر (اختياري)
+    const container = document.querySelector('#miniCartContainer .widget-shopping-cart-content');
+    if (container) {
+      const count = container.getAttribute('data-items-count') || 0;
+      const badge = document.querySelector('[data-cart-count]');
+      if (badge) badge.textContent = count;
+    }
+  }
+
+  document.addEventListener('click', async function(e) {
+    const btn = e.target.closest('.js-mini-remove');
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const url = btn.getAttribute('data-remove-url');
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': token,
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+
+    const html = await res.text();
+    document.getElementById('miniCartContainer').innerHTML = html;
+  });
+
+  // أول تحميل
+  document.addEventListener('DOMContentLoaded', loadMiniCart);
+
+  // نستخدمه بعد add to cart
+  window.refreshMiniCart = loadMiniCart;
+</script>
+
+<script>
+document.addEventListener('click', async function (e) {
+  const btn = e.target.closest('.js-add-to-cart');
+  if (!btn) return;
+
+  e.preventDefault();
+
+  const url = btn.getAttribute('data-url');
+  const qtySelector = btn.getAttribute('data-qty-input');
+  let qty = 1;
+
+  if (qtySelector) {
+    const qtyInput = document.querySelector(qtySelector);
+    if (qtyInput) {
+      qty = parseInt(qtyInput.value || '1', 10);
+      if (isNaN(qty) || qty < 1) qty = 1;
+    }
+  }
+
+  const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+  btn.classList.add('disabled');
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': token,
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ qty })
+    });
+
+    if (!res.ok) throw new Error('Request failed');
+
+    // تحديث الميني كارت + العداد
+    if (window.refreshMiniCart) {
+      window.refreshMiniCart();
+    }
+
+    // فتح السلة (اختياري)
+    document.querySelector('.sidemenu-wrapper-cart')?.classList.add('active');
+
+  } catch (err) {
+    alert('حدث خطأ أثناء إضافة المنتج');
+  } finally {
+    btn.classList.remove('disabled');
+  }
+});
+</script>
+
+<?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 
 </html><?php /**PATH C:\xampp\htdocs\china\resources\views/front/layouts/main_layout.blade.php ENDPATH**/ ?>

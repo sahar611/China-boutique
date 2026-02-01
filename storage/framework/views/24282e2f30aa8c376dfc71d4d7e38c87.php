@@ -159,6 +159,7 @@
                 <th><?php echo e(__('messages.price')); ?></th>
                 <th><?php echo e(__('messages.stock')); ?></th>
                 <th><?php echo e(__('messages.status')); ?></th>
+                   <th><?php echo e(__('messages.reviews')); ?></th>
                 <th class="text-center"><?php echo e(__('messages.actions')); ?></th>
               </tr>
             </thead>
@@ -208,7 +209,24 @@
     <span class="badge bg-secondary"><?php echo e(__('messages.status_inactive')); ?></span>
   <?php endif; ?>
 </td>
+              <td class="text-center">
+  <a href="<?php echo e(route('admin.products.reviews', $p->id)); ?>" class="btn btn-sm btn-outline-primary">
+    <i class="fa fa-comments"></i>
+    <span class="badge bg-dark ms-1"><?php echo e($p->reviews_total_count); ?></span>
+  </a>
 
+  <?php if($p->reviews_pending_count > 0): ?>
+    <span class="badge bg-warning text-dark ms-1">
+      <?php echo e($p->reviews_pending_count); ?> pending
+    </span>
+  <?php endif; ?>
+
+  <?php if($p->reviews_hidden_count > 0): ?>
+    <span class="badge bg-secondary ms-1">
+      <?php echo e($p->reviews_hidden_count); ?> hidden
+    </span>
+  <?php endif; ?>
+</td>
 
                   <td class="text-center">
 
@@ -272,6 +290,8 @@
                     <?php endif; ?>
 
                   </td>
+    
+
                 </tr>
               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <tr>

@@ -56,19 +56,19 @@
                 <span class="marquee-wrap">
                     <span class="marquee-inner left">
                         <?php $__currentLoopData = $homeTabsCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $homeTabsCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <span class="marquee-item"> <a href="#" class="hover-c"><b><?php if(App::isLocale('en')): ?> <?php echo e($homeTabsCategory->name_en); ?><?php else: ?> <?php echo e($homeTabsCategory->name_ar); ?><?php endif; ?></b></a><i
+                        <span class="marquee-item"> <a href="<?php echo e(route('category.products', $homeTabsCategory->slug)); ?>" class="hover-c"><b><?php if(App::isLocale('en')): ?> <?php echo e($homeTabsCategory->name_en); ?><?php else: ?> <?php echo e($homeTabsCategory->name_ar); ?><?php endif; ?></b></a><i
                                 class="fas fa-bahai"></i></span>
                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </span>
                      <span class="marquee-inner left">
                         <?php $__currentLoopData = $homeTabsCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $homeTabsCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <span class="marquee-item"> <a href="#" class="hover-c"><b><?php if(App::isLocale('en')): ?> <?php echo e($homeTabsCategory->name_en); ?><?php else: ?> <?php echo e($homeTabsCategory->name_ar); ?><?php endif; ?></b></a><i
+                        <span class="marquee-item"> <a href="<?php echo e(route('category.products', $homeTabsCategory->slug)); ?>" class="hover-c"><b><?php if(App::isLocale('en')): ?> <?php echo e($homeTabsCategory->name_en); ?><?php else: ?> <?php echo e($homeTabsCategory->name_ar); ?><?php endif; ?></b></a><i
                                 class="fas fa-bahai"></i></span>
                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </span>
                      <span class="marquee-inner left">
                         <?php $__currentLoopData = $homeTabsCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $homeTabsCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <span class="marquee-item"> <a href="#" class="hover-c"><b><?php if(App::isLocale('en')): ?> <?php echo e($homeTabsCategory->name_en); ?><?php else: ?> <?php echo e($homeTabsCategory->name_ar); ?><?php endif; ?></b></a><i
+                        <span class="marquee-item"> <a href="<?php echo e(route('category.products', $homeTabsCategory->slug)); ?>" class="hover-c"><b><?php if(App::isLocale('en')): ?> <?php echo e($homeTabsCategory->name_en); ?><?php else: ?> <?php echo e($homeTabsCategory->name_ar); ?><?php endif; ?></b></a><i
                                 class="fas fa-bahai"></i></span>
                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </span>
@@ -107,7 +107,7 @@
                         <img src="<?php echo e(asset($topCategory->image)); ?>" alt="<?php if(App::isLocale('en')): ?> <?php echo e($topCategory->name_en); ?><?php else: ?> <?php echo e($topCategory->name_ar); ?><?php endif; ?>">
                     </div>
                     <div class="category-content">
-                        <a href="index.html" class="category-btn"><?php if(App::isLocale('en')): ?> <?php echo e($topCategory->name_en); ?><?php else: ?> <?php echo e($topCategory->name_ar); ?><?php endif; ?></a>
+                        <a href="<?php echo e(route('category.products', $topCategory->slug)); ?>" class="category-btn"><?php if(App::isLocale('en')): ?> <?php echo e($topCategory->name_en); ?><?php else: ?> <?php echo e($topCategory->name_ar); ?><?php endif; ?></a>
                     </div>
                 </div>
                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -134,7 +134,7 @@
                         <!--=== Category Button  ===-->
                         <div class="category-button text-center float-md-end mb-60" data-aos="fade-left"
                             data-aos-delay="15" data-aos-duration="1200">
-                            <a href="#" class="theme-btn style-one"><?php echo e(__('home.View_All')); ?> <i
+                            <a href="<?php echo e(route('brands')); ?>" class="theme-btn style-one"><?php echo e(__('home.View_All')); ?> <i
                                     class="far fa-arrow-right"></i></a>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                                     <img src="<?php echo e(asset($topBrand->logo)); ?>" alt="<?php if(App::isLocale('en')): ?> <?php echo e($topBrand->name_en); ?><?php else: ?> <?php echo e($topBrand->name_ar); ?><?php endif; ?>">
                                 </div>
                                 <div class="category-content">
-                                    <a href="index.html" class="category-btn"> <?php if(App::isLocale('en')): ?> <?php echo e($topBrand->name_en); ?><?php else: ?> <?php echo e($topBrand->name_ar); ?><?php endif; ?></a>
+                                    <a href="<?php echo e(route('brand.products', $topBrand->slug)); ?>" class="category-btn"> <?php if(App::isLocale('en')): ?> <?php echo e($topBrand->name_en); ?><?php else: ?> <?php echo e($topBrand->name_ar); ?><?php endif; ?></a>
                                     <span><?php echo e($topBrand->products_count); ?> <?php echo e(__('home.items')); ?></span>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@
                                                         class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                                 </div>
                                                 <div class="cart-button">
-                                                    <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i>
+                                                    <a href="javascript:void(0)" class="cart-btn js-add-to-cart" data-url="<?php echo e(route('cart.add', $bestSeller->slug)); ?>" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
                                                         <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
                                                 </div>
                                             </div>
@@ -236,7 +236,7 @@
                                                         <li><i class="fas fa-star"></i></li>
                                                         <li><a href="#">(80)</a></li>
                                                     </ul>
-                                                    <h4 class="title"><a href="#"> <?php echo e($bestSeller->name); ?></a></h4>
+                                                    <h4 class="title"><a href="<?php echo e(route('product.show', $bestSeller->slug ?? $product->id)); ?>"> <?php echo e($bestSeller->name); ?></a></h4>
                                                 </div>
                                                   <?php if($bestSeller->sale_price): ?>
                                                 <div class="product-price">
@@ -279,7 +279,7 @@
                                                         class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                                 </div>
                                                 <div class="cart-button">
-                                                    <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i>
+                                                     <a href="javascript:void(0)" class="cart-btn js-add-to-cart" data-url="<?php echo e(route('cart.add', $newProduct->slug)); ?>" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
                                                         <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
                                                 </div>
                                             </div>
@@ -293,7 +293,7 @@
                                                         <li><i class="fas fa-star"></i></li>
                                                         <li><a href="#">(80)</a></li>
                                                     </ul>
-                                                    <h4 class="title"><a href="#"> <?php echo e($newProduct->name); ?></a></h4>
+                                                    <h4 class="title"><a href="<?php echo e(route('product.show', $newProduct->slug ?? $product->id)); ?>"> <?php echo e($newProduct->name); ?></a></h4>
                                                 </div>
                                                   <?php if($newProduct->sale_price): ?>
                                                 <div class="product-price">
@@ -334,7 +334,9 @@
                                                         class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                                 </div>
                                                 <div class="cart-button">
-                                                    <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i>
+                                                    <a href="javascript:void(0)"
+     class="cart-btn js-add-to-cart"
+     data-url="<?php echo e(route('cart.add', $saleProduct->slug)); ?>" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
                                                         <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
                                                 </div>
                                             </div>
@@ -348,7 +350,7 @@
                                                         <li><i class="fas fa-star"></i></li>
                                                         <li><a href="#">(80)</a></li>
                                                     </ul>
-                                                    <h4 class="title"><a href="#"> <?php echo e($saleProduct->name); ?></a></h4>
+                                                    <h4 class="title"><a href="<?php echo e(route('product.show', $saleProduct->slug ?? $product->id)); ?>"> <?php echo e($saleProduct->name); ?></a></h4>
                                                 </div>
                                                   <?php if($saleProduct->sale_price): ?>
                                                 <div class="product-price">
@@ -411,7 +413,7 @@
                                 <a href="<?php echo e($homeProduct->mainImageProduct? asset($homeProduct->mainImageProduct->path) : asset('assets/images/products/default.png')); ?>" class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                             </div>
                             <div class="cart-button">
-                                <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i> <span
+                                  <a href="javascript:void(0)" class="cart-btn js-add-to-cart" data-url="<?php echo e(route('cart.add', $homeProduct->slug)); ?>" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i> <span
                                         class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
                             </div>
                         </div>
@@ -425,20 +427,20 @@
                                     <li><i class="fas fa-star"></i></li>
                                     <li><a href="#">(50)</a></li>
                                 </ul>
-                                <h4 class="title"><a href="#"><?php echo e($saleProduct->name); ?></a></h4>
+                                <h4 class="title"><a href="<?php echo e(route('product.show', $homeProduct->slug ?? $product->id)); ?>"><?php echo e($homeProduct->name); ?></a></h4>
                             </div>
-                              <?php if($saleProduct->sale_price): ?>
+                              <?php if($homeProduct->sale_price): ?>
                                                 <div class="product-price">
                                                     <span class="price prev-price"><span
-                                                            class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($saleProduct->price * $currentCurrency->rate, 2)); ?></span>
+                                                            class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($homeProduct->price * $currentCurrency->rate, 2)); ?></span>
                                                     <span class="price new-price"><span
-                                                            class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($saleProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
+                                                            class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($homeProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
                                                 </div>
                                                 <?php else: ?>
                                                 <div class="product-price">
                                                    
                                                     <span class="price new-price"><span
-                                                            class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($saleProduct->price * $currentCurrency->rate, 2)); ?></span>
+                                                            class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($homeProduct->price * $currentCurrency->rate, 2)); ?></span>
                                                 </div>
                                                 <?php endif; ?>
                         </div>
@@ -578,7 +580,7 @@
                                     <li><i class="fas fa-star"></i></li>
                                     <li><a href="#">(80)</a></li>
                                 </ul>
-                                <h4 class="title"><a href="#"><?php echo e($trending->name); ?></a></h4>
+                                <h4 class="title"><a href="<?php echo e(route('product.show', $trending->slug ?? $product->id)); ?>"><?php echo e($trending->name); ?></a></h4>
                             </div>
                              <?php if($trending->sale_price): ?>
                                                 <div class="product-price">
@@ -603,7 +605,7 @@
         </section><!--====== End Trending Products Sections  ======-->
 
         <!--====== Start Working Section  ======-->
-        <section class="work-processing-section pt-5 pb-2">
+        <section id="workProcess" class="work-processing-section pt-5 pb-2">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">

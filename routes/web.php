@@ -18,6 +18,10 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\HomeBannerController;
 use App\Http\Controllers\WorkStepController;
 use App\Http\Controllers\NewsletterSubscriberController;
+use App\Http\Controllers\Front\FrontPageController;
+use App\Http\Controllers\Front\FrontProductController;
+use App\Http\Controllers\ProductReviewController;
+use App\Http\Controllers\Front\CartController;
 Route::get('/sing-in', [AuthController::class, 'login'])->name('login');
 Route::get('/sing-up', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'checklogin'])->name('checklogin');
@@ -128,8 +132,18 @@ Route::post('products/{product}/duplicate', [ProductController::class, 'duplicat
 
   Route::patch('newsletter/subscribers/{id}/toggle', [NewsletterSubscriberController::class,'toggle'])
     ->name('newsletter_subscribers.toggle');
+     Route::get('products/{product}/reviews', [ProductReviewController::class, 'productReviews'])
+      ->name('products.reviews');
 
+  Route::patch('reviews/{review}/toggle-approve', [ProductReviewController::class,'toggleApprove'])
+      ->name('reviews.toggleApprove');
 
+  Route::patch('reviews/{review}/toggle-visible', [ProductReviewController::class,'toggleVisible'])
+      ->name('reviews.toggleVisible');
+
+  Route::delete('reviews/{review}', [ProductReviewController::class,'destroy'])
+      ->name('reviews.destroy');
+     
 });
  
 //frontend routes
@@ -144,5 +158,35 @@ Route::post('/change-language/{locale}', [HomeController::class, 'changeLang'])
     ->name('language.change');
     Route::post('/newsletter/subscribe', [HomeController::class,'subscribe'])
   ->name('newsletter.subscribe');
+  // routes/web.php
+Route::get('/categories', [FrontPageController::class, 'allCategories'])
+    ->name('categories');
+    // routes/web.php
+Route::get('/category/{slug}', [FrontProductController::class,'byCategory'
+])->name('category.products');
+Route::get('/brands', [FrontPageController::class, 'allBrands'])->name('brands');
+
+Route::get('/brand/{slug}', [FrontProductController::class, 'byBrand'])
+    ->name('brand.products');
+    Route::get('/products', [FrontProductController::class, 'allProducts'])
+    ->name('products');
+    Route::get('/product/{slug}', [FrontProductController::class, 'showDetails'])
+    ->name('product.show');
+  
+Route::post('/product/{product:slug}/reviews', [FrontProductController::class, 'storeReview'])
+    ->name('product.reviews.store')->middleware('auth');
+ Route::prefix('cart')->name('cart.')->group(function () {
+    Route::post('/add/{product:slug}', [CartController::class, 'add'])->name('add');
+    Route::patch('/qty/{product:slug}', [CartController::class, 'qty'])->name('qty');
+    Route::delete('/remove/{product:slug}', [CartController::class, 'remove'])->name('remove');
+    Route::get('/', [CartController::class, 'index'])->name('index');
+      Route::get('/mini', [CartController::class, 'mini'])
+        ->name('mini');
+
+    Route::delete('/mini/remove/{item}', [CartController::class, 'miniRemove'])
+        ->name('mini.remove');
+});
+
+
 
 

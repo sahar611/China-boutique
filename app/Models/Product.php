@@ -58,6 +58,15 @@ public function mainImageProduct()
         $price = $this->sale_price ?? $this->price;
         return (string) $price;
     }
+    public function reviews()
+{
+    return $this->hasMany(ProductReview::class);
+}
+
+public function visibleReviews()
+{
+    return $this->hasMany(ProductReview::class)->visible();
+}
     protected $casts = [
     'positions'   => 'array',
     'is_featured' => 'boolean',

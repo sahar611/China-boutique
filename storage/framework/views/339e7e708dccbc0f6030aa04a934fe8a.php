@@ -135,18 +135,18 @@
   </div>
 
   
-  <div class="form-check mb-2">
+  <!-- <div class="form-check mb-2">
     <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="home_top" id="p_home_top"
            <?php if(in_array('home_top', $selectedPositions)): echo 'checked'; endif; ?>>
     <label class="form-check-label" for="p_home_top"><?php echo e(__('messages.pos_home_top_products')); ?></label>
-  </div>
+  </div> -->
 
   
-  <div class="form-check mb-2">
+  <!-- <div class="form-check mb-2">
     <input class="form-check-input pos-item" type="checkbox" name="positions[]" value="features_collection" id="p_feat"
            <?php if(in_array('features_collection', $selectedPositions)): echo 'checked'; endif; ?>>
     <label class="form-check-label" for="p_feat"><?php echo e(__('messages.pos_features_collection')); ?></label>
-  </div>
+  </div> -->
 
   
   <div class="form-check mb-2">

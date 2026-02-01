@@ -52,6 +52,11 @@ class ProductController extends Controller
             ->when($request->status !== null && $request->status !== '', fn ($q) => $q->where('is_active', (int) $request->status))
             ->when($request->stock_filter === 'out', fn ($q) => $q->where('stock', 0))
             ->when($request->stock_filter === 'low', fn ($q) => $q->whereBetween('stock', [1, 5]))
+              ->withCount([
+      'reviews as reviews_total_count',
+      'reviews as reviews_pending_count' => fn($q) => $q->where('is_approved', false),
+      'reviews as reviews_hidden_count'  => fn($q) => $q->where('is_approved', true)->where('is_visible', false),
+  ])
             ->latest()
             ->paginate(20)
             ->withQueryString();

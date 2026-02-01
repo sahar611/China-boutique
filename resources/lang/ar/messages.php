@@ -425,5 +425,30 @@ return [
  'pos_best_sellers' => 'الأكثر مبيعًا',
   'pos_new_products' => 'أحدث المنتجات',
   'pos_sale_products' => 'منتجات التخفيضات',
+   'reviews' => 'التقييمات',
+    'total' => 'الإجمالي',
+    'pending' => 'قيد المراجعة',
+    'hidden' => 'مخفي',
+    'approved' => 'معتمد',
+    'approved_visible' => 'معتمد (ظاهر)',
+    'visible' => 'ظاهر',
+
+    'back_to_products' => 'العودة إلى المنتجات',
+
+    'search_in_comments' => 'ابحث داخل التعليقات...',
+    'filter' => 'تصفية',
+    'reset' => 'إعادة تعيين',
+
+    'all' => 'الكل',
+
+    'user' => 'المستخدم',
+    'rating' => 'التقييم',
+    'comment' => 'التعليق',
+    'created' => 'تاريخ الإنشاء',
+    'actions' => 'الإجراءات',
+
+    'delete_review_confirm' => 'هل أنت متأكد من حذف هذا التقييم؟',
+    'no_reviews_found' => 'لا توجد تقييمات.',
+    'not_approved' => 'غير معتمد',
 
 ];

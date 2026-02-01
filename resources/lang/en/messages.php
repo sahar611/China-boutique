@@ -431,4 +431,29 @@ return [
  'pos_best_sellers' => 'Best Sellers',
   'pos_new_products' => 'New Products',
   'pos_sale_products' => 'Sale Products',
+  'reviews' => 'Reviews',
+    'total' => 'Total',
+    'pending' => 'Pending',
+    'hidden' => 'Hidden',
+    'approved' => 'Approved',
+    'approved_visible' => 'Approved (Visible)',
+    'visible' => 'Visible',
+
+    'back_to_products' => 'Back to Products',
+
+    'search_in_comments' => 'Search in comments...',
+    'filter' => 'Filter',
+    'reset' => 'Reset',
+
+    'all' => 'All',
+
+    'user' => 'User',
+    'rating' => 'Rating',
+    'comment' => 'Comment',
+    'created' => 'Created',
+    'actions' => 'Actions',
+
+    'delete_review_confirm' => 'Delete this review?',
+    'no_reviews_found' => 'No reviews found.',
+    'not_approved' => 'Not approved',
 ];

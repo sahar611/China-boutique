@@ -56,19 +56,19 @@
                 <span class="marquee-wrap">
                     <span class="marquee-inner left">
                         @foreach($homeTabsCategories as $homeTabsCategory)
-                        <span class="marquee-item"> <a href="#" class="hover-c"><b>@if (App::isLocale('en')) {{$homeTabsCategory->name_en}}@else {{$homeTabsCategory->name_ar}}@endif</b></a><i
+                        <span class="marquee-item"> <a href="{{ route('category.products', $homeTabsCategory->slug) }}" class="hover-c"><b>@if (App::isLocale('en')) {{$homeTabsCategory->name_en}}@else {{$homeTabsCategory->name_ar}}@endif</b></a><i
                                 class="fas fa-bahai"></i></span>
                        @endforeach
                     </span>
                      <span class="marquee-inner left">
                         @foreach($homeTabsCategories as $homeTabsCategory)
-                        <span class="marquee-item"> <a href="#" class="hover-c"><b>@if (App::isLocale('en')) {{$homeTabsCategory->name_en}}@else {{$homeTabsCategory->name_ar}}@endif</b></a><i
+                        <span class="marquee-item"> <a href="{{ route('category.products', $homeTabsCategory->slug) }}" class="hover-c"><b>@if (App::isLocale('en')) {{$homeTabsCategory->name_en}}@else {{$homeTabsCategory->name_ar}}@endif</b></a><i
                                 class="fas fa-bahai"></i></span>
                        @endforeach
                     </span>
                      <span class="marquee-inner left">
                         @foreach($homeTabsCategories as $homeTabsCategory)
-                        <span class="marquee-item"> <a href="#" class="hover-c"><b>@if (App::isLocale('en')) {{$homeTabsCategory->name_en}}@else {{$homeTabsCategory->name_ar}}@endif</b></a><i
+                        <span class="marquee-item"> <a href="{{ route('category.products', $homeTabsCategory->slug) }}" class="hover-c"><b>@if (App::isLocale('en')) {{$homeTabsCategory->name_en}}@else {{$homeTabsCategory->name_ar}}@endif</b></a><i
                                 class="fas fa-bahai"></i></span>
                        @endforeach
                     </span>
@@ -107,7 +107,7 @@
                         <img src="{{ asset($topCategory->image) }}" alt="@if (App::isLocale('en')) {{$topCategory->name_en}}@else {{$topCategory->name_ar}}@endif">
                     </div>
                     <div class="category-content">
-                        <a href="index.html" class="category-btn">@if (App::isLocale('en')) {{$topCategory->name_en}}@else {{$topCategory->name_ar}}@endif</a>
+                        <a href="{{ route('category.products', $topCategory->slug) }}" class="category-btn">@if (App::isLocale('en')) {{$topCategory->name_en}}@else {{$topCategory->name_ar}}@endif</a>
                     </div>
                 </div>
                @endforeach
@@ -134,7 +134,7 @@
                         <!--=== Category Button  ===-->
                         <div class="category-button text-center float-md-end mb-60" data-aos="fade-left"
                             data-aos-delay="15" data-aos-duration="1200">
-                            <a href="#" class="theme-btn style-one">{{ __('home.View_All') }} <i
+                            <a href="{{ route('brands') }}" class="theme-btn style-one">{{ __('home.View_All') }} <i
                                     class="far fa-arrow-right"></i></a>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                                     <img src="{{ asset($topBrand->logo) }}" alt="@if (App::isLocale('en')) {{$topBrand->name_en}}@else {{$topBrand->name_ar}}@endif">
                                 </div>
                                 <div class="category-content">
-                                    <a href="index.html" class="category-btn"> @if (App::isLocale('en')) {{$topBrand->name_en}}@else {{$topBrand->name_ar}}@endif</a>
+                                    <a href="{{ route('brand.products', $topBrand->slug) }}" class="category-btn"> @if (App::isLocale('en')) {{$topBrand->name_en}}@else {{$topBrand->name_ar}}@endif</a>
                                     <span>{{ $topBrand->products_count }} {{ __('home.items') }}</span>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@
                                                         class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                                 </div>
                                                 <div class="cart-button">
-                                                    <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i>
+                                                    <a href="javascript:void(0)" class="cart-btn js-add-to-cart" data-url="{{ route('cart.add', $bestSeller->slug) }}" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
                                                         <span class="text">{{ __('home.Add_To_Cart') }}</span></a>
                                                 </div>
                                             </div>
@@ -236,7 +236,7 @@
                                                         <li><i class="fas fa-star"></i></li>
                                                         <li><a href="#">(80)</a></li>
                                                     </ul>
-                                                    <h4 class="title"><a href="#"> {{ $bestSeller->name }}</a></h4>
+                                                    <h4 class="title"><a href="{{ route('product.show', $bestSeller->slug ?? $product->id) }}"> {{ $bestSeller->name }}</a></h4>
                                                 </div>
                                                   @if($bestSeller->sale_price)
                                                 <div class="product-price">
@@ -278,7 +278,7 @@
                                                         class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                                 </div>
                                                 <div class="cart-button">
-                                                    <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i>
+                                                     <a href="javascript:void(0)" class="cart-btn js-add-to-cart" data-url="{{ route('cart.add', $newProduct->slug) }}" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
                                                         <span class="text">{{ __('home.Add_To_Cart') }}</span></a>
                                                 </div>
                                             </div>
@@ -292,7 +292,7 @@
                                                         <li><i class="fas fa-star"></i></li>
                                                         <li><a href="#">(80)</a></li>
                                                     </ul>
-                                                    <h4 class="title"><a href="#"> {{ $newProduct->name }}</a></h4>
+                                                    <h4 class="title"><a href="{{ route('product.show', $newProduct->slug ?? $product->id) }}"> {{ $newProduct->name }}</a></h4>
                                                 </div>
                                                   @if($newProduct->sale_price)
                                                 <div class="product-price">
@@ -333,7 +333,9 @@
                                                         class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                                 </div>
                                                 <div class="cart-button">
-                                                    <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i>
+                                                    <a href="javascript:void(0)"
+     class="cart-btn js-add-to-cart"
+     data-url="{{ route('cart.add', $saleProduct->slug) }}" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
                                                         <span class="text">{{ __('home.Add_To_Cart') }}</span></a>
                                                 </div>
                                             </div>
@@ -347,7 +349,7 @@
                                                         <li><i class="fas fa-star"></i></li>
                                                         <li><a href="#">(80)</a></li>
                                                     </ul>
-                                                    <h4 class="title"><a href="#"> {{ $saleProduct->name }}</a></h4>
+                                                    <h4 class="title"><a href="{{ route('product.show', $saleProduct->slug ?? $product->id) }}"> {{ $saleProduct->name }}</a></h4>
                                                 </div>
                                                   @if($saleProduct->sale_price)
                                                 <div class="product-price">
@@ -410,7 +412,7 @@
                                 <a href="{{ $homeProduct->mainImageProduct? asset($homeProduct->mainImageProduct->path) : asset('assets/images/products/default.png') }}" class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                             </div>
                             <div class="cart-button">
-                                <a href="#" class="cart-btn"><i class="far fa-shopping-basket"></i> <span
+                                  <a href="javascript:void(0)" class="cart-btn js-add-to-cart" data-url="{{ route('cart.add', $homeProduct->slug) }}" data-qty-input=".quantity"><i class="far fa-shopping-basket"></i> <span
                                         class="text">{{ __('home.Add_To_Cart') }}</span></a>
                             </div>
                         </div>
@@ -424,20 +426,20 @@
                                     <li><i class="fas fa-star"></i></li>
                                     <li><a href="#">(50)</a></li>
                                 </ul>
-                                <h4 class="title"><a href="#">{{ $saleProduct->name }}</a></h4>
+                                <h4 class="title"><a href="{{ route('product.show', $homeProduct->slug ?? $product->id) }}">{{ $homeProduct->name }}</a></h4>
                             </div>
-                              @if($saleProduct->sale_price)
+                              @if($homeProduct->sale_price)
                                                 <div class="product-price">
                                                     <span class="price prev-price"><span
-                                                            class="currency">{{ $currentCurrency->symbol }}</span>{{ number_format($saleProduct->price * $currentCurrency->rate, 2) }}</span>
+                                                            class="currency">{{ $currentCurrency->symbol }}</span>{{ number_format($homeProduct->price * $currentCurrency->rate, 2) }}</span>
                                                     <span class="price new-price"><span
-                                                            class="currency">{{ $currentCurrency->symbol }}</span>{{ number_format($saleProduct->sale_price * $currentCurrency->rate, 2) }}</span>
+                                                            class="currency">{{ $currentCurrency->symbol }}</span>{{ number_format($homeProduct->sale_price * $currentCurrency->rate, 2) }}</span>
                                                 </div>
                                                 @else
                                                 <div class="product-price">
                                                    
                                                     <span class="price new-price"><span
-                                                            class="currency">{{ $currentCurrency->symbol }}</span>{{ number_format($saleProduct->price * $currentCurrency->rate, 2) }}</span>
+                                                            class="currency">{{ $currentCurrency->symbol }}</span>{{ number_format($homeProduct->price * $currentCurrency->rate, 2) }}</span>
                                                 </div>
                                                 @endif
                         </div>
@@ -577,7 +579,7 @@
                                     <li><i class="fas fa-star"></i></li>
                                     <li><a href="#">(80)</a></li>
                                 </ul>
-                                <h4 class="title"><a href="#">{{ $trending->name }}</a></h4>
+                                <h4 class="title"><a href="{{ route('product.show', $trending->slug ?? $product->id) }}">{{ $trending->name }}</a></h4>
                             </div>
                              @if($trending->sale_price)
                                                 <div class="product-price">
@@ -602,7 +604,7 @@
         </section><!--====== End Trending Products Sections  ======-->
 
         <!--====== Start Working Section  ======-->
-        <section class="work-processing-section pt-5 pb-2">
+        <section id="workProcess" class="work-processing-section pt-5 pb-2">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
