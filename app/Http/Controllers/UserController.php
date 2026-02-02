@@ -80,10 +80,11 @@ class UserController extends Controller
     // Role assignment
     if ($request->account_type === 'staff') {
         $user->assignRole($request->role);
-    } else {
+    } 
+    // else {
        
-        $user->assignRole('customer');
-    }
+    //     $user->assignRole('customer');
+    // }
 
     return redirect()->route('admin.users.index')->with('success', 'User created successfully');
 }

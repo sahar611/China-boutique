@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Currency;
 use App\Models\HomeBanner;
 use App\Models\WorkStep;
+use App\Models\Page;
 use App\Models\NewsletterSubscriber;
 
 class HomeController extends Controller
@@ -261,4 +262,11 @@ $workSteps = WorkStep::query()
 }
     return back()->with('newsletter_success', __('home.newsletter_success'));
   }
+  public function showPage($slug)
+    {
+        $page = Page::where('slug', $slug)
+            ->firstOrFail();
+
+        return view('front.page', compact('page'));
+    }
 }

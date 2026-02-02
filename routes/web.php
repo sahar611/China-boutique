@@ -22,6 +22,9 @@ use App\Http\Controllers\Front\FrontPageController;
 use App\Http\Controllers\Front\FrontProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\WishlistController;
+use App\Http\Controllers\Front\Auth\CustomerAuthController;
+
 Route::get('/sing-in', [AuthController::class, 'login'])->name('login');
 Route::get('/sing-up', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'checklogin'])->name('checklogin');
@@ -158,6 +161,8 @@ Route::post('/change-language/{locale}', [HomeController::class, 'changeLang'])
     ->name('language.change');
     Route::post('/newsletter/subscribe', [HomeController::class,'subscribe'])
   ->name('newsletter.subscribe');
+  Route::get('/page/{slug}', [HomeController::class, 'showPage'])->name('page.show');
+
   // routes/web.php
 Route::get('/categories', [FrontPageController::class, 'allCategories'])
     ->name('categories');
@@ -186,7 +191,20 @@ Route::post('/product/{product:slug}/reviews', [FrontProductController::class, '
     Route::delete('/mini/remove/{item}', [CartController::class, 'miniRemove'])
         ->name('mini.remove');
 });
+Route::prefix('wishlist')->name('wishlist.')->group(function () {
+    Route::get('/', [WishlistController::class, 'index'])->name('index');
 
+    Route::post('/{product:slug}/toggle', [WishlistController::class, 'toggle'])->name('toggle');
+    Route::delete('/{product:slug}/remove', [WishlistController::class, 'remove'])->name('remove');
+});
 
+Route::prefix('account')->name('customer.')->group(function () {
+    Route::get('/login', [CustomerAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [CustomerAuthController::class, 'login'])->name('login.post');
+    Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('logout');
+     Route::get('/register', [CustomerAuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [CustomerAuthController::class, 'register'])->name('register.post');
+
+});
 
 

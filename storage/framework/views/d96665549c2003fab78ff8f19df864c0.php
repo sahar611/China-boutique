@@ -194,7 +194,14 @@
 </form>
 
                                             <li>
-                                                <a href="#" class="icon-btn"><i class="far fa-heart"></i></a>
+                                                <?php
+  $wishIds = session('wishlist', []);
+  $isWished = auth()->check()
+      ? auth()->user()->wishlistProducts()->where('products.id', $product->id)->exists()
+      : in_array($product->id, $wishIds);
+?>
+<a href="#" class="icon-btn js-wishlist-toggle <?php echo e($isWished ? 'is-active' : ''); ?>" data-url="<?php echo e(route('wishlist.toggle', $product->slug)); ?>" aria-label="wishlist"> <i class="<?php echo e($isWished ? 'fa fa-heart' : 'far fa-heart'); ?>"></i>
+</a>
                                             </li>
                                           
                                         </ul>

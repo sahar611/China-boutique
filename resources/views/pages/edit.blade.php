@@ -32,7 +32,7 @@
                         </div>
 
                         {{-- Status --}}
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('messages.status') }}</label>
                                 <select name="status" class="form-control">
@@ -45,7 +45,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     {{-- Title EN / AR --}}
                     <div class="row mt-3">

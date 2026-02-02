@@ -67,6 +67,12 @@ public function visibleReviews()
 {
     return $this->hasMany(ProductReview::class)->visible();
 }
+public function wishedByUsers()
+{
+    return $this->belongsToMany(User::class, 'wishlists')
+        ->withTimestamps();
+}
+
     protected $casts = [
     'positions'   => 'array',
     'is_featured' => 'boolean',

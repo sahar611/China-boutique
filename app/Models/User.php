@@ -95,4 +95,15 @@ public function receivedReviews()
 {
     return $this->hasMany(Review::class, 'provider_id');
 }
+public function wishlists()
+{
+    return $this->hasMany(Wishlist::class);
+}
+
+public function wishlistProducts()
+{
+    return $this->belongsToMany(Product::class, 'wishlists')
+        ->withTimestamps();
+}
+
 }

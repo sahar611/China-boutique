@@ -32,7 +32,7 @@ class PageController extends Controller
 
         Page::create($data);
 
-        return redirect()->route('pages.index')
+        return redirect()->route('admin.pages.index')
             ->with('success', __('messages.created_successfully'));
     }
 
@@ -44,17 +44,17 @@ class PageController extends Controller
     public function update(Request $request, Page $page)
     {
         $data = $request->validate([
-            'slug'       => 'required|unique:pages,slug,'.$page->id,
+            'slug'       => 'nullable|unique:pages,slug,'.$page->id,
             'title_en'   => 'required|string|max:255',
             'title_ar'   => 'required|string|max:255',
             'content_en' => 'nullable|string',
             'content_ar' => 'nullable|string',
-            'status'     => 'required|boolean',
+            // 'status'     => 'required|boolean',
         ]);
 
         $page->update($data);
 
-        return redirect()->route('pages.index')
+        return redirect()->route('admin.pages.index')
             ->with('success', __('messages.updated_successfully'));
     }
 
@@ -62,7 +62,7 @@ class PageController extends Controller
     {
         $page->delete();
 
-        return redirect()->route('pages.index')
+        return redirect()->route('admin.pages.index')
             ->with('success', __('messages.deleted_successfully'));
     }
 }

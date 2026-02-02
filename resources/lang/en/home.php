@@ -50,4 +50,33 @@ return [
 'submit_review'=>'Submit review',
 'login_to_review'=>'Login to review',
 'total_reviews'=>'Total Reviews',
+'added_to_cart' => 'Product added to cart',
+'add_to_cart_failed' => 'Failed to add product to cart',
+ 'added_to_wishlist' => 'Added to wishlist',
+  'removed_from_wishlist' => 'Removed from wishlist',
+  'wishlist_failed' => 'Something went wrong',
+  'wishlist'              => 'Wishlist',
+    'no_wishlist_items'     => 'Your wishlist is currently empty',
+    'added_to_wishlist'     => 'Product added to wishlist',
+    'removed_from_wishlist' => 'Product removed from wishlist',
+    'wishlist_failed'       => 'Something went wrong while updating wishlist',
+
+    // ===== Table Headers =====
+    'Products_Details' => 'Product Details',
+    'Unit_Price'       => 'Unit Price',
+    'Stock_Status'     => 'Stock Status',
+    'Action'           => 'Action',
+
+    // ===== Stock =====
+    'in_stock'               => 'In stock',
+    'out_of_stock'            => 'Out of stock',
+    'in_stock_with_qty'       => ':qty items available',
+
+    // ===== Actions =====
+    'Add_To_Cart' => 'Add to Cart',
+    'remove'      => 'Remove',
+
+    // ===== Cart =====
+    'added_to_cart'      => 'Product added to cart',
+    'add_to_cart_failed' => 'Failed to add product to cart',
 ];

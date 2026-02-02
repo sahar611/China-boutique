@@ -7,10 +7,10 @@
         <div class="card mb-4 mx-4">
             <div class="card-header pb-0 d-flex justify-content-between">
                 <h5 class="mb-0">{{ __('messages.pages') ?? 'Pages' }}</h5>
-                <a href="{{ route('admin.pages.create') }}"
+                <!-- <a href="{{ route('admin.pages.create') }}"
                    class="btn bg-gradient-primary btn-sm">
                     {{ __('messages.add_page') ?? 'Add Page' }}
-                </a>
+                </a> -->
             </div>
 @if(session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
@@ -46,7 +46,7 @@
                                         {{ __('messages.edit') }}
                                     </a>
 
-                                    <form action="{{ route('admin.pages.destroy', $page->id) }}"
+                                    <!-- <form action="{{ route('admin.pages.destroy', $page->id) }}"
                                           method="POST"
                                           style="display:inline-block"
                                           onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
@@ -56,7 +56,7 @@
                                                 class="btn btn-sm btn-danger">
                                             {{ __('messages.delete') }}
                                         </button>
-                                    </form>
+                                    </form> -->
                                 </td>
                             </tr>
                         @empty
