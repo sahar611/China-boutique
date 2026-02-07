@@ -79,4 +79,23 @@ return [
     // ===== Cart =====
     'added_to_cart'      => 'Product added to cart',
     'add_to_cart_failed' => 'Failed to add product to cart',
+    'AboutUs'=>'About Us',
+    'blogs'=>'Blogs',
+    'blog_details'=>'Blog Details',
+    ''=>'',
+    'edit_profile'=>'Edit Profile',
+    'login'=>'Login',
+    'logout'=>'Logout',
+    'cart'=>'Cart',
+    'subtotal'=>'SubTotal',
+    'proceed_to_checkout'=>'Proceed to checkout',
+    'trending'=>'Trending',
+    'all_orders'=>'All Orders',
+    'orders'=>'Orders',
+    'order_code'=>'Order Code',
+    'Quantity'=>'Quantity',
+    'total'=>'Total',
+    'status'=>'Status',
+    'date'=>'Date',
+
 ];

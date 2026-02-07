@@ -42,7 +42,7 @@
                 <a href="javascript:void(0)"
            class="remove-cart js-mini-remove"
            data-remove-url="<?php echo e(route('cart.mini.remove', $it->id)); ?>"
-           title="<?php echo e(__('messages.remove')); ?>">
+           title="<?php echo e(__('home.remove')); ?>">
            <i class="far fa-trash-alt"></i></a>
                             <a href="<?php echo e(route('product.show', $p->slug ?? $p->id)); ?>">
           <img src="<?php echo e($img); ?>" alt="cart image">
@@ -56,19 +56,19 @@
                        
                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
       <li class="sidebar-cart-item">
-        <span class="text-muted"><?php echo e(__('messages.cart_empty')); ?></span>
+        <span class="text-muted"><?php echo e(__('home.cart_empty')); ?></span>
       </li>
     <?php endif; ?>
                     </ul>
                     <div class="cart-mini-total">
                         <div class="cart-total">
-                            <span><strong><?php echo e(__('messages.subtotal')); ?> :</strong></span> <span class="amount">1 × <span><span
+                            <span><strong><?php echo e(__('home.subtotal')); ?> :</strong></span> <span class="amount">1 × <span><span
                                         class="currency"><?php echo e($symbol); ?></span><?php echo e(number_format($subtotalView, 2)); ?></span>
                         </div>
                     </div>
                     <div class="cart-button-box">
                         <a href="<?php echo e(route('cart.index')); ?>" class="theme-btn style-one">
-      <?php echo e(__('messages.proceed_to_checkout')); ?>
+      <?php echo e(__('home.proceed_to_checkout')); ?>
 
     </a>
                     </div>

@@ -390,4 +390,7 @@ $avgRating = (float) $product->visibleReviews()->avg('rating');
 
         return back()->with('success', __('home.review_sent_success')); 
     }
+    
+     
+       
 }

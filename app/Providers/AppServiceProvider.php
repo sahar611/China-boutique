@@ -6,6 +6,7 @@ use App\Models\Setting;
 use App\Services\CurrencyService;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\News;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,7 +82,7 @@ public function boot(): void
             'snapchat'  => Setting::get('snapchat'),
             'tiktok'    => Setting::get('tiktok'),
             'whatsapp'  => Setting::get('whatsapp'),
-
+            'last_news' => News::where('is_published', 1)->orderByDesc('published_at') ->limit(3)->get(),
             
             'wishlistCount' => $wishlistCount,
             'cartCount'     => $cartCount,

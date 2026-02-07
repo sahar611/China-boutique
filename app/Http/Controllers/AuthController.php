@@ -49,7 +49,7 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required|min:4'
             ]);
-        
+        $credentials['account_type'] = 'staff';
                if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                               $user = Auth::getLastAttempted();
                               

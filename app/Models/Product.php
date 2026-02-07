@@ -13,7 +13,7 @@ class Product extends Model
         'description_en','description_ar',
         'price','sale_price',
         'stock','track_stock',
-        'sku','is_active','positions','is_featured','home_sort'
+        'sku','is_active','positions','is_featured','home_sort','size_type',
     ];
 
     
@@ -83,5 +83,9 @@ public function wishedByUsers()
     'is_active' => 'boolean',
        
 ];
+public function variants()
+{
+    return $this->hasMany(ProductVariant::class);
+}
 
 }

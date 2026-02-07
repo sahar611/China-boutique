@@ -183,8 +183,139 @@
           </div>
         </div>
 
-        <p class="text-muted mt-3 mb-0"><?php echo e(__('messages.slug_auto_note')); ?></p>
 
+        <p class="text-muted mt-3 mb-0"><?php echo e(__('messages.slug_auto_note')); ?></p>
+<?php
+ $sizeType = old('size_type', isset($product) ? $product->size_type : 'standard');
+
+
+  // لو edit: هات variants من الداتا
+  $existingVariants = isset($product) ? $product->variants : collect();
+
+  // old variants لو رجع validation
+  $oldVariants = old('variants');
+
+  // مصدر البيانات للعرض
+  $variantsData = is_array($oldVariants)
+      ? $oldVariants
+      : ($existingVariants->count() ? $existingVariants->map(function($v){
+            return [
+              'type' => $v->type,
+              'size_code' => $v->size_code,
+              'length' => $v->length,
+              'width' => $v->width,
+              'height' => $v->height,
+              'unit' => $v->unit ?? 'cm',
+             
+            ];
+        })->toArray() : []);
+
+  // لو مفيش بيانات، حط صف افتراضي حسب النوع
+  if (!$variantsData) {
+      $variantsData = $sizeType === 'dimensions'
+        ? [[ 'length'=>'', 'width'=>'', 'height'=>'', 'unit'=>'cm', 'stock'=>0, 'price'=>null, 'sale_price'=>null ]]
+        : [[ 'size_code'=>'S', 'stock'=>0, 'price'=>null, 'sale_price'=>null ]];
+  }
+
+  $standardOptions = ['XS','S','M','L','XL','XXL','XXXL'];
+?>
+
+<hr class="my-4">
+<h6 class="mb-3"><?php echo e(__('messages.sizes') ?? 'Sizes'); ?></h6>
+
+<div class="row">
+  <div class="col-md-4">
+    <label class="form-label"><?php echo e(__('messages.size_type') ?? 'Size Type'); ?></label>
+    <select name="size_type" id="size_type" class="form-control">
+      <option value="standard" <?php if($sizeType==='standard'): echo 'selected'; endif; ?>><?php echo e(__('messages.size_type_standard') ?? 'Standard (S/M/L)'); ?></option>
+      <option value="dimensions" <?php if($sizeType==='dimensions'): echo 'selected'; endif; ?>><?php echo e(__('messages.size_type_dimensions') ?? 'Dimensions (L×W×H)'); ?></option>
+    </select>
+  </div>
+</div>
+
+
+<div id="standard_wrap" class="mt-3" style="<?php echo e($sizeType==='dimensions' ? 'display:none;' : ''); ?>">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <strong><?php echo e(__('messages.standard_sizes') ?? 'Standard Sizes'); ?></strong>
+    <button type="button" class="btn btn-sm btn-outline-primary" id="add_standard_row">
+      + <?php echo e(__('messages.add_size') ?? 'Add size'); ?>
+
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-sm align-middle">
+      <thead>
+        <tr>
+          <th style="width:180px;"><?php echo e(__('messages.size') ?? 'Size'); ?></th>
+      
+          <th style="width:60px;"></th>
+        </tr>
+      </thead>
+      <tbody id="standard_body">
+        <?php $__currentLoopData = $variantsData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php if(($v['type'] ?? $sizeType) === 'standard' && !empty($v['size_code'])): ?>
+            <tr class="standard-row">
+              <td>
+                <select name="variants[<?php echo e($loop->index); ?>][size_code]" class="form-control">
+                  <?php $__currentLoopData = $standardOptions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $opt): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($opt); ?>" <?php if(($v['size_code'] ?? '') == $opt): echo 'selected'; endif; ?>><?php echo e($opt); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+              </td>
+             
+              <td class="text-end">
+                <button type="button" class="btn btn-sm btn-outline-danger remove-row">×</button>
+              </td>
+            </tr>
+          <?php endif; ?>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div id="dimensions_wrap" class="mt-3" style="<?php echo e($sizeType==='standard' ? 'display:none;' : ''); ?>">
+  <strong class="d-block mb-2"><?php echo e(__('messages.dimensions_size') ?? 'Dimensions Size'); ?></strong>
+
+  <?php
+    // خد أول صف dimensions فقط
+    $dim = collect($variantsData)->first(fn($x) => (($x['type'] ?? $sizeType) === 'dimensions')) ?? $variantsData[0];
+  ?>
+
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-label"><?php echo e(__('messages.length') ?? 'Length'); ?></label>
+      <input type="number" step="0.01" min="0" name="variants[0][length]" class="form-control"
+             value="<?php echo e($dim['length'] ?? ''); ?>">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label"><?php echo e(__('messages.width') ?? 'Width'); ?></label>
+      <input type="number" step="0.01" min="0" name="variants[0][width]" class="form-control"
+             value="<?php echo e($dim['width'] ?? ''); ?>">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label"><?php echo e(__('messages.height') ?? 'Height'); ?></label>
+      <input type="number" step="0.01" min="0" name="variants[0][height]" class="form-control"
+             value="<?php echo e($dim['height'] ?? ''); ?>">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label"><?php echo e(__('messages.unit') ?? 'Unit'); ?></label>
+      <select name="variants[0][unit]" class="form-control">
+        <?php $unit = $dim['unit'] ?? 'cm'; ?>
+        <option value="cm" <?php if($unit==='cm'): echo 'selected'; endif; ?>>cm</option>
+        <option value="mm" <?php if($unit==='mm'): echo 'selected'; endif; ?>>mm</option>
+        <option value="m"  <?php if($unit==='m'): echo 'selected'; endif; ?>>m</option>
+      </select>
+    </div>
+  </div>
+
+ 
+</div>
         <div class="text-end mt-4">
           <button class="btn bg-gradient-dark"><?php echo e(__('messages.save')); ?></button>
         </div>
@@ -197,23 +328,98 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('scripts'); ?>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const none = document.getElementById('p_none');
-    const items = document.querySelectorAll('.pos-item');
+document.addEventListener('DOMContentLoaded', function () {
 
-    function sync(){
-      if(none.checked){
-        items.forEach(i => i.checked = false);
-      }
+  // ===== Positions Sync =====
+  const none = document.getElementById('p_none');
+  const items = document.querySelectorAll('.pos-item');
+
+  function syncPositions(){
+    if(!none) return;
+    if(none.checked){
+      items.forEach(i => i.checked = false);
     }
+  }
 
-    none?.addEventListener('change', sync);
+  if(none){
+    none.addEventListener('change', syncPositions);
     items.forEach(i => i.addEventListener('change', function(){
       if(this.checked) none.checked = false;
     }));
+    syncPositions();
+  }
 
-    sync();
+  // ===== Sizes Toggle + Repeater =====
+  const sizeType = document.getElementById('size_type');
+  const standardWrap = document.getElementById('standard_wrap');
+  const dimensionsWrap = document.getElementById('dimensions_wrap');
+  const standardBody = document.getElementById('standard_body');
+  const addBtn = document.getElementById('add_standard_row');
+
+  // لو العناصر مش موجودة، اخرج بدون errors
+  if(!sizeType || !standardWrap || !dimensionsWrap) return;
+
+  function toggleSizeUI(){
+    const val = sizeType.value;
+    if(val === 'dimensions'){
+      standardWrap.style.display = 'none';
+      dimensionsWrap.style.display = 'block';
+    }else{
+      dimensionsWrap.style.display = 'none';
+      standardWrap.style.display = 'block';
+    }
+  }
+
+  function nextIndex(){
+    if(!standardBody) return 0;
+    let max = -1;
+    standardBody.querySelectorAll('[name^="variants["]').forEach(el => {
+      const m = el.name.match(/^variants\[(\d+)\]/);
+      if(m) max = Math.max(max, parseInt(m[1],10));
+    });
+    return max + 1;
+  }
+
+  function buildRow(idx){
+    return `
+      <tr class="standard-row">
+        <td>
+          <select name="variants[${idx}][size_code]" class="form-control">
+            <option value="XS">XS</option>
+            <option value="S" selected>S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+            <option value="XXXL">XXXL</option>
+          </select>
+        </td>
+          <td class="text-end">
+          <button type="button" class="btn btn-sm btn-outline-danger remove-row">×</button>
+        </td>
+      </tr>
+    `;
+  }
+
+  if(addBtn && standardBody){
+    addBtn.addEventListener('click', function(){
+      const idx = nextIndex();
+      standardBody.insertAdjacentHTML('beforeend', buildRow(idx));
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.remove-row');
+    if(btn){
+      const tr = btn.closest('tr');
+      if(tr) tr.remove();
+    }
   });
+
+  sizeType.addEventListener('change', toggleSizeUI);
+  toggleSizeUI();
+});
 </script>
 <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make('layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\china\resources\views/products/create.blade.php ENDPATH**/ ?>

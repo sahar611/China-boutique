@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Support\Facades\Hash;
 
 class CustomerAuthController extends Controller
@@ -56,6 +57,7 @@ $credentials['account_type'] = 'customer';
             'email' => ['required','email','max:255','unique:users,email'],
             'phone' => ['nullable','string','max:20','unique:users,phone'],
             'password' => ['required','string','min:6','confirmed'],
+             'address'  => ['nullable','string','max:255'], 
         ]);
 
         $user = User::create([
@@ -66,6 +68,7 @@ $credentials['account_type'] = 'customer';
             'account_type' => 'customer',  
             'status'       => 1,
             'verified'     => 0,
+              'address'      => $data['address'] ?? null,
         ]);
 
         Auth::login($user);
@@ -82,4 +85,49 @@ $credentials['account_type'] = 'customer';
 
         return redirect()->route('home');
     }
+    public function edit()
+    {
+        $user = Auth::user();
+        return view('front.auth.edit_profile', compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $data = $request->validate([
+            'name'     => ['required','string','max:255'],
+            'email'    => ['required','email','max:255','unique:users,email,' . $user->id],
+            'phone'    => ['nullable','string','max:20','unique:users,phone,' . $user->id],
+            'address'  => ['nullable','string','max:255'],
+            'password' => ['nullable','confirmed','min:6'],
+        ]);
+
+        $user->name    = $data['name'];
+        $user->email   = strtolower($data['email']);
+        $user->phone   = $data['phone'] ?? null;
+        $user->address = $data['address'] ?? null;
+
+        
+        if (!empty($data['password'])) {
+            $user->password = Hash::make($data['password']);
+        }
+
+        $user->save();
+
+        return back()->with('success', __('Profile updated successfully'));
+    }
+    public function myOrders()
+{
+    $orders = Order::query()
+        ->where('user_id', Auth::id())
+        ->with(['items'])   
+        ->withCount('items')         
+        ->latest()
+         ->paginate(10)
+        ->withQueryString();
+       
+
+    return view('front.auth.orders', compact('orders'));
+}
 }

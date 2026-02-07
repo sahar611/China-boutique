@@ -42,7 +42,7 @@
                 <a href="javascript:void(0)"
            class="remove-cart js-mini-remove"
            data-remove-url="{{ route('cart.mini.remove', $it->id) }}"
-           title="{{ __('messages.remove') }}">
+           title="{{ __('home.remove') }}">
            <i class="far fa-trash-alt"></i></a>
                             <a href="{{ route('product.show', $p->slug ?? $p->id) }}">
           <img src="{{ $img }}" alt="cart image">
@@ -55,19 +55,19 @@
                        
                      @empty
       <li class="sidebar-cart-item">
-        <span class="text-muted">{{ __('messages.cart_empty') }}</span>
+        <span class="text-muted">{{ __('home.cart_empty') }}</span>
       </li>
     @endforelse
                     </ul>
                     <div class="cart-mini-total">
                         <div class="cart-total">
-                            <span><strong>{{ __('messages.subtotal') }} :</strong></span> <span class="amount">1 × <span><span
+                            <span><strong>{{ __('home.subtotal') }} :</strong></span> <span class="amount">1 × <span><span
                                         class="currency">{{ $symbol }}</span>{{ number_format($subtotalView, 2) }}</span>
                         </div>
                     </div>
                     <div class="cart-button-box">
                         <a href="{{ route('cart.index') }}" class="theme-btn style-one">
-      {{ __('messages.proceed_to_checkout') }}
+      {{ __('home.proceed_to_checkout') }}
     </a>
                     </div>
                 </div>

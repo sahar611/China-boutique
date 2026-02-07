@@ -212,13 +212,17 @@
                                         <span style="font-size: 14px;"><?php echo e(auth()->user()->name); ?></span> <i class="far fa-angle-down"></i></a>
                                         <ul class="dropdown">
                                             <li>
-                                            <a href="edit-profile.html"><i class="far fa-user-edit"></i> Edit Profile</a>
+                                            <a href="<?php echo e(route('customer.profile.edit')); ?>"><i class="far fa-user-edit"></i><?php echo e(__('home.edit_profile')); ?></a>
+                                        </li>
+                                         <li>
+                                            <a href="<?php echo e(route('customer.orders')); ?>"><i class="far fa-user-edit"></i><?php echo e(__('home.orders')); ?></a>
                                         </li>
                                         <li>
                                             
                                          <a href="<?php echo e(route('customer.logout')); ?>"
                        onclick="event.preventDefault(); document.getElementById('customer-logout-form').submit();">
-                        <i class="far fa-sign-out-alt"></i> Logout
+                        <i class="far fa-sign-out-alt"></i> <?php echo e(__('home.logout')); ?>
+
                     </a>
                     <form id="customer-logout-form" action="<?php echo e(route('customer.logout')); ?>" method="POST" class="d-none">
                         <?php echo csrf_field(); ?>
@@ -396,11 +400,15 @@
 
                                                         </ul>
                                                     </li>
-                                                    <li class="menu-item"><a href="#">Blog</a>
+                                                     <li class="menu-item"><a href="<?php echo e(route('news.index')); ?>">
+                                                        <?php echo e(__('home.trnding')); ?></a>
                                                     </li>
-                                                    <li class="menu-item"><a href="<?php echo e(route('page.show', 'about')); ?>">About Us</a>
+                                                    <li class="menu-item"><a href="<?php echo e(route('trending')); ?>">
+                                                        <?php echo e(__('home.trending')); ?></a>
                                                     </li>
-                                                    <li class="menu-item"><a href="#">Contact Us</a></li>
+                                                    <li class="menu-item"><a href="<?php echo e(route('page.show', 'about')); ?>">  <?php echo e(__('home.AboutUs')); ?></a>
+                                                    </li>
+                                                    <!-- <li class="menu-item"><a href="#">Contact Us</a></li> -->
                                                 </ul>
                                             </nav>
                                         </div>
@@ -466,13 +474,16 @@
 
                                             </ul>
                                         </li>
+ <li class="menu-item"><a href="<?php echo e(route('trending')); ?>">
+                                                        <?php echo e(__('home.trending')); ?></a>
+                                                    </li>
 
-
-                                        <li class="menu-item"><a href="#">Blog</a>
+                                        <li class="menu-item"><a href="<?php echo e(route('news.index')); ?>">
+                                                        <?php echo e(__('home.blogs')); ?></a>
                                         </li>
-                                        <li class="menu-item"><a href="<?php echo e(route('page.show', 'about')); ?>">About Us</a>
+                                        <li class="menu-item"><a href="<?php echo e(route('page.show', 'about')); ?>"> <?php echo e(__('home.AboutUs')); ?></a>
                                         </li>
-                                        <li class="menu-item"><a href="#">Contact Us</a></li>
+                                        <!-- <li class="menu-item"><a href="#">Contact Us</a></li> -->
                                     </ul>
                                 </nav>
                             </div>
@@ -602,7 +613,7 @@
                                                 alt="star icon"><a href="<?php echo e(route('home')); ?>#workProcess">
                                                 <?php echo e(__('home.Work_Processing')); ?></a></li>
                                         <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>"
-                                                alt="star icon"><a href="#">
+                                                alt="star icon"><a href="<?php echo e(route('faqs')); ?>">
                                                 <?php echo e(__('home.faq')); ?></a>
                                         </li>
 
@@ -641,33 +652,17 @@
                                 data-aos-duration="1600">
                                 <h4 class="widget-title">Recent Blog</h4>
                                 <div class="widget-content">
+                                      <?php $__currentLoopData = $last_news; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $new): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="recent-post-item">
                                         <div class="thumb">
-                                            <img src="assets/images/footer/recent-post-1.png" alt="post thumb">
+                                            <img src="<?php echo e(asset($new->cover)); ?>" alt="post thumb">
                                         </div>
                                         <div class="content">
-                                            <h4><a href="#">Tips on Finding Affordable Fashion Gems Online</a></h4>
-                                            <span><a href="#">July 11, 2023</a></span>
+                                            <h4><a href="<?php echo e(route('news.show', $new->slug)); ?>"><?php echo e(App::isLocale('en') ? $new->title_en : $new->title_ar); ?></a></h4>
+                                            <span><a href="<?php echo e(route('news.show', $new->slug)); ?>">   <?php echo e(optional($new->published_at)->format('M d')); ?> ,<?php echo e(optional($new->published_at)->format('Y')); ?></a></span>
                                         </div>
                                     </div>
-                                    <div class="recent-post-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/footer/recent-post-2.png" alt="post thumb">
-                                        </div>
-                                        <div class="content">
-                                            <h4><a href="#">Mastering the Art of Fashion E-commerce Marketing</a></h4>
-                                            <span><a href="#">JUly 11, 2024</a></span>
-                                        </div>
-                                    </div>
-                                    <div class="recent-post-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/footer/recent-post-3.png" alt="post thumb">
-                                        </div>
-                                        <div class="content">
-                                            <h4><a href="#">Must-Have Trends You Can Shop Online Now</a></h4>
-                                            <span><a href="#">July 11, 2024</a></span>
-                                        </div>
-                                    </div>
+                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
                         </div>

@@ -146,6 +146,32 @@ endif;
 unset($__errorArgs, $__bag); ?>
             </div>
         </div>
+         <div class="col-lg-12">
+            <div class="form-group">
+                <input type="text"
+                       placeholder="address"
+                       class="form_control <?php $__errorArgs = ['address'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                       name="address"
+                       value="<?php echo e(old('address')); ?>">
+                <?php $__errorArgs = ['address'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            </div>
+        </div>
 
         <div class="col-lg-12">
             <div class="form-group" style="position: relative;">

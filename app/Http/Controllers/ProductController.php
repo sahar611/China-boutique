@@ -12,6 +12,7 @@ use App\Support\UploadsToPublic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -98,6 +99,18 @@ class ProductController extends Controller
             'positions.*'     => ['in:none,home_top,features_collection,trending,home_products,sidebar_deals,header_menu,best_sellers,new_products,sale_products'],
             'is_featured'     => ['nullable', 'in:0,1'],
             'home_sort'       => ['nullable', 'integer', 'min:0'],
+            'size_type' => ['required', 'in:standard,dimensions'],
+            'size_type' => ['required','in:standard,dimensions'],
+
+'variants' => ['required','array','min:1'],
+'variants.*.size_code' => ['nullable','string','max:50'],
+'variants.*.length'    => ['nullable','numeric','min:0'],
+'variants.*.width'     => ['nullable','numeric','min:0'],
+'variants.*.height'    => ['nullable','numeric','min:0'],
+'variants.*.unit'      => ['nullable','string','max:10'],
+
+
+
         ]);
 
         $data['slug']       = $this->generateUniqueSlug(Product::class, $data['name_en']);
@@ -123,6 +136,7 @@ class ProductController extends Controller
         $data['positions'] = $positions;
 
         $product = Product::create($data);
+$this->saveVariants($product, $request);
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $i => $file) {
@@ -141,7 +155,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
        
-        $product->load('images');
+$product->load('images', 'variants');
 
         $categories = Category::orderBy('sort_order')->get();
         $brands     = Brand::orderBy('sort_order')->get();
@@ -173,6 +187,8 @@ class ProductController extends Controller
             'positions.*'     => ['in:none,home_top,features_collection,trending,home_products,sidebar_deals,header_menu,best_sellers,new_products,sale_products'],
             'is_featured'     => ['nullable', 'in:0,1'],
             'home_sort'       => ['nullable', 'integer', 'min:0'],
+            'size_type' => ['required', 'in:standard,dimensions'],
+
         ]);
 
         if ($data['name_en'] !== $product->name_en) {
@@ -198,6 +214,7 @@ class ProductController extends Controller
 }
 
         $product->update($data);
+$this->saveVariants($product, $request, true);
 
         if ($request->hasFile('images')) {
             $existingCount = $product->images()->count();
@@ -438,4 +455,53 @@ class ProductController extends Controller
         return redirect()->route('admin.products.edit', $new->id)
             ->with('success', __('messages.product_duplicated'));
     }
+
+private function saveVariants(Product $product, Request $request, bool $isUpdate = false): void
+{
+    $sizeType = $request->input('size_type', 'standard');
+    $variants = $request->input('variants', []);
+
+  
+    $variants = array_values(array_filter($variants, function ($v) use ($sizeType) {
+        if (!is_array($v)) return false;
+        if ($sizeType === 'standard') {
+            return !empty($v['size_code']); 
+        }
+       
+        return !empty($v['length']) && !empty($v['width']) && !empty($v['height']);
+    }));
+
+    if ($sizeType === 'dimensions' && count($variants) !== 1) {
+        throw ValidationException::withMessages([
+            'variants' => 'Dimensions size must be exactly one row.',
+        ]);
+    }
+
+    if ($sizeType === 'standard' && count($variants) < 1) {
+        throw ValidationException::withMessages([
+            'variants' => 'Please add at least one standard size.',
+        ]);
+    }
+
+
+    if ($isUpdate) {
+        $product->variants()->delete();
+    }
+
+    foreach ($variants as $v) {
+        $product->variants()->create([
+            'type'      => $sizeType,
+            'size_code' => $sizeType === 'standard' ? ($v['size_code'] ?? null) : null,
+            'length'    => $sizeType === 'dimensions' ? ($v['length'] ?? null) : null,
+            'width'     => $sizeType === 'dimensions' ? ($v['width'] ?? null) : null,
+            'height'    => $sizeType === 'dimensions' ? ($v['height'] ?? null) : null,
+            'unit'      => $v['unit'] ?? 'cm',
+
+           
+        ]);
+    }
+
+   
+}
+
 }

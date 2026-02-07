@@ -3342,7 +3342,7 @@ button {
   text-align: center;
 }
 .cart-wrapper .total-price {
-  text-align: right;
+  text-align: center;
   font: 400 16px var(--heading-font);
 }
 .cart-wrapper .theme-btn.style-one {
@@ -5987,4 +5987,98 @@ background: linear-gradient(0deg, rgba(116, 7, 13, 1), /* #74070D - أحمر غ�
 }
 .page-banner .page-banner-wrapper .page-image img{
   width: 550px;
+}
+/* ==== Custom Star Rating Styles ==== */
+.star-rating-form {
+  direction: ltr;
+  font-size: 30px;
+}
+
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.2s;
+      font-size: 32px;
+      margin-bottom: 15px;
+}
+
+/* عند المرور بالماوس */
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #FFD700;
+}
+
+
+/* عند الاختيار */
+.star-rating input:checked ~ label {
+  color: #FFD700;
+}
+
+.star-rating-value {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+ .modal-pp .inbut-c{
+  padding: 10px;
+    display: flex;
+    gap: 9px;
+    margin-bottom: 10px;
+    background-color: #faf6f0;
+    border-left: 3px solid #6c0c11;
+}
+.font-sss{
+  font-size: 19px!important;
+  margin-bottom: 10px;
+  color: #4b1013;
+}
+.btn-smm{
+  padding: 8px 22px!important;
+    border-radius: 6px!important;
+    font-size: 14px!important;
+}
+.status-paid{
+    background-color: rgb(0 128 0 / 22%);
+    color: green;
+    padding: 7px 15px;
+
+  border-radius: 5px;
+  text-align: center;
+    width: 100px;
+    display: inline-flex;
+    font-size: 15px;
+      justify-content: center;
+}
+.status-processing{
+     background-color: rgba(237, 242, 94, 0.499);
+    color: rgb(174, 174, 6);
+    padding: 7px 15px;
+
+  border-radius: 5px;
+  text-align: center;
+    width: 100px;
+    display: inline-flex;
+    font-size: 15px;
+      justify-content: center;
+}
+.status-cancel{
+     background-color: rgba(242, 94, 94, 0.499);
+    color: rgb(145, 7, 7);
+    padding: 7px 15px;
+
+  border-radius: 5px;
+  text-align: center;
+    width: 100px;
+    display: inline-flex;
+    font-size: 15px;
+    justify-content: center;
 }

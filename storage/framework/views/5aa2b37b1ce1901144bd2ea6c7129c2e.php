@@ -1,0 +1,1 @@
+فففففففف<?php /**PATH C:\xampp\htdocs\china\resources\views/front/checkout_thankyou.blade.php ENDPATH**/ ?>

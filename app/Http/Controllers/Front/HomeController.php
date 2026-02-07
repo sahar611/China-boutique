@@ -269,4 +269,5 @@ $workSteps = WorkStep::query()
 
         return view('front.page', compact('page'));
     }
+   
 }

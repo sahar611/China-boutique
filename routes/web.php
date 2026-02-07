@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Exports\OrdersExport;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\HomeBannerController;
 use App\Http\Controllers\WorkStepController;
@@ -24,6 +27,7 @@ use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\WishlistController;
 use App\Http\Controllers\Front\Auth\CustomerAuthController;
+use App\Http\Controllers\Front\CheckoutController;
 
 Route::get('/sing-in', [AuthController::class, 'login'])->name('login');
 Route::get('/sing-up', [AuthController::class, 'register'])->name('register');
@@ -86,12 +90,12 @@ Route::middleware(['auth', 'permission:admin.access'])
 
         // Orders
         Route::resource('orders', OrderController::class)->only(['index','show','destroy']);
-        Route::post('orders/{order}/status', [OrderController::class, 'updateStatus'])
-            ->name('orders.update_status');
-        Route::post('orders/{order}/cancel', [OrderController::class, 'cancel'])
-            ->name('orders.cancel');
-        Route::post('orders/{order}/refund', [OrderController::class, 'refund'])
-            ->name('orders.refund');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
+Route::get('/admin/orders-export', function(){
+    return Excel::download(new OrdersExport, 'orders.xlsx');
+})->name('orders.export');
+Route::get('/orders/{order}/pdf', [OrderController::class, 'pdf'])->name('orders.pdf');
        Route::resource('currencies', CurrencyController::class);
       Route::resource('news', NewsController::class);
 Route::resource('categories', CategoryController::class);
@@ -146,7 +150,9 @@ Route::post('products/{product}/duplicate', [ProductController::class, 'duplicat
 
   Route::delete('reviews/{review}', [ProductReviewController::class,'destroy'])
       ->name('reviews.destroy');
-     
+         Route::resource('faqs', FaqController::class);
+
+  
 });
  
 //frontend routes
@@ -190,6 +196,17 @@ Route::post('/product/{product:slug}/reviews', [FrontProductController::class, '
 
     Route::delete('/mini/remove/{item}', [CartController::class, 'miniRemove'])
         ->name('mini.remove');
+        Route::post('/clear', [CartController::class, 'clear'])->name('clear');
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
+    Route::get('/thankyou/{order:code}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
+
+   
+    Route::get('/pay/{order:code}', [CheckoutController::class, 'pay'])->name('checkout.pay');
 });
 Route::prefix('wishlist')->name('wishlist.')->group(function () {
     Route::get('/', [WishlistController::class, 'index'])->name('index');
@@ -204,7 +221,19 @@ Route::prefix('account')->name('customer.')->group(function () {
     Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('logout');
      Route::get('/register', [CustomerAuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [CustomerAuthController::class, 'register'])->name('register.post');
+     Route::get('/profile', [CustomerAuthController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [CustomerAuthController::class, 'update'])->name('profile.update');
+    Route::get('/orders', [CustomerAuthController::class, 'myOrders'])->name('orders');
+
 
 });
+
+Route::get('/news', [FrontPageController::class, 'blogs'])->name('news.index');      
+Route::get('/news/{slug}', [FrontPageController::class, 'showBlog'])->name('news.show'); 
+Route::get('/faqs', [FrontPageController::class, 'faqs'])->name('faqs');
+Route::get('/trending', [FrontPageController::class, 'trending'])->name('trending');
+
+
+
 
 

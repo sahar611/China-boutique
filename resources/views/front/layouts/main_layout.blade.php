@@ -212,13 +212,16 @@
                                         <span style="font-size: 14px;">{{ auth()->user()->name }}</span> <i class="far fa-angle-down"></i></a>
                                         <ul class="dropdown">
                                             <li>
-                                            <a href="edit-profile.html"><i class="far fa-user-edit"></i> Edit Profile</a>
+                                            <a href="{{ route('customer.profile.edit') }}"><i class="far fa-user-edit"></i>{{ __('home.edit_profile') }}</a>
+                                        </li>
+                                         <li>
+                                            <a href="{{ route('customer.orders') }}"><i class="far fa-user-edit"></i>{{ __('home.orders') }}</a>
                                         </li>
                                         <li>
                                             
                                          <a href="{{ route('customer.logout') }}"
                        onclick="event.preventDefault(); document.getElementById('customer-logout-form').submit();">
-                        <i class="far fa-sign-out-alt"></i> Logout
+                        <i class="far fa-sign-out-alt"></i> {{ __('home.logout') }}
                     </a>
                     <form id="customer-logout-form" action="{{ route('customer.logout') }}" method="POST" class="d-none">
                         @csrf
@@ -398,11 +401,15 @@
 
                                                         </ul>
                                                     </li>
-                                                    <li class="menu-item"><a href="#">Blog</a>
+                                                     <li class="menu-item"><a href="{{ route('news.index') }}">
+                                                        {{__('home.trnding') }}</a>
                                                     </li>
-                                                    <li class="menu-item"><a href="{{ route('page.show', 'about') }}">About Us</a>
+                                                    <li class="menu-item"><a href="{{ route('trending') }}">
+                                                        {{__('home.trending') }}</a>
                                                     </li>
-                                                    <li class="menu-item"><a href="#">Contact Us</a></li>
+                                                    <li class="menu-item"><a href="{{ route('page.show', 'about') }}">  {{__('home.AboutUs') }}</a>
+                                                    </li>
+                                                    <!-- <li class="menu-item"><a href="#">Contact Us</a></li> -->
                                                 </ul>
                                             </nav>
                                         </div>
@@ -466,13 +473,16 @@
 
                                             </ul>
                                         </li>
+ <li class="menu-item"><a href="{{ route('trending') }}">
+                                                        {{__('home.trending') }}</a>
+                                                    </li>
 
-
-                                        <li class="menu-item"><a href="#">Blog</a>
+                                        <li class="menu-item"><a href="{{ route('news.index') }}">
+                                                        {{__('home.blogs') }}</a>
                                         </li>
-                                        <li class="menu-item"><a href="{{ route('page.show', 'about') }}">About Us</a>
+                                        <li class="menu-item"><a href="{{ route('page.show', 'about') }}"> {{__('home.AboutUs') }}</a>
                                         </li>
-                                        <li class="menu-item"><a href="#">Contact Us</a></li>
+                                        <!-- <li class="menu-item"><a href="#">Contact Us</a></li> -->
                                     </ul>
                                 </nav>
                             </div>
@@ -602,7 +612,7 @@
                                                 alt="star icon"><a href="{{ route('home') }}#workProcess">
                                                 {{ __('home.Work_Processing') }}</a></li>
                                         <li><img src="{{asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')}}"
-                                                alt="star icon"><a href="#">
+                                                alt="star icon"><a href="{{ route('faqs') }}">
                                                 {{ __('home.faq') }}</a>
                                         </li>
 
@@ -641,33 +651,17 @@
                                 data-aos-duration="1600">
                                 <h4 class="widget-title">Recent Blog</h4>
                                 <div class="widget-content">
+                                      @foreach($last_news as $new)
                                     <div class="recent-post-item">
                                         <div class="thumb">
-                                            <img src="assets/images/footer/recent-post-1.png" alt="post thumb">
+                                            <img src="{{ asset($new->cover) }}" alt="post thumb">
                                         </div>
                                         <div class="content">
-                                            <h4><a href="#">Tips on Finding Affordable Fashion Gems Online</a></h4>
-                                            <span><a href="#">July 11, 2023</a></span>
+                                            <h4><a href="{{ route('news.show', $new->slug) }}">{{ App::isLocale('en') ? $new->title_en : $new->title_ar }}</a></h4>
+                                            <span><a href="{{ route('news.show', $new->slug) }}">   {{ optional($new->published_at)->format('M d') }} ,{{ optional($new->published_at)->format('Y') }}</a></span>
                                         </div>
                                     </div>
-                                    <div class="recent-post-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/footer/recent-post-2.png" alt="post thumb">
-                                        </div>
-                                        <div class="content">
-                                            <h4><a href="#">Mastering the Art of Fashion E-commerce Marketing</a></h4>
-                                            <span><a href="#">JUly 11, 2024</a></span>
-                                        </div>
-                                    </div>
-                                    <div class="recent-post-item">
-                                        <div class="thumb">
-                                            <img src="assets/images/footer/recent-post-3.png" alt="post thumb">
-                                        </div>
-                                        <div class="content">
-                                            <h4><a href="#">Must-Have Trends You Can Shop Online Now</a></h4>
-                                            <span><a href="#">July 11, 2024</a></span>
-                                        </div>
-                                    </div>
+                                   @endforeach
                                 </div>
                             </div>
                         </div>

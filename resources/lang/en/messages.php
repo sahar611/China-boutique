@@ -456,4 +456,165 @@ return [
     'delete_review_confirm' => 'Delete this review?',
     'no_reviews_found' => 'No reviews found.',
     'not_approved' => 'Not approved',
+     'faqs'            => 'FAQs',
+    'faq'             => 'FAQ',
+    'create_faq'      => 'Create FAQ',
+    'edit_faq'        => 'Edit FAQ',
+    'question_en'     => 'Question (English)',
+    'question_ar'     => 'Question (Arabic)',
+    'answer_en'       => 'Answer (English)',
+    'answer_ar'       => 'Answer (Arabic)',
+    'status'          => 'Status',
+    'active'          => 'Active',
+    'inactive'        => 'Inactive',
+    'sort_order'      => 'Sort Order',
+    'actions'         => 'Actions',
+    'create'          => 'Create',
+    'edit'            => 'Edit',
+    'save'            => 'Save',
+    'update'          => 'Update',
+    'back'            => 'Back',
+    'search'          => 'Search',
+  
+    /* =========================
+     |  General
+     ========================= */
+    'save'              => 'Save',
+    'back'              => 'Back',
+    'search'            => 'Search',
+    'filter'            => 'Filter',
+    'reset'             => 'Reset',
+    'date'              => 'Date',
+    'actions'           => 'Actions',
+    'print'             => 'Print',
+    'view'              => 'View',
+    'edit'              => 'Edit',
+    'delete'            => 'Delete',
+    'loading'           => 'Loading...',
+    'updated'           => 'Updated successfully',
+
+    /* =========================
+     |  Customers
+     ========================= */
+    'customer'          => 'Customer',
+    'customer_information' => 'Customer Information',
+    'name'              => 'Name',
+    'email'             => 'Email',
+    'phone'             => 'Phone',
+    'address'           => 'Address',
+
+    /* =========================
+     |  Orders
+     ========================= */
+    'orders'            => 'Orders',
+    'order'             => 'Order',
+    'order_details'     => 'Order Details',
+    'order_information' => 'Order Information',
+    'order_code'        => 'Order Code',
+    'order_date'        => 'Order Date',
+    'order_notes'       => 'Order Notes',
+
+    /* =========================
+     |  Order Status
+     ========================= */
+    'status'                   => 'Status',
+    'all_status'               => 'All Statuses',
+
+    'order_status_new'         => 'New',
+    'order_status_processing'  => 'Processing',
+    'order_status_shipped'     => 'Shipped',
+    'order_status_completed'   => 'Completed',
+    'order_status_cancelled'   => 'Cancelled',
+
+    'update_status'            => 'Update Status',
+
+    /* =========================
+     |  Payment
+     ========================= */
+    'payment'                  => 'Payment',
+    'payment_method'           => 'Payment Method',
+    'payment_status'           => 'Payment Status',
+    'all_payment_methods'      => 'All Payment Methods',
+    'all_payment_status'       => 'All Payment Statuses',
+
+    'payment_method_bank'      => 'Bank Transfer',
+    'payment_method_online'    => 'Online Payment',
+
+    'payment_status_pending'   => 'Pending',
+    'payment_status_paid'      => 'Paid',
+    'payment_status_failed'    => 'Failed',
+
+    'bank_receipt'             => 'Bank Receipt',
+    'upload_bank_receipt'      => 'Upload Bank Receipt',
+
+    /* =========================
+     |  Products / Items
+     ========================= */
+    'items'             => 'Items',
+    'product'           => 'Product',
+    'products'          => 'Products',
+    'qty'               => 'Quantity',
+    'unit_price'        => 'Unit Price',
+    'price'             => 'Price',
+
+    /* =========================
+     |  Totals
+     ========================= */
+    'subtotal'          => 'Subtotal',
+    'shipping'          => 'Shipping',
+    'discount'          => 'Discount',
+    'total'             => 'Total',
+
+    /* =========================
+     |  Cart
+     ========================= */
+    'cart'                  => 'Cart',
+    'my_cart'               => 'My Cart',
+    'added_to_cart'         => 'Added to cart successfully',
+    'add_to_cart_failed'    => 'Failed to add product to cart',
+    'cart_empty'            => 'Your cart is empty',
+    'continue_shopping'     => 'Continue Shopping',
+    'clear_cart'            => 'Clear Cart',
+    'proceed_to_checkout'   => 'Proceed to Checkout',
+
+    /* =========================
+     |  Checkout
+     ========================= */
+    'checkout'               => 'Checkout',
+    'choose_payment_method'  => 'Choose Payment Method',
+    'send'                   => 'Send',
+    'thank_you'              => 'Thank You',
+    'order_placed_successfully' => 'Your order has been placed successfully',
+    'print_order'            => 'Print Order',
+
+    /* =========================
+     |  Wishlist
+     ========================= */
+    'wishlist'               => 'Wishlist',
+    'wishlist_failed'        => 'Wishlist action failed',
+    'added_to_wishlist'      => 'Added to wishlist',
+    'removed_from_wishlist'  => 'Removed from wishlist',
+
+    /* =========================
+     |  Export
+     ========================= */
+    'export'             => 'Export',
+    'export_excel'       => 'Export Excel',
+    'export_pdf'         => 'Export PDF',
+
+    /* =========================
+     |  Admin – Orders Table
+     ========================= */
+    'all_orders'         => 'All Orders',
+    'orders_count'       => 'Orders Count',
+
+    /* =========================
+     |  Emails
+     ========================= */
+    'order_status_updated'         => 'Your order status has been updated',
+    'order_status_updated_subject' => 'Order Status Updated :code',
+    'view_order'                   => 'View Order',
+    'thanks'                       => 'Thank you',
+
+
 ];

@@ -99,5 +99,22 @@ public function miniRemove(Request $request, CartItem $item)
    
     return $this->mini($request);
 }
+public function clear(Request $request)
+{
+    $cart = $this->cart->currentCart($request);
+
+    
+    $cart->items()->delete();
+
+    if ($request->wantsJson()) {
+        return response()->json([
+            'items_count' => 0,
+            'subtotal' => 0,
+        ]);
+    }
+
+    return back()->with('success', __('messages.cart_cleared'));
+}
+
 
 }

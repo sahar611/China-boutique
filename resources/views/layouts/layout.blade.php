@@ -166,6 +166,24 @@
   </a>
 </li>
 @endcan
+@can('currencies.view')
+<li class="nav-item">
+  <a class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}"
+     href="{{ route('admin.orders.index') }}">
+    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+      
+      <svg width="12px" height="12px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
+        <title>{{ __('messages.orders') }}</title>
+        <g fill="#FFFFFF" fill-rule="nonzero">
+          <path class="color-background opacity-6" d="M5 8h35v24H5z"></path>
+          <path class="color-background" d="M15 14h15v12H15z"></path>
+        </g>
+      </svg>
+    </div>
+    <span class="nav-link-text ms-1">{{ __('messages.orders') }}</span>
+  </a>
+</li>
+@endcan
 @php
   $canCatalog = auth()->user()?->can('products.view')
         || auth()->user()?->can('categories.view')
@@ -289,6 +307,11 @@
          <li class="nav-item">
           <a class="nav-link {{ request()->routeIs('admin.work_steps.*') ? 'active' : '' }}" href="{{ route('admin.work_steps.index') }}">
             • {{ __('messages.work_steps') }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}" href="{{ route('admin.faqs.index') }}">
+            • {{ __('messages.faqs') }}
           </a>
         </li>
         @endcan
@@ -444,7 +467,9 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('assets/js/soft-ui-dashboard.min.js?v=1.0.3')}}"></script> 
-  @stack('scripts')
+
+
+   @stack('scripts')
 
 </body>
 

@@ -103,6 +103,18 @@
                 @enderror
             </div>
         </div>
+         <div class="col-lg-12">
+            <div class="form-group">
+                <input type="text"
+                       placeholder="address"
+                       class="form_control @error('address') is-invalid @enderror"
+                       name="address"
+                       value="{{ old('address') }}">
+                @error('address')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
 
         <div class="col-lg-12">
             <div class="form-group" style="position: relative;">
