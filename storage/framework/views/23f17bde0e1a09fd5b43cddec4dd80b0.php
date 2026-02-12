@@ -21,7 +21,7 @@
                             <tr>
                                 <th>#</th>
                                 <th><?php echo e(__('messages.title')); ?></th>
-                                <th><?php echo e(__('messages.image')); ?></th>
+                                <!-- <th><?php echo e(__('messages.image')); ?></th> -->
                                 <th><?php echo e(__('messages.status')); ?></th>
                                 <th><?php echo e(__('messages.url')); ?></th>
                                 <th class="text-center"><?php echo e(__('messages.actions')); ?></th>
@@ -36,13 +36,13 @@
                                         <?php echo e(app()->isLocale('ar') ? ($banner->title_ar ?: $banner->title) : $banner->title); ?>
 
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <?php if($banner->image): ?>
                                             <img src="<?php echo e(asset('storage/'.$banner->image)); ?>" width="80">
                                         <?php else: ?>
                                             -
                                         <?php endif; ?>
-                                    </td>
+                                    </td> -->
                                     <td><?php echo e($banner->status ? __('messages.status_active') : __('messages.status_inactive')); ?></td>
                                     <td><?php echo e($banner->url ?? '-'); ?></td>
                                     <td class="text-center">

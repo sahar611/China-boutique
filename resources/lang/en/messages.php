@@ -615,6 +615,36 @@ return [
     'order_status_updated_subject' => 'Order Status Updated :code',
     'view_order'                   => 'View Order',
     'thanks'                       => 'Thank you',
+'sizes' => 'Sizes',
+    'size_type' => 'Size Type',
+    'size_type_standard' => 'Standard (S/M/L)',
+    'size_type_dimensions' => 'Dimensions (L×W×H)',
+    'standard_sizes' => 'Standard Sizes',
+    'add_size' => 'Add Size',
+    'size' => 'Size',
+    'dimensions_size' => 'Dimensions Size',
+    'length' => 'Length',
+    'width' => 'Width',
+    'height' => 'Height',
+    'unit' => 'Unit',
+
+    // ✅ New keys added by me
+    'basic_info' => 'Basic Info',
+    'classification' => 'Classification',
+    'pricing_stock' => 'Pricing & Stock',
+    'home_display' => 'Home Display',
+    'media' => 'Media',
+    'back' => 'Back',
+    'validation_error' => 'Please review the required fields below.',
+'tab_basic' => 'Basic Info',
+'tab_classification' => 'Classification',
+'tab_pricing' => 'Pricing & Stock',
+'tab_display' => 'Home Display',
+'tab_media' => 'Media',
+'tab_sizes' => 'Sizes',
+
+'validation_error' => 'Please review the required fields below.',
+'back' => 'Back',
 
 
 ];

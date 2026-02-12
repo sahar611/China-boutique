@@ -69,14 +69,14 @@
 
                  
 
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <label>{{ __('messages.image') }}</label>
                         <input type="file" name="image" class="form-control">
                         @if($banner->image)
     <img src="{{ asset('storage/'.$banner->image) }}" width="120" class="img-thumbnail mt-2">
 @endif
 
-                    </div>
+                    </div> -->
 
                 </div>
 

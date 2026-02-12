@@ -105,5 +105,10 @@ public function wishlistProducts()
     return $this->belongsToMany(Product::class, 'wishlists')
         ->withTimestamps();
 }
+public function getDefaultGuardName(): string
+{
+    return ($this->account_type === 'staff') ? 'admin' : 'web';
+}
+
 
 }

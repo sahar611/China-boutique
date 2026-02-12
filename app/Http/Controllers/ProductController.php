@@ -88,7 +88,7 @@ class ProductController extends Controller
             'price'           => ['required', 'numeric', 'min:0'],
             'sale_price'      => ['nullable', 'numeric', 'min:0'],
             'stock'           => ['nullable', 'integer', 'min:0'],
-            'track_stock'     => ['required', 'boolean'],
+            'track_stock'     => ['nullable', 'boolean'],
             'sku'             => ['nullable', 'string', 'max:255', 'unique:products,sku'],
             'is_active'       => ['required', 'boolean'],
 
@@ -176,7 +176,7 @@ $product->load('images', 'variants');
             'price'           => ['required', 'numeric', 'min:0'],
             'sale_price'      => ['nullable', 'numeric', 'min:0'],
             'stock'           => ['nullable', 'integer', 'min:0'],
-            'track_stock'     => ['required', 'boolean'],
+            'track_stock'     => ['nullable', 'boolean'],
             'sku'             => ['nullable', 'string', 'max:255', 'unique:products,sku,' . $product->id],
             'is_active'       => ['required', 'boolean'],
 

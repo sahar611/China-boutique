@@ -1,82 +1,70 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;  
 
-class AuthController extends Controller 
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+class AuthController extends Controller
 {
+    public function login()
+    {
+        Log::info('admin login page');
+
+       
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.home');
+        }
+
+        return view('auth.login');
+    }
+
+    public function checkLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:4',
+        ]);
+
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+            'account_type' => 'staff',
+        ];
+
+      if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+      
+    $request->session()->regenerate();
+
     
+    Auth::guard('web')->logout();
+
+    $user = Auth::guard('admin')->user();
+
+    if ($user->account_type == 'staff') {
+        return redirect()->route('admin.home');
+    }
+
+    Auth::guard('admin')->logout();
+    return redirect()->route('admin.login')
+        ->withErrors(['email' => 'لا تملك صلاحية للدخول.']);
+}
+
+
+        return back()->withErrors([
+            'email' => 'الرجاء التحقق من بريدك الالكتروني و كلمة السر!',
+        ])->withInput();
+    }
+
     public function logout(Request $request)
     {
-        
-                         $user = User::find(Auth::user()->id);
+        Auth::guard('admin')->logout();
 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-            return redirect()->route('login');
+        return redirect()->route('admin.login');
     }
-    
-  public function login()
-  {
-    Log::info('login');
-         if(Auth::user()) {
-             
-             $user = User::find(Auth::user()->id);
-           
-          
-             $user->save();
-             
-             return  redirect()->route('admin.home'); 
-
-         } else {
-             return view('auth.login')->with('error' , 'الرجاء التحقق من بريدك الالكتروني و كلمة السر !');
-         }
-  }
-  public function register()
-  {
-    
-  }
- 
-      public function checkLogin(Request $request)
-      {
-           $request->validate([
-                'email' => 'required|email',
-                'password' => 'required|min:4'
-            ]);
-        $credentials['account_type'] = 'staff';
-               if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                              $user = Auth::getLastAttempted();
-                              
-                //  if ($user->status==0) {
-                //     Auth::logout();
-                //     return redirect()->route('login')->with('alert-success' , 'حسابك غير نشط انتظر التفعيل!..');
-                //  } else{
-                     
-                         $user = User::find(Auth::user()->id);
-                if ($user->hasRole('admin')) {
-            return redirect()->route('admin.home');
-       // }
-
-        if ($user->hasRole('provider')) {
-            return redirect()->route('provider.home');
-        }
-             
-                        Auth::logout();
-        return redirect()
-            ->route('login')
-            ->withErrors(['email' => 'لا تملك صلاحية للدخول.']);
-                         
-                   }
-                  }
-               return back()->with('alert-success', 'الرجاء التحقق من بريدك الالكتروني و كلمة السر!'); 
-
-      }
- 
-  
 }

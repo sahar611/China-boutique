@@ -93,15 +93,17 @@
                             </div>
                             @if($trending->sale_price)
                         <div class="product-price">
-                            <span class="price prev-price"><span class="currency">{{ $currentCurrency->symbol
-                                    }}</span>{{ number_format($trending->price * $currentCurrency->rate, 2) }}</span>
-                            <span class="price new-price"><span class="currency">{{ $currentCurrency->symbol }}</span>{{
+                            <span class="price prev-price"><span class="currency">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $currentCurrency->symbol
+                                    }}@endif</span>{{ number_format($trending->price * $currentCurrency->rate, 2) }}</span>
+                            <span class="price new-price"><span class="currency">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $currentCurrency->symbol
+                                    }}@endif</span>{{
                                 number_format($trending->sale_price * $currentCurrency->rate, 2) }}</span>
                         </div>
                         @else
                         <div class="product-price">
 
-                            <span class="price new-price"><span class="currency">{{ $currentCurrency->symbol }}</span>{{
+                            <span class="price new-price"><span class="currency">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $currentCurrency->symbol
+                                    }}@endif</span>{{
                                 number_format($trending->price * $currentCurrency->rate, 2) }}</span>
                         </div>
                         @endif

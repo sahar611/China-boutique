@@ -28,10 +28,40 @@ use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\WishlistController;
 use App\Http\Controllers\Front\Auth\CustomerAuthController;
 use App\Http\Controllers\Front\CheckoutController;
+Route::get('/_debug_admin', function () {
+    $u = auth('admin')->user();
 
-Route::get('/sing-in', [AuthController::class, 'login'])->name('login');
-Route::get('/sing-up', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'checklogin'])->name('checklogin');
+    if (!$u) {
+        return 'NO ADMIN AUTH';
+    }
+
+    return [
+        'id' => $u->id,
+        'email' => $u->email,
+        'account_type' => $u->account_type,
+        'roles' => $u->getRoleNames(),
+        'permissions' => $u->getAllPermissions()->pluck('name'),
+        'can_admin_access' => $u->can('admin.access'),
+        'guard' => 'admin',
+    ];
+});
+
+Route::get('/login', function () {
+    // اختار توجهه لفين (أنا أنصح لصفحة العميل)
+    return redirect()->route('admin.login');
+})->name('login');
+
+// Admin Auth
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['admin.session', 'guest:admin'])->group(function () {
+        Route::get('/login', [AuthController::class, 'login'])->name('login');
+        Route::post('/login', [AuthController::class, 'checkLogin'])->name('login.post');
+    });
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->middleware(['admin.session', 'auth:admin'])
+        ->name('logout');
+});
 
 Route::get('lang/{lang}', function ($lang) {
     if (in_array($lang, ['en', 'ar'])) {
@@ -40,11 +70,12 @@ Route::get('lang/{lang}', function ($lang) {
     return back();
 })->name('lang.switch');
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 
 // ------------------- ADMIN AREA -------------------
-Route::middleware(['auth', 'permission:admin.access'])
+Route::middleware(['admin.session', 'auth:admin', 'permission:admin.access,admin'])
+
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -52,15 +83,15 @@ Route::middleware(['auth', 'permission:admin.access'])
         // Dashboard
         Route::get('/', [MainController::class, 'index'])
             ->name('home')
-            ->middleware('permission:dashboard.view');
+            ->middleware('permission:dashboard.view,admin');
 
  
         Route::resource('users', UserController::class)
-            ->middleware('role:super-admin');
+            ->middleware('role:super-admin,admin');
 
     
         Route::resource('roles', RoleController::class)
-            ->middleware('role:super-admin');
+            ->middleware('role:super-admin,admin');
 
         // Banners
         Route::resource('banners', BannerController::class);
@@ -161,6 +192,7 @@ Route::post('products/{product}/duplicate', [ProductController::class, 'duplicat
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
+
 Route::post('/change-currency/{code}', [HomeController::class, 'changeCurrency'])
     ->name('currency.change');
 Route::post('/change-language/{locale}', [HomeController::class, 'changeLang'])
@@ -185,7 +217,7 @@ Route::get('/brand/{slug}', [FrontProductController::class, 'byBrand'])
     ->name('product.show');
   
 Route::post('/product/{product:slug}/reviews', [FrontProductController::class, 'storeReview'])
-    ->name('product.reviews.store')->middleware('auth');
+    ->name('product.reviews.store')->middleware('auth:web');
  Route::prefix('cart')->name('cart.')->group(function () {
     Route::post('/add/{product:slug}', [CartController::class, 'add'])->name('add');
     Route::patch('/qty/{product:slug}', [CartController::class, 'qty'])->name('qty');
@@ -200,10 +232,12 @@ Route::post('/product/{product:slug}/reviews', [FrontProductController::class, '
 
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:web')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
     Route::get('/thankyou/{order:code}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
+    Route::get('/order/{order:code}', [CheckoutController::class, 'receipt'])->name('order.receipt');
+    Route::get('/order/{order:code}/pdf', [CheckoutController::class, 'receiptPdf'])->name('order.receipt.pdf'); // اختياري
 
    
     Route::get('/pay/{order:code}', [CheckoutController::class, 'pay'])->name('checkout.pay');

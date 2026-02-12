@@ -61,10 +61,10 @@
 
                   
 
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <label>{{ __('messages.image') }}</label>
                         <input type="file" name="image" class="form-control">
-                    </div>
+                    </div> -->
 
                 </div>
 

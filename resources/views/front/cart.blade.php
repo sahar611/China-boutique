@@ -99,9 +99,11 @@
             ? ($product->name_en ?? $product->name)
             : ($product->name_ar ?? $product->name);
 
-        $image = optional($product->images->first())->path
-            ? asset('storage/'.optional($product->images->first())->path)
-            : asset('assets/images/products/cart-1.jpg');
+       $image = $product->images->first()
+    ? asset($product->images->first()->path)
+    : asset('assets/images/products/cart-1.jpg');
+
+           
     @endphp
 
 <tr>
@@ -115,6 +117,12 @@
                     <a href="{{ route('product.show', $product->slug) }}">
                         {{ $title }}
                     </a>
+                    @if($item->variant)
+  <div class="small text-muted">
+    {{ __('home.size') }}: {{ $item->variant->label() }}
+  </div>
+@endif
+
                 </h4>
             </div>
         </div>

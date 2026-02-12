@@ -93,13 +93,13 @@
                             </div>
                             <?php if($trending->sale_price): ?>
                         <div class="product-price">
-                            <span class="price prev-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
-                            <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($trending->sale_price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price prev-price"><span class="currency"><?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price new-price"><span class="currency"><?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($trending->sale_price * $currentCurrency->rate, 2)); ?></span>
                         </div>
                         <?php else: ?>
                         <div class="product-price">
 
-                            <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price new-price"><span class="currency"><?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
                         </div>
                         <?php endif; ?>
                         </div>

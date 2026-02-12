@@ -108,7 +108,7 @@
 
             {{-- Form --}}
             <div class="p-6 sm:p-7">
-                <form method="POST" action="{{ route('checklogin') }}" class="space-y-4">
+                <form method="POST" action="{{ route('admin.login.post') }}" class="space-y-4">
                     @csrf
 
                     {{-- Email --}}

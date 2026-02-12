@@ -12,12 +12,14 @@ class CartController extends Controller
 
     public function index(Request $request)
     {
-        $cart = $this->cart->currentCart($request)->load('items.product.images');
+       $cart = $this->cart->currentCart($request)->load('items.product.images','items.variant');
+
         return view('front.cart', compact('cart'));
     }
 
     public function add(Request $request, Product $product)
     {
+     
         $qty = (int) $request->input('qty', 1);
         $cart = $this->cart->add($request, $product, $qty);
 

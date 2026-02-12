@@ -109,7 +109,7 @@
 
             
             <div class="p-6 sm:p-7">
-                <form method="POST" action="<?php echo e(route('checklogin')); ?>" class="space-y-4">
+                <form method="POST" action="<?php echo e(route('admin.login.post')); ?>" class="space-y-4">
                     <?php echo csrf_field(); ?>
 
                     

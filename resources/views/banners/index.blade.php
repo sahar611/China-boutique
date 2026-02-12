@@ -20,7 +20,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>{{ __('messages.title') }}</th>
-                                <th>{{ __('messages.image') }}</th>
+                                <!-- <th>{{ __('messages.image') }}</th> -->
                                 <th>{{ __('messages.status') }}</th>
                                 <th>{{ __('messages.url') }}</th>
                                 <th class="text-center">{{ __('messages.actions') }}</th>
@@ -34,13 +34,13 @@
                                     <td>
                                         {{ app()->isLocale('ar') ? ($banner->title_ar ?: $banner->title) : $banner->title }}
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         @if($banner->image)
                                             <img src="{{ asset('storage/'.$banner->image) }}" width="80">
                                         @else
                                             -
                                         @endif
-                                    </td>
+                                    </td> -->
                                     <td>{{ $banner->status ? __('messages.status_active') : __('messages.status_inactive') }}</td>
                                     <td>{{ $banner->url ?? '-' }}</td>
                                     <td class="text-center">

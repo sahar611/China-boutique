@@ -37,8 +37,7 @@
                             <!--=== Single Post Slider ===-->
                             <div class="single-hero-post">
                                 <div class="hero-content style-two">
-                                    <span class="tag-line"><i class="flaticon-star-2"></i><b>Best for your
-                                            categories</b><i class="flaticon-star-2"></i></span>
+                                    <span class="tag-line"><i class="flaticon-star-2"></i><b><?php echo e(__('home.Best_for_your_categories')); ?></b><i class="flaticon-star-2"></i></span>
                                     <h1><span><?php echo e($firstWords); ?></span><?php echo e($restWords); ?></h1>
                                     <p><?php echo e(app()->getLocale() == 'ar' ? $banner->description_ar : $banner->description); ?>
 
@@ -257,10 +256,23 @@
         : asset('assets/images/products/default.png')); ?>" class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                             </div>
                                             <div class="cart-button">
-                                                <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
-                                                    data-url="<?php echo e(route('cart.add', $bestSeller->slug)); ?>"
-                                                    data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
-                                                    <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
+                                                
+  <?php if(($bestSeller->size_type ?? 'standard') === 'standard'): ?>
+    
+    <a href="<?php echo e(route('product.show', $bestSeller->slug ?? $product->id)); ?>" class="cart-btn">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php else: ?>
+   
+    <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
+       data-url="<?php echo e(route('cart.add', $bestSeller->slug)); ?>"
+       data-qty-input=".quantity">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php endif; ?>
+
                                             </div>
                                         </div>
                                         <div class="product-info-wrap">
@@ -279,14 +291,13 @@
                                             </div>
                                             <?php if($bestSeller->sale_price): ?>
                                             <div class="product-price">
-                                                <span class="price prev-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($bestSeller->price * $currentCurrency->rate, 2)); ?></span>
-                                                <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($bestSeller->sale_price * $currentCurrency->rate, 2)); ?></span>
+                                                <span class="price prev-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($bestSeller->price * $currentCurrency->rate, 2)); ?></span>
+                                                <span class="price new-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($bestSeller->sale_price * $currentCurrency->rate, 2)); ?></span>
                                             </div>
                                             <?php else: ?>
                                             <div class="product-price">
 
-                                                <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?>
-
+                                                <span class="price new-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?>
                                                     </span><?php echo e(number_format($bestSeller->price * $currentCurrency->rate,
                                                     2)); ?></span>
                                             </div>
@@ -328,11 +339,22 @@
                                                     class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                             </div>
                                             <div class="cart-button">
-                                                <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
-                                                    data-url="<?php echo e(route('cart.add', $newProduct->slug)); ?>"
-                                                    data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
-                                                    <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
-                                            </div>
+                                                  <?php if(($newProduct->size_type ?? 'standard') === 'standard'): ?>
+    
+    <a href="<?php echo e(route('product.show', $newProduct->slug ?? $newProduct->id)); ?>" class="cart-btn">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php else: ?>
+   
+    <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
+       data-url="<?php echo e(route('cart.add', $newProduct->slug)); ?>"
+       data-qty-input=".quantity">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php endif; ?>
+                                                </div>
                                         </div>
                                         <div class="product-info-wrap">
                                             <div class="product-info">
@@ -350,13 +372,13 @@
                                             </div>
                                             <?php if($newProduct->sale_price): ?>
                                             <div class="product-price">
-                                                <span class="price prev-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($newProduct->price * $currentCurrency->rate, 2)); ?></span>
-                                                <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($newProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
+                                                <span class="price prev-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($newProduct->price * $currentCurrency->rate, 2)); ?></span>
+                                                <span class="price new-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($newProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
                                             </div>
                                             <?php else: ?>
                                             <div class="product-price">
 
-                                                <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($newProduct->price * $currentCurrency->rate, 2)); ?></span>
+                                                <span class="price new-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($newProduct->price * $currentCurrency->rate, 2)); ?></span>
                                             </div>
                                             <?php endif; ?>
                                         </div>
@@ -396,11 +418,26 @@
                                                     class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                             </div>
                                             <div class="cart-button">
-                                                <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
+                                                <!-- <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
                                                     data-url="<?php echo e(route('cart.add', $saleProduct->slug)); ?>"
                                                     data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
-                                                    <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
-                                            </div>
+                                                    <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a> -->
+                                            <?php if(($saleProduct->size_type ?? 'standard') === 'standard'): ?>
+    
+    <a href="<?php echo e(route('product.show', $saleProduct->slug ?? $saleProduct->id)); ?>" class="cart-btn">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php else: ?>
+   
+    <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
+       data-url="<?php echo e(route('cart.add', $saleProduct->slug)); ?>"
+       data-qty-input=".quantity">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php endif; ?>
+                                                </div>
                                         </div>
                                         <div class="product-info-wrap">
                                             <div class="product-info">
@@ -418,8 +455,8 @@
                                             </div>
                                             <?php if($saleProduct->sale_price): ?>
                                             <div class="product-price">
-                                                <span class="price prev-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($saleProduct->price * $currentCurrency->rate, 2)); ?></span>
-                                                <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($saleProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
+                                                <span class="price prev-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($saleProduct->price * $currentCurrency->rate, 2)); ?></span>
+                                                <span class="price new-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($saleProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
                                             </div>
                                             <?php else: ?>
                                             <div class="product-price">
@@ -487,9 +524,22 @@
                                 class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                         </div>
                         <div class="cart-button">
-                            <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
-                                data-url="<?php echo e(route('cart.add', $homeProduct->slug)); ?>" data-qty-input=".quantity"><i
-                                    class="far fa-shopping-basket"></i> <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span></a>
+                           
+                                    <?php if(($homeProduct->size_type ?? 'standard') === 'standard'): ?>
+    
+    <a href="<?php echo e(route('product.show', $homeProduct->slug ?? $homeProduct->id)); ?>" class="cart-btn">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php else: ?>
+   
+    <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
+       data-url="<?php echo e(route('cart.add', $homeProduct->slug)); ?>"
+       data-qty-input=".quantity">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text"><?php echo e(__('home.Add_To_Cart')); ?></span>
+    </a>
+<?php endif; ?>
                         </div>
                     </div>
                     <div class="product-info-wrap">
@@ -507,13 +557,15 @@
                         </div>
                         <?php if($homeProduct->sale_price): ?>
                         <div class="product-price">
-                            <span class="price prev-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($homeProduct->price * $currentCurrency->rate, 2)); ?></span>
-                            <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($homeProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price prev-price"><span class="currency">
+                                <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($homeProduct->price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price new-price"><span class="currency"> <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($homeProduct->sale_price * $currentCurrency->rate, 2)); ?></span>
                         </div>
                         <?php else: ?>
                         <div class="product-price">
 
-                            <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($homeProduct->price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price new-price"><span class="currency">
+                                <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($homeProduct->price * $currentCurrency->rate, 2)); ?></span>
                         </div>
                         <?php endif; ?>
                     </div>
@@ -522,73 +574,7 @@
             </div>
         </div>
     </section><!--====== End Features Products Section  ======-->
-    <!--====== Start Features Section ======-->
-    <section class="features-section pt-5 pb-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!--=== Features Wrapper ===-->
-                    <div class="features-wrapper" data-aos="fade-up" data-aos-delay="10" data-aos-duration="1000">
-                        <!--=== Iconic Box Item ===-->
-                        <div class="iconic-box-item icon-left-box mb-25">
-                            <div class="icon">
-                                <i class="fas fa-shipping-fast"></i>
-                            </div>
-                            <div class="content">
-                                <h5>Free Shipping</h5>
-                                <p>You get your items delivered without any extra cost.</p>
-                            </div>
-                        </div>
-                        <!--=== Divider ===-->
-                        <div class="divider mb-25">
-                            <img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/divider.png')); ?>"
-                                alt="divider">
-                        </div>
-                        <!--=== Iconic Box Item ===-->
-                        <div class="iconic-box-item icon-left-box mb-25">
-                            <div class="icon">
-                                <i class="fas fa-microphone"></i>
-                            </div>
-                            <div class="content">
-                                <h5>Great Support 24/7</h5>
-                                <p>Our customer support team is available around the clock </p>
-                            </div>
-                        </div>
-                        <!--=== Divider ===-->
-                        <div class="divider mb-25">
-                            <img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/divider.png')); ?>"
-                                alt="divider">
-                        </div>
-                        <!--=== Iconic Box Item ===-->
-                        <div class="iconic-box-item icon-left-box mb-25">
-                            <div class="icon">
-                                <i class="far fa-handshake"></i>
-                            </div>
-                            <div class="content">
-                                <h5>Return Available</h5>
-                                <p>Making it easy to return any items if you're not satisfied.</p>
-                            </div>
-                        </div>
-                        <!--=== Divider ===-->
-                        <div class="divider mb-25">
-                            <img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/divider.png')); ?>"
-                                alt="divider">
-                        </div>
-                        <!--=== Iconic Box Item ===-->
-                        <div class="iconic-box-item icon-left-box mb-25">
-                            <div class="icon">
-                                <i class="fas fa-sack-dollar"></i>
-                            </div>
-                            <div class="content">
-                                <h5>Secure Payment</h5>
-                                <p>Shop with confidence knowing that our secure payment</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!--====== End Features Section ======-->
+   
 
     <!--====== Start Banner Section ======-->
     <section class="banner-section pt-5 pb-2">
@@ -665,13 +651,13 @@
                         </div>
                         <?php if($trending->sale_price): ?>
                         <div class="product-price">
-                            <span class="price prev-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
-                            <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($trending->sale_price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price prev-price"><span class="currency">  <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price new-price"><span class="currency">  <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($trending->sale_price * $currentCurrency->rate, 2)); ?></span>
                         </div>
                         <?php else: ?>
                         <div class="product-price">
 
-                            <span class="price new-price"><span class="currency"><?php echo e($currentCurrency->symbol); ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
+                            <span class="price new-price"><span class="currency">  <?php if($currentCurrency->code =='SAR'): ?>  <img src="<?php echo e(asset('frontend/saudi-riyal.svg')); ?>" width="25px"/> <?php else: ?><?php echo e($currentCurrency->symbol); ?><?php endif; ?></span><?php echo e(number_format($trending->price * $currentCurrency->rate, 2)); ?></span>
                         </div>
                         <?php endif; ?>
                     </div>
@@ -733,12 +719,13 @@
                     <div class="col-xl-6">
                         <div class="section-content-box" data-aos="fade-up" data-aos-duration="1000">
                             <!--=== Section Title  ===-->
+                           
                             <div class="section-title">
                                 <div class="sub-heading d-inline-flex align-items-center">
                                     <i class="flaticon-sparkler"></i>
-                                    <span class="sub-title">Our Newsletter</span>
+                                    <span class="sub-title"><?php echo e(__('home.newsletter_title_small')); ?></span>
                                 </div>
-                                <h2>Subscribe <span>newsletter</span> <br> to & get Every day discount</h2>
+                                <h2> <?php echo __('home.newsletter_title_main'); ?></h2>
                             </div>
                             <form action="<?php echo e(route('newsletter.subscribe')); ?>" method="POST">
                                 <?php echo csrf_field(); ?>

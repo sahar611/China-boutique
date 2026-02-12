@@ -91,21 +91,21 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::firstOrCreate([
                 'name' => $permission,
-                'guard_name' => 'web',
+                'guard_name' => 'admin',
             ]);
         }
 
        
         $superAdmin = Role::firstOrCreate([
             'name' => 'super-admin',
-            'guard_name' => 'web',
+            'guard_name' => 'admin',
         ]);
         $superAdmin->syncPermissions($permissions);
 
         // Store Admin
         $storeAdmin = Role::firstOrCreate([
             'name' => 'store-admin',
-            'guard_name' => 'web',
+            'guard_name' => 'admin',
         ]);
         $storeAdmin->syncPermissions([
             'admin.access',
@@ -137,7 +137,7 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
         // Order Manager
         $orderManager = Role::firstOrCreate([
             'name' => 'order-manager',
-            'guard_name' => 'web',
+            'guard_name' => 'admin',
         ]);
         $orderManager->syncPermissions([
             'admin.access',
@@ -151,7 +151,7 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
         // Content Manager
         $contentManager = Role::firstOrCreate([
             'name' => 'content-manager',
-            'guard_name' => 'web',
+            'guard_name' => 'admin',
         ]);
         $contentManager->syncPermissions([
             'admin.access',
@@ -167,7 +167,7 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
         // Warehouse
         $warehouse = Role::firstOrCreate([
             'name' => 'warehouse',
-            'guard_name' => 'web',
+            'guard_name' => 'admin',
         ]);
         $warehouse->syncPermissions([
             'admin.access',
@@ -179,7 +179,7 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
         // Finance
         $finance = Role::firstOrCreate([
             'name' => 'finance',
-            'guard_name' => 'web',
+            'guard_name' => 'admin',
         ]);
         $finance->syncPermissions([
             'admin.access',
@@ -191,7 +191,7 @@ class EcommerceRolesAndPermissionsSeeder extends Seeder
         // Support
         $support = Role::firstOrCreate([
             'name' => 'support',
-            'guard_name' => 'web',
+            'guard_name' => 'admin',
         ]);
         $support->syncPermissions([
             'admin.access',

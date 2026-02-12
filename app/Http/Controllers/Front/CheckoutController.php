@@ -16,16 +16,16 @@ class CheckoutController extends Controller
 
     public function index(Request $request)
     {
-        $cart = $this->cart->currentCart($request)->load('items.product');
+        $cart = $this->cart->currentCart($request)->load('items.product','items.variant');
+
 
         if ($cart->items->isEmpty()) {
             return redirect()->route('cart.index')->with('info', __('home.cart_empty'));
         }
 
-        $user = Auth::user();
+       $user = Auth::guard('web')->user();
 
-        // افترض إن عندك address + phone في جدول users
-        // هنملي الفورم تلقائيًا من البروفايل
+        
         return view('front.checkout', compact('cart', 'user'));
     }
 
@@ -37,10 +37,8 @@ class CheckoutController extends Controller
             return back()->with('error', __('home.cart_empty'));
         }
 
-        // بيانات المستخدم من البروفايل (مش من فورم)
-        $user = Auth::user();
-
-        // طريقة الدفع فقط من الفورم
+        
+        $user = Auth::guard('web')->user();
         $data = $request->validate([
             'payment_method' => ['required', 'in:bank,online'],
             'bank_receipt'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
@@ -96,22 +94,27 @@ class CheckoutController extends Controller
                 'placed_at'        => now(),
             ]);
 
-            foreach ($cart->items as $item) {
-                $unit = (float)($item->unit_sale_price ?? 0);
-                $unit = ($unit > 0 && $unit < (float)$item->unit_price) ? $unit : (float)$item->unit_price;
+           foreach ($cart->items as $item) {
+    $unit = (float)($item->unit_sale_price ?? 0);
+    $unit = ($unit > 0 && $unit < (float)$item->unit_price) ? $unit : (float)$item->unit_price;
 
-                OrderItem::create([
-                    'order_id'        => $order->id,
-                    'product_id'      => $item->product_id,
-                    'product_name'    => $item->product?->name_en ?? $item->product?->name_ar ?? 'Product',
-                    'unit_price'      => (float)$item->unit_price,
-                    'unit_sale_price' => (float)($item->unit_sale_price ?? 0),
-                    'qty'             => (int)$item->qty,
-                    'line_total'      => round($unit * (int)$item->qty, 2),
-                ]);
-            }
+    $variantLabel = $item->variant ? $item->variant->label() : null;
 
-            // فضي الكارت بعد إنشاء الطلب
+    OrderItem::create([
+        'order_id'        => $order->id,
+        'product_id'      => $item->product_id,
+        'product_variant_id'      => $item->variant_id,            
+      
+        'product_name'    => $item->product?->name_en ?? $item->product?->name_ar ?? 'Product',
+        'unit_price'      => (float)$item->unit_price,
+        'unit_sale_price' => (float)($item->unit_sale_price ?? 0),
+        'qty'             => (int)$item->qty,
+        'line_total'      => round($unit * (int)$item->qty, 2),
+    ]);
+}
+
+
+           
             $cart->items()->delete();
 
             return $order;
@@ -122,19 +125,15 @@ class CheckoutController extends Controller
             return redirect()->route('checkout.pay', $order->code);
         }
 
-        // ✅ تحويل بنكي: يروح thankyou فورًا
+        
         return redirect()->route('checkout.thankyou', $order->code)
             ->with('success', __('home.order_placed'));
     }
 
-    // Placeholder للدفع الأونلاين
+  
     public function pay(Order $order)
     {
-        // هنا هتربط بوابة الدفع (Moyasar/Stripe/...)
-        // الفكرة: تعمل redirect لبوابة الدفع ومعاك order->code + total
-
-        // مؤقتًا (للتجربة) اعتبرنا الدفع تم:
-        // في الحقيقي: ده لازم يحصل بعد callback/webhook مش هنا
+        
         $order->update([
             'payment_status' => 'paid',
             'status' => 'processing',
@@ -144,13 +143,18 @@ class CheckoutController extends Controller
             ->with('success', app()->getLocale()=='en' ? 'Payment successful.' : 'تم الدفع بنجاح.');
     }
 
-    public function thankyou(Order $order)
-    {
-        // حماية: الطلب يخص نفس المستخدم
-        abort_unless($order->user_id === Auth::id(), 403);
+    public function receipt(Order $order)
+{
+    abort_unless($order->user_id === Auth::guard('web')->id(), 403);
 
-        $order->load('items');
+    $order->load(['items']); 
+    return view('front.order_receipt', compact('order'));
+}
 
-        return view('front.checkout_thankyou', compact('order'));
-    }
+public function thankyou(Order $order)
+{
+    
+    return redirect()->route('order.receipt', $order->code);
+}
+
 }

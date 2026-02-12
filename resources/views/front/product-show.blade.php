@@ -118,100 +118,77 @@
                             <div class="product-price">
                                 @if($oldPrice)
                                 <span class="price prev-price">
-                                    <span class="currency">{{ $symbol }}</span>{{ number_format($oldPrice, 2) }}
+                                    <span class="currency"> @if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $symbol }}@endif</span>{{ number_format($oldPrice, 2) }}
                                 </span>
                                 @endif
-                                <span class="price new-price"><span class="currency">{{ $symbol }}</span>{{
+                                <span class="price new-price"><span class="currency"> @if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $symbol }}@endif</span>{{
                                     number_format($price, 2) }}</span>
                             </div>
 
-                            <div class="product-size">
-                                <h4 class="mb-15">Size</h4>
-                                <ul class="size-list mb-2">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radio" value="Slim Fit"
-                                                id="size2">
-                                            <label class="form-check-label" for="size2">
-                                                S
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radio" value="Slim Fit"
-                                                id="size3">
-                                            <label class="form-check-label" for="size3">
-                                                M
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radio" value="Slim Fit"
-                                                id="size4">
-                                            <label class="form-check-label" for="size4">
-                                                L
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radio" value="Slim Fit"
-                                                id="size5">
-                                            <label class="form-check-label" for="size5">
-                                                XL
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radio" value="Slim Fit"
-                                                id="size6">
-                                            <label class="form-check-label" for="size6">
-                                                2XL
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="product-cart-variation">
-                                <ul>
-                                    <!-- <li>
-                                                <div class="quantity-input">
-                                                    <button class="quantity-down"><i class="far fa-minus"></i></button>
-                                                    <input class="quantity" type="text" value="1" name="quantity">
-                                                    <button class="quantity-up"><i class="far fa-plus"></i></button>
-                                                </div>
-                                            </li> 
-                                            <li>
-                                                <a href="#" class="theme-btn style-one">Add To cart</a>
-                                            </li> -->
-                                    <form method="POST" action="{{ route('cart.add', $product->slug) }}">
-                                        @csrf
+                       <form method="POST" action="{{ route('cart.add', $product->slug) }}">
+  @csrf
 
-                                        <div class="product-cart-variation">
-                                            <ul>
-                                                <li>
-                                                    <div class="quantity-input">
-                                                        <button type="button" class="quantity-down"><i
-                                                                class="far fa-minus"></i></button>
-                                                        <input class="quantity" type="text" value="1" name="qty">
-                                                        <button type="button" class="quantity-up"><i
-                                                                class="far fa-plus"></i></button>
-                                                    </div>
-                                                </li>
+  @php $sizeType = $product->size_type ?? 'standard'; @endphp
 
-                                                <li>
-                                                    <button type="submit" class="theme-btn style-one">
-                                                        {{ __('messages.add_to_cart') }}
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </form>
+  @if($sizeType === 'standard')
+    <div class="product-size">
+      <h4 class="mb-15">{{ __('home.size') }}</h4>
 
-                                    <li>
+      <ul class="size-list mb-2">
+        @foreach($variants as $v)
+          @php $id = 'variant_'.$v->id; @endphp
+          <li>
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="radio"
+                     name="variant_id"
+                     id="{{ $id }}"
+                     value="{{ $v->id }}"
+                     @checked(old('variant_id') == $v->id)
+                     required>
+              <label class="form-check-label" for="{{ $id }}">
+                {{ $v->label() }}
+              </label>
+            </div>
+          </li>
+        @endforeach
+      </ul>
+
+      @error('variant_id')
+        <div class="text-danger small">{{ $message }}</div>
+      @enderror
+    </div>
+
+  @else
+    @php $dim = $selectedVariant ?? $variants->first(); @endphp
+    @if($dim)
+      <div class="product-size">
+        <h4 class="mb-15">{{ __('home.size') }}</h4>
+        <div class="alert alert-light mb-2">
+          {{ $dim->label() }}
+        </div>
+
+        <input type="hidden" name="variant_id" value="{{ $dim->id }}">
+      </div>
+    @endif
+  @endif
+
+  <div class="product-cart-variation">
+    <ul>
+      <li>
+        <div class="quantity-input">
+          <button type="button" class="quantity-down"><i class="far fa-minus"></i></button>
+          <input class="quantity" type="text" value="1" name="qty">
+          <button type="button" class="quantity-up"><i class="far fa-plus"></i></button>
+        </div>
+      </li>
+
+      <li>
+        <button type="submit" class="theme-btn style-one">
+          {{ __('home.Add_To_Cart') }}
+        </button>
+      </li>
+       <li>
                                         @php
                                         $wishIds = session('wishlist', []);
                                         $isWished = auth()->check()
@@ -226,13 +203,14 @@
                                                 class="{{ $isWished ? 'fa fa-heart' : 'far fa-heart' }}"></i>
                                         </a>
                                     </li>
+    </ul>
+  </div>
+</form>
 
-                                </ul>
-                            </div>
                             <div class="product-meta">
                                 <ul>
                                     @if(!empty($product->sku))
-                                    <li><span>SKU :</span> {{ $product->sku }}</li>
+                                    <!-- <li><span>SKU :</span> {{ $product->sku }}</li> -->
                                     @endif
                                     @if($product->category)
                                     <li>
@@ -331,54 +309,71 @@
                             @endforelse
                             </ul>
                         </div>
-                        <div class="reviews-contact-area">
-                            <h4>{{ __('home.Write_Comment') }}</h4>
-                            <!-- <ul class="ratings rating5 mb-40">
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><a href="#">(10)</a></li>
-                                                    </ul> -->
-                            @if(auth()->check())
-                            <form method="POST" action="{{ route('product.reviews.store', $product->slug) }}"
-                                class="pesco-contact-form">
-                                @csrf
+                       <div class="reviews-contact-area">
 
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label>{{ __('home.rating') }}</label>
-                                            <select class="form_control" name="rating" required>
-                                                @for($i=5;$i>=1;$i--)
-                                                <option value="{{ $i }}">{{ $i }}</option>
-                                                @endfor
-                                            </select>
-                                        </div>
-                                    </div>
+    <h4>{{ __('home.Write_Comment') }}</h4>
 
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <textarea class="form_control" name="comment" rows="6" required
-                                                placeholder="{{ __('home.write_review') }}"></textarea>
-                                        </div>
-                                    </div>
+    @auth('web')
+    <form method="POST"
+          action="{{ route('product.reviews.store', $product->slug) }}"
+          class="pesco-contact-form">
+        @csrf
 
-                                    <div class="col-lg-12">
-                                        <button class="theme-btn style-one">{{ __('home.submit_review') }}</button>
-                                    </div>
-                                </div>
-                            </form>
-                            @else
-                            <div class="alert alert-info">
-                                {{ __('home.login_to_review') }}
-                                <a href="{{ route('login') }}" class="ms-2">{{ __('home.login') }}</a>
-                            </div>
-                            @endif
+        <div class="row">
 
+            <div class="col-sm-12 col-lg-12">
 
-                        </div>
+                <div class="star-rating-form">
+
+                    <div class="star-rating">
+
+                        @for($i = 5; $i >= 1; $i--)
+                            <input type="radio"
+                                   id="star{{ $i }}"
+                                   name="rating"
+                                   value="{{ $i }}"
+                                   required>
+
+                            <label for="star{{ $i }}">★</label>
+                        @endfor
+
+                    </div>
+
+                    <span class="star-rating-value"></span>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <textarea class="form_control"
+                              name="comment"
+                              rows="6"
+                              required
+                              placeholder="{{ __('home.write_review') }}"></textarea>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <button type="submit" class="theme-btn style-one">
+                    {{ __('home.submit_review') }}
+                </button>
+            </div>
+
+        </div>
+    </form>
+    @else
+        <div class="alert alert-info">
+            {{ __('home.login_to_review') }}
+            <a href="{{ route('customer.login') }}" class="ms-2">
+                {{ __('home.login') }}
+            </a>
+        </div>
+    @endauth
+
+</div>
+
                     </div>
                 </div>
             </div>
@@ -463,10 +458,10 @@
 
                             <div class="product-price">
                                 @if($pOld)
-                                <span class="price prev-price"><span class="currency">{{ $symbol }}</span>{{
+                                <span class="price prev-price"><span class="currency"> @if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $symbol }}@endif</span>{{
                                     number_format($pOld,2) }}</span>
                                 @endif
-                                <span class="price new-price"><span class="currency">{{ $symbol }}</span>{{
+                                <span class="price new-price"><span class="currency"> @if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $symbol }}@endif</span>{{
                                     number_format($pPrice,2) }}</span>
                             </div>
                         </div>
@@ -482,3 +477,13 @@
 
 </main>
 @endsection
+@push('scripts')
+<script>
+$(document).on('change', '.star-rating input', function () {
+    var rating = $(this).val();
+    $(this).closest('.star-rating-form')
+           .find('.star-rating-value')
+           .text('Review: ' + rating + ' stars');
+});
+</script>
+@endpush

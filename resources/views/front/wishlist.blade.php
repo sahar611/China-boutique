@@ -130,12 +130,25 @@
                                                 <div class="action-cart">
 
                                                     {{-- Add to Cart (AJAX same js-add-to-cart اللي عندك) --}}
-                                                    <button type="button"
-                                                        class="theme-btn style-one btn-smm js-add-to-cart"
-                                                        data-url="{{ route('cart.add', $p->slug) }}"
-                                                        @disabled(!$inStock)>
-                                                        {{ __('home.Add_To_Cart') }}
-                                                    </button>
+                                                
+@if(($p->size_type ?? 'standard') === 'standard')
+
+    <a href="{{ route('product.show', $p->slug) }}"
+       class="theme-btn style-one btn-smm"
+      >
+        {{ __('home.Add_To_Cart') }}
+    </a>
+
+@else
+
+    <button type="button"
+        class="theme-btn style-one btn-smm js-add-to-cart"
+        data-url="{{ route('cart.add', $p->slug) }}"
+       >
+        {{ __('home.Add_To_Cart') }}
+    </button>
+
+@endif
 
                                                     {{-- Remove from Wishlist (AJAX) --}}
                                                     <a href="javascript:void(0)" class="cart-remove js-wishlist-remove"

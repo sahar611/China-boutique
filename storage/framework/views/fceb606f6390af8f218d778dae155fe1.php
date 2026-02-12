@@ -46,7 +46,8 @@
            <i class="far fa-trash-alt"></i></a>
                             <a href="<?php echo e(route('product.show', $p->slug ?? $p->id)); ?>">
           <img src="<?php echo e($img); ?>" alt="cart image">
-          <?php echo e($name); ?>sssssssssssss
+          <?php echo e($name); ?>
+
         </a>
                             <span class="quantity">  <?php echo e((int)$it->qty); ?> × <span><span class="currency"><?php echo e($symbol); ?></span>
             <?php echo e(number_format($unit, 2)); ?>
@@ -62,7 +63,7 @@
                     </ul>
                     <div class="cart-mini-total">
                         <div class="cart-total">
-                            <span><strong><?php echo e(__('home.subtotal')); ?> :</strong></span> <span class="amount">1 × <span><span
+                            <span><strong><?php echo e(__('home.subtotal')); ?> :</strong></span> <span
                                         class="currency"><?php echo e($symbol); ?></span><?php echo e(number_format($subtotalView, 2)); ?></span>
                         </div>
                     </div>

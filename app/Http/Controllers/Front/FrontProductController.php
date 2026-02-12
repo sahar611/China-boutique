@@ -298,15 +298,25 @@ class FrontProductController extends Controller
     {
         [$currency, $rate, $symbol] = $this->currencyData();
 
-        $product = Product::query()
-            ->where('is_active', 1)
-            ->where('slug', $slug)
-            ->with([
-                'images' => fn($q) => $q->orderByDesc('is_main')->orderBy('sort_order'),
-                'brand:id,name_ar,name_en,slug,logo',
-                'category:id,name_ar,name_en,slug',
-            ])
-            ->firstOrFail();
+      $product = Product::query()
+    ->where('is_active', 1)
+    ->where('slug', $slug)
+    ->with([
+        'images' => fn($q) => $q->orderByDesc('is_main')->orderBy('sort_order'),
+        'brand:id,name_ar,name_en,slug,logo',
+        'category:id,name_ar,name_en,slug',
+       'variants' => fn($q) => $q->orderBy('id'),
+
+    ])
+    ->firstOrFail();
+
+$variants = $product->variants;
+
+$selectedVariant = null;
+if (($product->size_type ?? 'standard') === 'dimensions') {
+    $selectedVariant = $variants->first();
+}
+
 
         // ===== Prices in current currency =====
         $basePrice = (float)($product->price ?? 0);
@@ -360,7 +370,7 @@ $avgRating = (float) $product->visibleReviews()->avg('rating');
             'oldPrice',
             'hasSale',
             'discountPercent',
-             'reviews','reviewsCount','avgRating'
+             'reviews','reviewsCount','avgRating',  'variants','selectedVariant'
         ));
     }
     public function storeReview(Request $request, Product $product)

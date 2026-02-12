@@ -75,10 +75,10 @@
                                     <input type="hidden" name="from" id="fromHidden" value="{{ $priceFrom ?? '' }}">
                                     <input type="hidden" name="to" id="toHidden" value="{{ $priceTo ?? '' }}">
                                 </form>
-                                <h4 class="widget-title">Product Categories</h4>
+                                <h4 class="widget-title">{{ __('home.product_categories') }}</h4>
                                 <div class="custom-select-dropdown">
                                     <button type="button" class="select-dropdown-btn" id="categoriesDropdownBtn">
-                                        <span class="selected-text">Select Categories</span>
+                                        <span class="selected-text">{{ __('home.select_categories') }}</span>
                                         <i class="fas fa-chevron-down dropdown-icon"></i>
                                     </button>
                                     <div class="dropdown-menu-custom" id="categoriesDropdownMenu">
@@ -108,22 +108,22 @@
                         <div class="product-widget price-filter-widget mb-3 wow fadeInUp" data-aos="fade-up"
                             data-aos-delay="20" data-aos-duration="400">
                             <div class="widget-content">
-                                <h4 class="widget-title">Price Filter</h4>
+                                <h4 class="widget-title">{{ __('home.price_filter') }}</h4>
                                 <div class="price-inputs-wrapper">
                                     <div class="row g-2">
                                         <div class="col-6">
-                                            <label for="priceFrom" class="form-label">From</label>
+                                            <label for="priceFrom" class="form-label">{{ __('home.from') }}</label>
                                             <input type="number" class="form-control" id="priceFrom" placeholder="0"
                                                 min="0" value="{{ $priceFrom ?? '' }}">
                                         </div>
                                         <div class="col-6">
-                                            <label for="priceTo" class="form-label">To</label>
+                                            <label for="priceTo" class="form-label">{{ __('home.to') }}</label>
                                             <input type="number" class="form-control" id="priceTo" placeholder="1000"
                                                 min="0" value="{{ $priceTo ?? '' }}">
                                         </div>
                                     </div>
                                     <button type="button" class="btn-submit-price mt-3"
-                                        id="priceSubmitBtn">Submit</button>
+                                        id="priceSubmitBtn">{{ __('home.submit') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -131,10 +131,10 @@
                         <div class="product-widget product-categories-widget mb-3" data-aos="fade-up"
                             data-aos-delay="30" data-aos-duration="600">
                             <div class="widget-content">
-                                <h4 class="widget-title">Brands</h4>
+                                <h4 class="widget-title">{{ __('home.brands') }}</h4>
                                 <div class="custom-select-dropdown">
                                     <button type="button" class="select-dropdown-btn" id="brandsDropdownBtn">
-                                        <span class="selected-text">Select Brands</span>
+                                        <span class="selected-text">{{ __('home.select_brands') }}</span>
                                         <i class="fas fa-chevron-down dropdown-icon"></i>
                                     </button>
                                     <div class="dropdown-menu-custom" id="brandsDropdownMenu">
@@ -170,7 +170,7 @@
                         <!--=== Mobile Filter Button ===-->
                         <div class="mobile-filter-btn mb-3 d-xl-none">
                             <button class="btn-filter" id="filterToggleBtn">
-                                <i class="fas fa-filter"></i> Filter Search
+                                <i class="fas fa-filter"></i>   {{ __('home.filter_search') }}
                             </button>
                         </div>
                         <!--=== Shop Filter ===-->
@@ -178,7 +178,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6 col-4">
                                     <div class="show-text">
-                                        <p>All Products</p>
+                                        <p>{{ __('home.all_products') }}</p>
                                     </div>
                                 </div>
 
@@ -186,13 +186,11 @@
                                     <div class="filter-product-category d-flex align-items-center">
 
                                         <select class="wide" id="sortSelect">
-                                            <option value="">Sort By</option>
-                                            <option value="new" @selected(($sort ?? 'new' )==='new' )>Sort by Newness
+                                            <option value="">{{ __('home.sort_by') }}</option>
+                                            <option value="new" @selected(($sort ?? 'new' )==='new' )>{{ __('home.sort_newness') }}
                                             </option>
-                                            <option value="price_desc" @selected(($sort ?? '' )==='price_desc' )>Price
-                                                High To Low</option>
-                                            <option value="price_asc" @selected(($sort ?? '' )==='price_asc' )>Price Low
-                                                To High</option>
+                                            <option value="price_desc" @selected(($sort ?? '' )==='price_desc' )>{{ __('home.price_high_to_low') }}</option>
+                                            <option value="price_asc" @selected(($sort ?? '' )==='price_asc' )>{{ __('home.price_low_to_high') }}</option>
                                         </select>
 
                                     </div>
@@ -229,11 +227,22 @@
                                                 class="img-popup icon-btn"><i class="fa fa-eye"></i></a>
                                         </div>
                                         <div class="cart-button">
-                                            <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
-                                                data-url="{{ route('cart.add', $product->slug) }}"
-                                                data-qty-input=".quantity"><i class="far fa-shopping-basket"></i>
-                                                <span class="text">{{ __('home.Add_To_Cart') }}</span></a>
-                                        </div>
+                                              @if(($product->size_type ?? 'standard') === 'standard')
+    
+    <a href="{{ route('product.show', $product->slug ?? $product->id) }}" class="cart-btn">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text">{{ __('home.Add_To_Cart') }}</span>
+    </a>
+@else
+   
+    <a href="javascript:void(0)" class="cart-btn js-add-to-cart"
+       data-url="{{ route('cart.add', $product->slug) }}"
+       data-qty-input=".quantity">
+        <i class="far fa-shopping-basket"></i>
+        <span class="text">{{ __('home.Add_To_Cart') }}</span>
+    </a>
+@endif
+                                            </div>
                                     </div>
                                     <div class="product-info-wrap">
                                         <div class="product-info">
@@ -266,12 +275,12 @@
                                         $hasSale = $baseSale > 0 && $baseSale < $basePrice; $oldDisplay=$basePrice *
                                             (float)$rate; @endphp <div class="product-price">
                                             @if($hasSale)
-                                            <span class="price prev-price"><span class="currency">{{ $symbol }}</span>{{
+                                            <span class="price prev-price"><span class="currency"> @if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $symbol }}@endif</span>{{
                                                 number_format($oldDisplay, 2) }}</span>
-                                            <span class="price new-price"><span class="currency">{{ $symbol }}</span>{{
+                                            <span class="price new-price"><span class="currency">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $symbol }}@endif</span>{{
                                                 number_format($priceDisplay, 2) }}</span>
                                             @else
-                                            <span class="price new-price"><span class="currency">{{ $symbol }}</span>{{
+                                            <span class="price new-price"><span class="currency">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $symbol }}@endif</span>{{
                                                 number_format($priceDisplay, 2) }}</span>
                                             @endif
                                     </div>

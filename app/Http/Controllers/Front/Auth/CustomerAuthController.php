@@ -18,40 +18,53 @@ class CustomerAuthController extends Controller
     {
         return view('front.auth.register');
     }
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required','email'],
-            'password' => ['required'],
-        ]);
+public function login(Request $request)
+{
+    $guestSessionId = $request->session()->getId(); 
 
-  
+    $credentials = $request->validate([
+        'email' => ['required','email'],
+        'password' => ['required'],
+    ]);
+
+    $credentials['account_type'] = 'customer';
+
+    if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
+
+      
+        $request->session()->regenerate();
+
+        Auth::guard('admin')->logout();
+
+        app(\App\Services\CartService::class)->currentCart($request, $guestSessionId);
+
        
-$credentials['account_type'] = 'customer';
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+       
+$ids = session('wishlist', []); 
+$ids = is_array($ids) ? $ids : [];
 
-            
-            $ids = session('wishlist.items', []);
-            if (is_array($ids) && !empty($ids)) {
-                foreach ($ids as $productId) {
-                    \App\Models\Wishlist::firstOrCreate([
-                        'user_id' => auth()->id(),
-                        'product_id' => $productId,
-                    ]);
-                }
-                session()->forget('wishlist.items');
-            }
-
-            return redirect()->intended(route('home'));
-        }
-
-        return back()->withErrors([
-            'email' => __('messages.invalid_credentials'),
-        ])->withInput();
+if (!empty($ids)) {
+    foreach ($ids as $productId) {
+        \App\Models\Wishlist::firstOrCreate([
+            'user_id'    => Auth::guard('web')->id(),
+            'product_id' => $productId,
+        ]);
     }
+    session()->forget('wishlist'); 
+}
+
+
+        return redirect()->intended(route('home'));
+    }
+
+    return back()->withErrors([
+        'email' => __('messages.invalid_credentials'),
+    ])->withInput();
+}
+
  public function register(Request $request)
     {
+        $guestSessionId = $request->session()->getId();
         $data = $request->validate([
             'name' => ['required','string','max:255'],
             'email' => ['required','email','max:255','unique:users,email'],
@@ -71,15 +84,18 @@ $credentials['account_type'] = 'customer';
               'address'      => $data['address'] ?? null,
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
+       Auth::guard('web')->login($user);
+    $request->session()->regenerate();
+
+    app(\App\Services\CartService::class)->currentCart($request, $guestSessionId);
 
         return redirect()->route('home');
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
+       Auth::guard('web')->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
@@ -87,13 +103,14 @@ $credentials['account_type'] = 'customer';
     }
     public function edit()
     {
-        $user = Auth::user();
+       $user = Auth::guard('web')->user();
+
         return view('front.auth.edit_profile', compact('user'));
     }
 
     public function update(Request $request)
     {
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
 
         $data = $request->validate([
             'name'     => ['required','string','max:255'],
@@ -120,7 +137,8 @@ $credentials['account_type'] = 'customer';
     public function myOrders()
 {
     $orders = Order::query()
-        ->where('user_id', Auth::id())
+        ->where('user_id', Auth::guard('web')->id())
+
         ->with(['items'])   
         ->withCount('items')         
         ->latest()

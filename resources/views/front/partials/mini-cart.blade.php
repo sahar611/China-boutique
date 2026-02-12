@@ -46,7 +46,7 @@
            <i class="far fa-trash-alt"></i></a>
                             <a href="{{ route('product.show', $p->slug ?? $p->id) }}">
           <img src="{{ $img }}" alt="cart image">
-          {{ $name }}sssssssssssss
+          {{ $name }}
         </a>
                             <span class="quantity">  {{ (int)$it->qty }} × <span><span class="currency">{{ $symbol }}</span>
             {{ number_format($unit, 2) }}
@@ -61,7 +61,7 @@
                     </ul>
                     <div class="cart-mini-total">
                         <div class="cart-total">
-                            <span><strong>{{ __('home.subtotal') }} :</strong></span> <span class="amount">1 × <span><span
+                            <span><strong>{{ __('home.subtotal') }} :</strong></span> <span
                                         class="currency">{{ $symbol }}</span>{{ number_format($subtotalView, 2) }}</span>
                         </div>
                     </div>

@@ -150,7 +150,7 @@
                 <th>{{ __('messages.category') }}</th>
                 <th>{{ __('messages.brand') }}</th>
                 <th>{{ __('messages.price') }}</th>
-                <th>{{ __('messages.stock') }}</th>
+                <!-- <th>{{ __('messages.stock') }}</th> -->
                 <th>{{ __('messages.status') }}</th>
                    <th>{{ __('messages.reviews') }}</th>
                 <th class="text-center">{{ __('messages.actions') }}</th>
@@ -183,14 +183,14 @@
                     @endif
                   </td>
 
-                  <td>
+                  <!-- <td>
                     {{ $p->stock }}
                     @if($p->stock == 0)
                       <span class="badge bg-danger ms-1">{{ __('messages.out_of_stock') }}</span>
                     @elseif($p->stock > 0 && $p->stock <= 5)
                       <span class="badge bg-warning ms-1">{{ __('messages.low_stock') }}</span>
                     @endif
-                  </td>
+                  </td> -->
 
                  <td>
   @if($p->is_active)
@@ -233,9 +233,9 @@
                     @endcan
 
                     @can('products.stock_edit')
-                      <a class="btn btn-warning btn-sm" href="{{ route('admin.products.stock.edit', $p->id) }}">
+                      <!-- <a class="btn btn-warning btn-sm" href="{{ route('admin.products.stock.edit', $p->id) }}">
                         {{ __('messages.stock') }}
-                      </a>
+                      </a> -->
                     @endcan
 
                     @can('products.publish')

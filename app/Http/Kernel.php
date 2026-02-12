@@ -81,6 +81,8 @@ class Kernel extends HttpKernel
     'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
 'customer' => \App\Http\Middleware\EnsureCustomer::class,
 'admin'    => \App\Http\Middleware\EnsureAdmin::class,
+    'admin.session' => \App\Http\Middleware\AdminSession::class,
+
 
     ];
     protected $middlewareAliases = [

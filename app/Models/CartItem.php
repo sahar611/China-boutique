@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CartItem extends Model
 {
-    protected $fillable = ['cart_id','product_id','qty','unit_price','unit_sale_price'];
+    protected $fillable = ['cart_id','product_id','qty','unit_price','unit_sale_price','variant_id'];
 
     public function product()
     {
@@ -20,4 +20,8 @@ class CartItem extends Model
         $sale = (float)($this->unit_sale_price ?? 0);
         return ($sale > 0 && $sale < (float)$this->unit_price) ? $sale : (float)$this->unit_price;
     }
+    public function variant()
+{
+    return $this->belongsTo(ProductVariant::class, 'variant_id');
+}
 }

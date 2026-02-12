@@ -157,7 +157,7 @@
                 <th><?php echo e(__('messages.category')); ?></th>
                 <th><?php echo e(__('messages.brand')); ?></th>
                 <th><?php echo e(__('messages.price')); ?></th>
-                <th><?php echo e(__('messages.stock')); ?></th>
+                <!-- <th><?php echo e(__('messages.stock')); ?></th> -->
                 <th><?php echo e(__('messages.status')); ?></th>
                    <th><?php echo e(__('messages.reviews')); ?></th>
                 <th class="text-center"><?php echo e(__('messages.actions')); ?></th>
@@ -192,7 +192,7 @@
                     <?php endif; ?>
                   </td>
 
-                  <td>
+                  <!-- <td>
                     <?php echo e($p->stock); ?>
 
                     <?php if($p->stock == 0): ?>
@@ -200,7 +200,7 @@
                     <?php elseif($p->stock > 0 && $p->stock <= 5): ?>
                       <span class="badge bg-warning ms-1"><?php echo e(__('messages.low_stock')); ?></span>
                     <?php endif; ?>
-                  </td>
+                  </td> -->
 
                  <td>
   <?php if($p->is_active): ?>
@@ -245,10 +245,10 @@
                     <?php endif; ?>
 
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('products.stock_edit')): ?>
-                      <a class="btn btn-warning btn-sm" href="<?php echo e(route('admin.products.stock.edit', $p->id)); ?>">
+                      <!-- <a class="btn btn-warning btn-sm" href="<?php echo e(route('admin.products.stock.edit', $p->id)); ?>">
                         <?php echo e(__('messages.stock')); ?>
 
-                      </a>
+                      </a> -->
                     <?php endif; ?>
 
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('products.publish')): ?>

@@ -20,7 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+
+          
+            'admin.session' => \App\Http\Middleware\AdminSession::class,
         ]);
+
         // Global middleware (runs on every request)
         $middleware->use([
             \Illuminate\Http\Middleware\HandleCors::class,
@@ -28,6 +32,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
             \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
             \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        ]);
+
+       
+        $middleware->web(prepend: [
+            \App\Http\Middleware\AdminSession::class,
         ]);
 
         // "Web" group middleware
@@ -38,16 +47,15 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            // Your custom language middleware
             \App\Http\Middleware\SetLocale::class,
         ]);
 
         // "API" group middleware
-       $middleware->api(append: [
-           \App\Http\Middleware\SetLocaleApi::class,
-    \Illuminate\Routing\Middleware\ThrottleRequests::class . ':60,1',
-    \Illuminate\Routing\Middleware\SubstituteBindings::class,
-]);
+        $middleware->api(append: [
+            \App\Http\Middleware\SetLocaleApi::class,
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':60,1',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -10,7 +10,7 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <!--====== Title ======-->
-    <title> Chine Boutique </title>
+    <title> <?php echo e(__('home.Chine_Boutique')); ?>  </title>
     <!--====== Favicon Icon ======-->
     <link rel="shortcut icon" href="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/logo.png')); ?>" type="image/png">
     <!--====== Google Fonts ======-->
@@ -22,9 +22,14 @@
     <!--====== FontAwesome css ======-->
     <link rel="stylesheet" href="<?php echo e(asset('frontend/'.App::getLocale().'/assets/fonts/fontawesome/css/all.min.css')); ?>">
     <!--====== Bootstrap css ======-->
+    <?php if(App::getLocale()=='en'): ?>
     <link rel="stylesheet"
         href="<?php echo e(asset('frontend/'.App::getLocale().'/assets/vendor/bootstrap/css/bootstrap.min.css')); ?>">
-    <!--====== Slick-popup css ======-->
+    <?php else: ?>
+        <link rel="stylesheet" href="<?php echo e(asset('frontend/'.App::getLocale().'/assets/vendor/bootstrap/css/bootstrap-rtl.css')); ?>">
+
+    <?php endif; ?>
+        <!--====== Slick-popup css ======-->
     <link rel="stylesheet" href="<?php echo e(asset('frontend/'.App::getLocale().'/assets/vendor/slick/slick.css')); ?>">
     <!--====== Nice Select css ======-->
     <link rel="stylesheet"
@@ -51,7 +56,7 @@
             direction: ltr;
         }
 
-
+#toast-container { z-index: 2147483647 !important; }
         .toast {
             min-width: 260px;
             margin-bottom: 10px;
@@ -94,6 +99,7 @@
             background: #3498db;
         }
     </style>
+    <?php echo $__env->yieldPushContent('styles'); ?>
 </head>
 
 <body>
@@ -197,10 +203,8 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <!-- اذا سجل وعمل لوجن اخفي ال li دي 
-                                واظهري ال li 
-                                اللي تحت اللي انا عامله عليها كومنت  -->
-                             <?php if(auth()->guard()->guest()): ?>
+                              
+                           <?php if(auth()->guard('web')->guest()): ?>
                                 <li>
                                     <a href="<?php echo e(route('customer.login')); ?>"><i class="far fa-sign-in-alt"></i> Login</a>
                                 </li>
@@ -209,7 +213,7 @@
                                 <li>
                                     <div class="pesco-dropdown">
                                         <a href="javascript:void(0)"> <i class="far fa-user"></i>
-                                        <span style="font-size: 14px;"><?php echo e(auth()->user()->name); ?></span> <i class="far fa-angle-down"></i></a>
+                                        <span style="font-size: 14px;"><?php echo e(auth('web')->user()->name); ?></span> <i class="far fa-angle-down"></i></a>
                                         <ul class="dropdown">
                                             <li>
                                             <a href="<?php echo e(route('customer.profile.edit')); ?>"><i class="far fa-user-edit"></i><?php echo e(__('home.edit_profile')); ?></a>
@@ -246,7 +250,7 @@
                                     </li> -->
                                 <li>
                                     <div class="social-box">
-                                        <span><?php echo e(__('home.follow_us')); ?></span>
+                                        <span><?php echo e(__('home.follow_us')); ?> :</span>
                                         <!-- <a target="_blank" href="<?php echo e($instagram); ?>"><i class="fab fa-facebook-f"></i></a> -->
                                         <a target="_blank" href="<?php echo e($instagram); ?>"><i class="fab fa-instagram"></i></a>
                                         <a target="_blank" href="<?php echo e($snapchat); ?>"><i
@@ -273,26 +277,39 @@
                         <a href="<?php echo e(route('home')); ?>" class="brand-logo"><img
                                 src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/logo.png')); ?>" alt="Logo">
                             <span class="text-logoo">
-                                Chine Boutique
+                                <?php echo e(__('home.Chine_Boutique')); ?>
+
                             </span>
                         </a>
                     </div>
                     <!--===  Product Search Category  ===-->
                     <div class="product-search-category">
-                        <form action="#">
-                            <select class="wide">
-                                <option><?php echo e(__('home.all_categories')); ?></option>
-                                <?php $__currentLoopData = $headerDropdownCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $headerDropdownCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option><?php if(App::isLocale('en')): ?> <?php echo e($headerDropdownCategory->name_en); ?><?php else: ?>
-                                    <?php echo e($headerDropdownCategory->name_ar); ?><?php endif; ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <form action="<?php echo e(route('products')); ?>" method="GET">
+    <select name="category_id" class="wide">
+        <option value=""><?php echo e(__('home.all_categories')); ?></option>
 
-                            </select>
-                            <div class="form-group">
-                                <input type="text" placeholder="Enter Search Products">
-                                <button class="search-btn"><i class="far fa-search"></i></button>
-                            </div>
-                        </form>
+        <?php $__currentLoopData = $headerDropdownCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($category->id); ?>"
+                <?php echo e(request('category_id') == $category->id ? 'selected' : ''); ?>>
+                <?php echo e(App::isLocale('en') ? $category->name_en : $category->name_ar); ?>
+
+            </option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+
+    <div class="form-group">
+        <input
+            type="text"
+            name="q"
+            value="<?php echo e(request('q')); ?>"
+            placeholder="<?php echo e(__('home.Enter_Search_Products')); ?>"
+        >
+        <button class="search-btn" type="submit">
+            <i class="far fa-search"></i>
+        </button>
+    </div>
+</form>
+
                     </div>
                     <!--===  Hotline Support  ===-->
                     <div class="hotline-support item-rtl">
@@ -300,7 +317,7 @@
                             <i class="flaticon-support"></i>
                         </div>
                         <div class="info">
-                            <span>24/7 Support</span>
+                            <span><?php echo e(__('home.support_time')); ?></span>
                             <h5><a href="tel:<?php echo e($phone); ?>"><?php echo e($phone); ?></a></h5>
                         </div>
                     </div>
@@ -316,7 +333,8 @@
                         <a href="<?php echo e(route('home')); ?>" class="brand-logo"><img
                                 src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/logo.png')); ?>" alt="Logo">
                             <span class="text-logoo">
-                                Chine Boutique
+                                <?php echo e(__('home.Chine_Boutique')); ?>
+
                             </span>
                         </a>
                     </div>
@@ -364,22 +382,27 @@
                             <div class="pesco-nav-menu">
                                 <!--=== Responsive Menu Search ===-->
                                 <div class="nav-search mb-40 d-block d-lg-none">
-                                    <div class="form-group">
-                                        <input type="search" class="form_control" placeholder="Search Here"
-                                            name="search">
-                                        <button class="search-btn"><i class="far fa-search"></i></button>
-                                    </div>
+                                    
+                                        <form action="<?php echo e(route('products')); ?>" method="GET">
+            <div class="form-group"> 
+                <input type="text" name="q" value="<?php echo e(request('q')); ?>" placeholder="<?php echo e(__('home.Enter_Search_Products')); ?>">
+        <button class="search-btn" type="submit">
+            <i class="far fa-search"></i>
+        </button>
+    </div>
+</form>
+
                                 </div>
                                 <!--=== Responsive Menu Tab ===-->
                                 <div class="pesco-tabs style-three d-block d-lg-none">
                                     <ul class="nav nav-tabs mb-30" role="tablist">
                                         <li>
                                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav1"
-                                                role="tab">Menu</button>
+                                                role="tab"><?php echo e(__('home.Menu')); ?></button>
                                         </li>
                                         <li>
                                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav2"
-                                                role="tab">Category</button>
+                                                role="tab"><?php echo e(__('home.Categories')); ?></button>
                                         </li>
                                     </ul>
                                     <div class="tab-content">
@@ -401,7 +424,7 @@
                                                         </ul>
                                                     </li>
                                                      <li class="menu-item"><a href="<?php echo e(route('news.index')); ?>">
-                                                        <?php echo e(__('home.trnding')); ?></a>
+                                                        <?php echo e(__('home.blogs')); ?></a>
                                                     </li>
                                                     <li class="menu-item"><a href="<?php echo e(route('trending')); ?>">
                                                         <?php echo e(__('home.trending')); ?></a>
@@ -415,26 +438,17 @@
                                         <div class="tab-pane fade" id="nav2">
                                             <div class="categori-dropdown-item">
                                                 <ul>
-                                                    <li>
-                                                        <a href="#"> <img src="assets/images/icon/shirt.png"
-                                                                alt="Shirts">Man Shirts</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"> <img src="assets/images/icon/denim.png"
-                                                                alt="Jeans">Denim Jeans</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"> <img src="assets/images/icon/suit.png"
-                                                                alt="Suit">Casual Suit</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"> <img src="assets/images/icon/dress.png"
-                                                                alt="Dress">Summer Dress</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"> <img src="assets/images/icon/sweaters.png"
-                                                                alt="Sweaters">Sweaters</a>
-                                                    </li>
+                                                     <?php $__currentLoopData = $homeSidebarCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $homeSidebarCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li>
+                                            <a href="<?php echo e(route('category.products', $homeSidebarCategory->slug)); ?>"> <img
+                                                    src="<?php echo e(asset($homeSidebarCategory->image)); ?>"
+                                                    alt="  <?php if(App::isLocale('en')): ?> <?php echo e($homeSidebarCategory->name_en); ?><?php else: ?> <?php echo e($homeSidebarCategory->name_ar); ?><?php endif; ?>">
+                                                <?php if(App::isLocale('en')): ?> <?php echo e($homeSidebarCategory->name_en); ?><?php else: ?>
+                                                <?php echo e($homeSidebarCategory->name_ar); ?><?php endif; ?></a>
+                                        </li>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                   
+                                                   
                                                 </ul>
                                             </div>
                                         </div>
@@ -446,7 +460,7 @@
                                         <i class="flaticon-support"></i>
                                     </div>
                                     <div class="info">
-                                        <span>24/7 Support</span>
+                                        <span><?php echo e(__('home.support_time')); ?></span>
                                         <h5><a href="tel:<?php echo e($phone); ?>"><?php echo e($phone); ?></a></h5>
                                     </div>
                                 </div>
@@ -494,11 +508,11 @@
                         <ul>
 <?php if(auth()->guard()->guest()): ?>
 
-                               <li>
+                               <!-- <li>
                                 <div class="wishlist-btn d-lg-block ">
                                     <a href="<?php echo e(route('customer.login')); ?>"><i class="far fa-user"></i></a>
                                 </div>
-                            </li>
+                            </li> -->
                            
 <?php endif; ?>
                             <li>
@@ -561,7 +575,8 @@
                                             src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/logo.png')); ?>"
                                             width="100px" alt="Logo">
                                         <span class="text-logoo mt-2">
-                                            Chine Boutique
+                                              <?php echo e(__('home.Chine_Boutique')); ?>
+
                                         </span>
                                     </a>
 
@@ -578,7 +593,7 @@
                                     </ul>
                                     <ul class="social-link">
                                         <li>
-                                            <span><?php echo e(__('home.follow_us')); ?>:</span>
+                                            <span><?php echo e(__('home.follow_us')); ?> :</span>
                                         </li>
                                         <!-- <li>
                                             <a href="<?php echo e($tiktok); ?>"><i class="fab fa-facebook-f"></i></a>
@@ -628,19 +643,17 @@
                             <div class="footer-widget footer-nav-widget mb-40" data-aos="fade-up" data-aos-delay="20"
                                 data-aos-duration="1400">
                                 <div class="widget-content">
-                                    <h4 class="widget-title">Quick Link</h4>
+                                    <h4 class="widget-title"><?php echo e(__('home.Quick_Link')); ?></h4>
                                     <ul class="widget-menu">
+                                        <!-- <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>"
+                                                alt="star icon"><a href="#">Contact</a></li> -->
                                         <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>"
-                                                alt="star icon"><a href="#">Contact</a></li>
+                                                alt="star icon"><a href="<?php echo e(route('customer.login')); ?>"> <?php echo e(__('home.Login')); ?> /
+                                                <?php echo e(__('home.Register')); ?></a></li>
                                         <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>"
-                                                alt="star icon"><a href="<?php echo e(route('customer.login')); ?>">Login /
-                                                Register</a></li>
+                                                alt="star icon"><a href="<?php echo e(route('page.show', 'privacy_policy')); ?>"> <?php echo e(__('home.Privacy_Policy')); ?></a></li>
                                         <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>"
-                                                alt="star icon"><a href="<?php echo e(route('page.show', 'privacy_policy')); ?>">Privacy
-                                                Policy</a></li>
-                                        <li><img src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/images/icon/star-3.svg')); ?>"
-                                                alt="star icon"><a href="<?php echo e(route('page.show', 'terms_and_condition')); ?>">Terms &
-                                                Conditions</a></li>
+                                                alt="star icon"><a href="<?php echo e(route('page.show', 'terms_and_condition')); ?>"><?php echo e(__('home.Terms&Conditions')); ?></a></li>
 
                                     </ul>
                                 </div>
@@ -650,7 +663,7 @@
                             <!--=== Footer Widget  ===-->
                             <div class="footer-widget footer-recent-post-widget" data-aos="fade-up" data-aos-delay="25"
                                 data-aos-duration="1600">
-                                <h4 class="widget-title">Recent Blog</h4>
+                                <h4 class="widget-title"><?php echo e(__('home.Recent_Blog')); ?></h4>
                                 <div class="widget-content">
                                       <?php $__currentLoopData = $last_news; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $new): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="recent-post-item">
@@ -710,10 +723,10 @@
     <script src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/vendor/aos/aos.js')); ?>"></script>
     <!--====== Main js ======-->
     <script src="<?php echo e(asset('frontend/'.App::getLocale().'/assets/js/theme.js')); ?>"></script>
+<?php echo $__env->yieldPushContent('scripts'); ?>
 
 
-
-
+  <div id="toast-container"></div>
     <script>
         async function loadMiniCart() {
             const res = await fetch("<?php echo e(route('cart.mini')); ?>", {
@@ -812,12 +825,16 @@
         });
     </script>
 
-    <div id="toast-container"></div>
+  
     <script>
         function showToast(message, type = 'success', duration = 3000) {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
+  let container = document.getElementById('toast-container');
 
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    document.body.appendChild(container);
+  }
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
             toast.textContent = message;
@@ -899,7 +916,7 @@
         });
     </script>
 
-    <?php echo $__env->yieldPushContent('scripts'); ?>
+    
 
 </body>
 

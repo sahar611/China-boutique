@@ -26,18 +26,16 @@ class AppServiceProvider extends ServiceProvider
     
 public function boot(): void
 {
-    view()->composer('*', function ($view) {
-
+    view()->composer('front.*', function ($view) {
        
-        if (Auth::check()) {
-            $wishlistCount = Auth::user()->wishlistProducts()->count();
+         if (Auth::guard('web')->check()) {
+            $wishlistCount = Auth::guard('web')->user()->wishlistProducts()->count();
         } else {
-            $ids = session('wishlist', []);  
+            $ids = session('wishlist', []);
             $wishlistCount = is_array($ids) ? count($ids) : 0;
         }
 
-       
-        $cartItems = session('cart.items', []); 
+        $cartItems = session('cart.items', []);
         $cartCount = is_array($cartItems) ? array_sum(array_column($cartItems, 'qty')) : 0;
 
         $view->with([
