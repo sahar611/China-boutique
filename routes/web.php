@@ -28,6 +28,8 @@ use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\WishlistController;
 use App\Http\Controllers\Front\Auth\CustomerAuthController;
 use App\Http\Controllers\Front\CheckoutController;
+use App\Http\Controllers\Front\Auth\ForgotPasswordController;
+
 Route::get('/_debug_admin', function () {
     $u = auth('admin')->user();
 
@@ -260,6 +262,17 @@ Route::prefix('account')->name('customer.')->group(function () {
     Route::get('/orders', [CustomerAuthController::class, 'myOrders'])->name('orders');
 
 
+});
+
+Route::prefix('forgot-password')->name('front.forgot.')->group(function () {
+    Route::get('/', [ForgotPasswordController::class, 'showEmailForm'])->name('email.form');
+    Route::post('/send-otp', [ForgotPasswordController::class, 'sendOtp'])->name('send.otp');
+
+    Route::get('/verify', [ForgotPasswordController::class, 'showVerifyForm'])->name('verify.form');
+    Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('verify.otp');
+
+    Route::get('/reset', [ForgotPasswordController::class, 'showResetForm'])->name('reset.form');
+    Route::post('/reset', [ForgotPasswordController::class, 'resetPassword'])->name('reset');
 });
 
 Route::get('/news', [FrontPageController::class, 'blogs'])->name('news.index');      

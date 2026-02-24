@@ -161,4 +161,29 @@ return [
     'sort_newness'       => 'Sort by Newness',
     'price_high_to_low'  => 'Price High To Low',
     'price_low_to_high'  => 'Price Low To High',
+
+      'home' => 'Home',
+    'forget_password' => 'Forgot Password',
+    'verify_otp' => 'Verify OTP',
+    'reset_password' => 'Reset Password',
+
+    'email' => 'Email',
+    'send_otp' => 'Send OTP',
+    'resend_otp' => 'Resend OTP',
+    'enter_email_to_receive_otp' => 'Enter your email to receive the verification code',
+    'otp_sent_to_email' => 'OTP sent to email',
+    'enter_otp' => 'Enter OTP (6 digits)',
+    'verify' => 'Verify',
+
+    'password' => 'Password',
+    'password_confirmation' => 'Confirm Password',
+    'enter_new_password' => 'Enter your new password',
+
+    'otp_sent' => 'OTP sent successfully',
+    'otp_verified' => 'OTP verified successfully',
+    'invalid_or_expired_otp' => 'Invalid or expired OTP',
+    'password_reset_success' => 'Password reset successfully',
+
+    'back_to_login' => 'Back to login',
+
 ];

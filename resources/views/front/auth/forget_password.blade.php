@@ -29,13 +29,13 @@
                     <div class="col-lg-6">
                         <div class="page-banner-content">
                             <h1>
-                                {{ __('home.login') }}
+                                {{ __('home.forget_password') }}
 
                             </h1>
                             <ul class="breadcrumb-link">
                                 <li><a href="{{ route('home') }}"> {{ __('home.home') }}</a></li>
                                 <li><i class="far fa-long-arrow-right"></i></li>
-                                <li class="active">{{ __('home.login') }}</li>
+                                <li class="active">{{ __('home.forget_password') }}</li>
                             </ul>
                         </div>
                     </div>
@@ -53,76 +53,34 @@
                           <div class="text-center ">
                             <h3 class="mb-3 mt-3">
                                 <i class="flaticon-star-2 srarr"></i>
-                                Login
+                             {{ __('home.forget_password') }}
                             <i class="flaticon-star-2 srarr"></i>
                             </h3>
                           </div>
                          
-                      <form class="pesco-contact-form mt-3" action="{{ route('customer.login.post') }}" method="POST">
-    @csrf
-
-    <div class="row">
-
-        <div class="col-lg-12">
-            <div class="form-group">
-                <input type="email"
-                       placeholder="Email"
-                       class="form_control @error('email') is-invalid @enderror"
-                       name="email"
-                       value="{{ old('email') }}"
-                       required>
-                @error('email')
-                    <div class="text-danger mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="form-group" style="position: relative;">
-                <input type="password"
-                       placeholder="Password"
-                       class="form_control @error('password') is-invalid @enderror"
-                       name="password"
-                       id="loginPassword"
-                       required>
-                <i class="far fa-eye" id="toggleLoginPassword"
-                   style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #999;"></i>
-
-                @error('password')
-                    <div class="text-danger mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-lg-12 mt-2 mb-3">
-            <div class="form-group d-flex justify-content-between align-items-center">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="rememberMe" name="remember" value="1"
-                           {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="rememberMe">Remember Me</label>
-                </div>
-                <div>
-                    <a href="{{ route('front.forgot.email.form') }}" class="text-primary">Forgot Password?</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12 text-center">
-            <div class="form_group">
-                <button type="submit" class="theme-btn style-one">Login</button>
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="text-center mt-3">
-                <p>Don't have an account?
-                    <a href="{{ route('customer.register') }}" class="text-primary fw-bold">Sign Up</a>
-                </p>
-            </div>
-        </div>
-
-    </div>
-</form>
+                       <form class="pesco-contact-form mt-3" action="#" method="POST">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group" style="position: relative;">
+                                            <input type="password" placeholder="Password" class="form_control" name="password" id="password" required>
+                                            <i class="far fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #999;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group" style="position: relative;">
+                                            <input type="password" placeholder="Confirm Password" class="form_control" name="confirm_password" id="confirmPassword" required>
+                                            <i class="far fa-eye" id="toggleConfirmPassword" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #999;"></i>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-lg-12 text-center">
+                                        <div class="form_group">
+                                            <button class="theme-btn style-one">Reset Password</button>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                            </form>
 
                         </div>
                     </div>
@@ -136,22 +94,3 @@
 
 </main>
 @endsection
-
-@push('scripts')
- <script>
-        // Toggle Password Visibility for Login
-        const toggleLoginPassword = document.querySelector('#toggleLoginPassword');
-        const loginPassword = document.querySelector('#loginPassword');
-        
-        if (toggleLoginPassword && loginPassword) {
-            toggleLoginPassword.addEventListener('click', function () {
-                const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-                loginPassword.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-        }
-    </script>
-
-
-@endpush

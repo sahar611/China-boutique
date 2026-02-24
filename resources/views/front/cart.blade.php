@@ -44,17 +44,23 @@
 @php
     $itemsCount = $cart->items->sum('qty');
 
+    $rate = (float) ($currentCurrency->rate ?? 1);
+    if ($rate <= 0) $rate = 1;
+
     $subtotal = 0;
     foreach ($cart->items as $item) {
-        $unit = (float) ($item->unit_sale_price ?? 0);
-        $unit = ($unit > 0 && $unit < (float)$item->unit_price)
-            ? $unit
+        $unitBase = (float) ($item->unit_sale_price ?? 0);
+        $unitBase = ($unitBase > 0 && $unitBase < (float)$item->unit_price)
+            ? $unitBase
             : (float)$item->unit_price;
+
+       
+        $unit = $unitBase * $rate;
 
         $subtotal += $unit * (int)$item->qty;
     }
 
-    $total = $subtotal; // الشحن لاحقًا
+    $total = $subtotal;
 @endphp
 
 
@@ -88,12 +94,19 @@
     @php
         $product = $item->product;
 
-        $unit = (float) ($item->unit_sale_price ?? 0);
-        $unit = ($unit > 0 && $unit < (float)$item->unit_price)
-            ? $unit
-            : (float)$item->unit_price;
+      $rate = (float) ($currentCurrency->rate ?? 1);
+if ($rate <= 0) $rate = 1;
 
-        $rowTotal = $unit * (int)$item->qty;
+$unitBase = (float) ($item->unit_sale_price ?? 0);
+$unitBase = ($unitBase > 0 && $unitBase < (float)$item->unit_price)
+    ? $unitBase
+    : (float)$item->unit_price;
+
+
+$unit = $unitBase * $rate;
+
+$rowTotal = $unit * (int)$item->qty;
+
 
         $title = app()->getLocale()=='en'
             ? ($product->name_en ?? $product->name)
@@ -130,7 +143,8 @@
 
     <td>
         <div class="price">
-            <span class="currrency">$</span>
+            <span class="currrency">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $currentCurrency->symbol
+                                    }}@endif</span>
             {{ number_format($unit, 2) }}
         </div>
     </td>
@@ -163,7 +177,8 @@
 
     <td>
         <div class="total-price">
-            <span class="currrency">$</span>
+            <span class="currrency">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $currentCurrency->symbol
+                                    }}@endif</span>
             {{ number_format($rowTotal, 2) }}
         </div>
     </td>
@@ -211,7 +226,7 @@
                         <h4>{{ app()->getLocale()=='en' ? 'Use Coupon Code' : 'استخدم كود الخصم' }}</h4>
                         <p>{{ app()->getLocale()=='en' ? 'Enter your coupon code if you have one.' : 'اكتب كود الخصم إن وجد.' }}</p>
 
-                        {{-- اربطيه بميزة الخصومات عندك لاحقًا --}}
+                      
                         <form action="#" method="POST">
                             <input type="text" class="form_control" required>
                             <button class="thme-btn style-one">{{ app()->getLocale()=='en' ? 'Apply' : 'تطبيق' }}</button>
@@ -225,13 +240,15 @@
                       <div class="sub-total">
     <h5>
         {{ app()->getLocale()=='en' ? 'Subtotal' : 'الإجمالي الفرعي' }}
-        <span class="price">${{ number_format($subtotal, 2) }}</span>
+        <span class="price">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $currentCurrency->symbol
+                                    }}@endif
+                                    {{ number_format($subtotal, 2) }}</span>
     </h5>
 </div>
 
 
 
-                        <div class="shipping-cart">
+                        <!-- <div class="shipping-cart">
                             <h4>{{ app()->getLocale()=='en' ? 'Shipping' : 'الشحن' }}</h4>
 
                             <div class="single-radio">
@@ -257,19 +274,20 @@
                                     <span class="price">$0.00</span>
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
 
                         @php $total = $subtotal; @endphp
                        
 <div class="price-total">
     <h5>
         {{ app()->getLocale()=='en' ? 'Total' : 'الإجمالي' }}
-        <span class="price">${{ number_format($total, 2) }}</span>
+        <span class="price">@if($currentCurrency->code =='SAR')  <img src="{{asset('frontend/saudi-riyal.svg')}}" width="25px"/> @else{{ $currentCurrency->symbol
+                                    }}@endif {{ number_format($total, 2) }}</span>
     </h5>
 </div>
 
                         <div class="proceced-checkout">
-  @guest
+     @guest('web')
     <a href="{{ route('customer.login') }}" class="theme-btn style-one">
       {{ app()->getLocale()=='en' ? 'Login to checkout' : 'سجل الدخول لإتمام الشراء' }}
     </a>
@@ -305,9 +323,9 @@
         <input type="hidden" name="payment_method" id="payment_method" value="bank">
 
         @auth
-          {{-- لو هتخلي controller يعتمد على user فقط: ممكن تشيل دول --}}
-          <input type="hidden" name="shipping_address" value="{{ auth()->user()->address }}">
-          <input type="hidden" name="customer_phone" value="{{ auth()->user()->phone }}">
+        
+          <input type="hidden" name="shipping_address" value="{{ auth('web')->user()->address }}">
+          <input type="hidden" name="customer_phone" value="{{ auth('web')->user()->phone }}">
         @endauth
 
         <div class="modal-header">

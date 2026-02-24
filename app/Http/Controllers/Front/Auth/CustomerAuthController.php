@@ -148,4 +148,5 @@ if (!empty($ids)) {
 
     return view('front.auth.orders', compact('orders'));
 }
+
 }

@@ -161,4 +161,27 @@ return [
     'price_low_to_high'  => 'السعر من الأقل إلى الأعلى',
 'brand'=>'العلامة التجارية',
 'category'=>'التصنيف',
+'home' => 'الرئيسية',
+    'forget_password' => 'نسيت كلمة المرور',
+    'verify_otp' => 'التحقق من رمز OTP',
+    'reset_password' => 'إعادة تعيين كلمة المرور',
+
+    'email' => 'البريد الإلكتروني',
+    'send_otp' => 'إرسال الرمز',
+    'resend_otp' => 'إعادة إرسال الرمز',
+    'enter_email_to_receive_otp' => 'أدخل بريدك الإلكتروني لاستلام رمز التحقق',
+    'otp_sent_to_email' => 'تم إرسال الرمز إلى البريد',
+    'enter_otp' => 'أدخل رمز التحقق (6 أرقام)',
+    'verify' => 'تحقق',
+
+    'password' => 'كلمة المرور',
+    'password_confirmation' => 'تأكيد كلمة المرور',
+    'enter_new_password' => 'أدخل كلمة المرور الجديدة',
+
+    'otp_sent' => 'تم إرسال رمز التحقق بنجاح',
+    'otp_verified' => 'تم التحقق من الرمز بنجاح',
+    'invalid_or_expired_otp' => 'رمز غير صحيح أو منتهي الصلاحية',
+    'password_reset_success' => 'تم تغيير كلمة المرور بنجاح',
+
+    'back_to_login' => 'العودة لتسجيل الدخول',
 ];
